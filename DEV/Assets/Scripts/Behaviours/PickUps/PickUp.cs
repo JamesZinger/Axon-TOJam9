@@ -11,13 +11,13 @@ public class PickUp : MonoBehaviour
     {
 	}
 
-    public PickUpType AddPickUp()
+    public virtual PickUpType AddPickUp()
     {
         return this.pickUp;
     }
 
     public virtual void DoAction()
     {
-
+        
     }
 }

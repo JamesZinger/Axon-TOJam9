@@ -9,9 +9,13 @@ public class MeatBall : PickUp
         this.pickUp = PickUpType.MeatBalls;
 	}
 
+    public override PickUp.PickUpType AddPickUp()
+    {
+        return base.AddPickUp();
+    }
+
     public override void DoAction()
     {
  	    base.DoAction();
-        // Add To Player PicUp List
     }
 }
