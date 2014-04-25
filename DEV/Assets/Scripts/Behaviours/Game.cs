@@ -9,6 +9,8 @@ using System.Collections;
 public class Game : MonoBehaviour
 {
 
+	public GameControls Controls = null;
+
 	#region Singleton Method and Instance
 
 	private static Game instance = null;
@@ -51,6 +53,11 @@ public class Game : MonoBehaviour
 	void Start()
 	{
 		DontDestroyOnLoad( this );
+		
+		if (Controls == null)
+		{
+			Controls = gameObject.AddComponent<GameControls>();
+		}
 	}
 
 	void OnDestory()
