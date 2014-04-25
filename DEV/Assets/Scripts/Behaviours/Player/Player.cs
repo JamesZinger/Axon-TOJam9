@@ -6,6 +6,8 @@ public class Player : MonoBehaviour
     List<PickUp> pickUplist = new List<PickUp>();
     public Vector2 jumpForce;
 
+	//public delegate void 
+
 	void Start () 
     {
 		Game.Instance.Controls.JumpButton += OnJump;
@@ -18,7 +20,6 @@ public class Player : MonoBehaviour
 
     void UserInput()
     {
-        Game.Instance.Controls.JumpButton += OnJump;
     }
 
     void OnJump()
