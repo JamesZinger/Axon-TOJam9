@@ -41,35 +41,35 @@ public class GameControls : MonoBehaviour
 		//Controller = Controller.GetState();
 
 		if ( CheckJumpControls() )
-			if ( JumpButton.GetInvocationList().Length != 0 )
+			if ( JumpButton != null )
 				JumpButton();
 
 		if ( CheckSlideControls() )
-			if ( SlideButton.GetInvocationList().Length != 0 )
+			if ( SlideButton != null )
 				SlideButton();
 
 		if ( CheckPauseControls() )
-			if ( PauseButton.GetInvocationList().Length != 0 )
+			if ( PauseButton != null )
 				PauseButton();
 
 		if ( CheckMenuUpControls() )
-			if ( MenuUpButton.GetInvocationList().Length != 0 )
+			if ( MenuUpButton != null )
 				MenuUpButton();
 
 		if ( CheckMenuDownControls() )
-			if ( MenuDownButton.GetInvocationList().Length != 0 )
+			if ( MenuDownButton != null )
 				MenuDownButton();
 
 		if ( CheckMenuConfirmControls() )
-			if ( MenuConfirmButton.GetInvocationList().Length != 0 )
+			if ( MenuConfirmButton != null )
 				MenuConfirmButton();
 
 		if ( CheckUseItemControls() )
-			if ( UseItemButton.GetInvocationList().Length != 0 )
+			if ( UseItemButton != null )
 				UseItemButton();
 
 		if ( CheckUseShortcutControls() )
-			if ( UseShortcutButton.GetInvocationList().Length != 0 )
+			if ( UseShortcutButton != null )
 				UseShortcutButton();
 
 	}
