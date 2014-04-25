@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class Player : MonoBehaviour 
 {
     List<PickUp> pickUplist = new List<PickUp>();
+    
     public Vector2 jumpForce;
 
 	void Start () 
@@ -24,5 +25,11 @@ public class Player : MonoBehaviour
     void OnJump()
     {
         gameObject.rigidbody2D.AddForce(jumpForce);
+    }
+
+    public List<PickUp> PickUplist
+    {
+        get { return pickUplist; }
+        set { pickUplist = value; }
     }
 }
