@@ -48,6 +48,11 @@ public class Game : MonoBehaviour
 
 	}
 
+	void Start()
+	{
+		DontDestroyOnLoad( this );
+	}
+
 	void OnDestory()
 	{
 		Instance = null;
