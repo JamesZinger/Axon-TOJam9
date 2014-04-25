@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
 
 	void Start () 
     {
+		Game.Instance.Controls.JumpButton += OnJump;
 	}
 
 	void Update () 
