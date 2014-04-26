@@ -83,7 +83,6 @@ public class Player : MonoBehaviour
 
 	void Update () 
     {
-        Debug.Log("Count: " + pickUplist.Count);
         Discount();
 	}
     
