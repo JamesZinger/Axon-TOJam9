@@ -3,20 +3,80 @@ using System.Collections;
 
 public class Furniture : MonoBehaviour
 {
-	public int allanKeyValue = 0;
-	public int price = 0;
-	public DepartmentType department = DepartmentType.NONE;
+    private int allanKeyValue = 0;
+    private float price = 0;
+    private string name = "";
+    private DepartmentType department = DepartmentType.NONE;
+    private Texture2D texture;
+    private string desc;
 
-	// Use this for initialization
 	void Start () 
 	{
 		
-	}
-	
-	// Update is called once per frame
-	void Update () 
-	{
-		
-	}
+    }
 
+    void Update()
+    {
+
+    }
+
+    public void SetPrice(string s)
+    {
+        this.price = float.Parse(s);
+    }
+    public void SetAllenKeyVal(string s)
+    {
+        this.allanKeyValue = int.Parse(s);
+    }
+    public void SetTexture(string s)
+    {
+        //Debug.Log(s);
+        this.texture = (Texture2D)Resources.Load("FurnitureTextures/" + s, typeof(Texture2D));
+        //Debug.Log(texture);
+    }
+
+    public void SetDepartment(string s)
+    {
+        if (s.Contains("Bathroom"))     this.department = DepartmentType.BathRoom;
+        if (s.Contains("Bedroom"))      this.department = DepartmentType.BedRoom;
+        if (s.Contains("Children"))     this.department = DepartmentType.Chlidrens;
+        if (s.Contains("Dining"))       this.department = DepartmentType.DiningRoom;
+        if (s.Contains("Kitchen"))      this.department = DepartmentType.Kitchen;
+        if (s.Contains("Living Room"))  this.department = DepartmentType.LivingRoom;
+        if (s.Contains("Workspace"))    this.department = DepartmentType.Workspaces;
+
+        //Debug.Log(s);
+        //Debug.Log(this.Department);
+    }
+
+    public float Price
+    {
+        get { return price; }
+        set { price = value; }
+    }
+    public int AllanKeyValue
+    {
+        get { return allanKeyValue; }
+        set { allanKeyValue = value; }
+    }
+    public string Name
+    {
+        get { return name; }
+        set { name = value; }
+    }
+    public string Desc
+    {
+        get { return desc; }
+        set { desc = value; }
+    }
+    public Texture2D Texture
+    {
+        get { return texture; }
+        set { texture = value; }
+    }
+    public DepartmentType Department
+    {
+        get { return department; }
+        set { department = value; }
+    }
 }
