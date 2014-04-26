@@ -17,6 +17,9 @@ public class ObjectGenerator : MonoBehaviour {
 	int _nextSpawnType = 1;
 	float _elapsedTime;
 
+	public GameObject cashPrefab;
+	public GameObject giftPrefab;
+	public GameObject meatPrefab;
 
 	// Use this for initialization
 	void Start () {
@@ -48,10 +51,29 @@ public class ObjectGenerator : MonoBehaviour {
         rb.gravityScale = 0f;
         bc.isTrigger = true;
 	}
+	void SpawnPowerup(Vector2 pos, int id){
+		GameObject powerup;
+		switch(id){
+		case 1:
+			powerup = (GameObject)Instantiate(cashPrefab);
+			powerup.transform.position = pos;
+			break;
+		case 2:
+			powerup = (GameObject)Instantiate(giftPrefab);
+			powerup.transform.position = pos;
+			break;
+		case 3:
+			powerup = (GameObject)Instantiate(meatPrefab);
+			powerup.transform.position = pos;
+			break;
+		}
+
+	}
 	// Update is called once per frame
 	void Update () {
 		_elapsedTime += Time.deltaTime;
 		if(_elapsedTime > 3){
+			SpawnPowerup(new Vector2(_size * _ratio * 2, 7), Random.Range(1,4));
 			CheckSpawn();
 			_elapsedTime = 0;
 		}
