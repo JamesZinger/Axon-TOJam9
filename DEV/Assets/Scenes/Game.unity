@@ -712,7 +712,7 @@ MonoBehaviour:
   background: {fileID: 0}
   jumpForce: 0
   groundLevel: 1.35000002
-  prefab: {fileID: 0}
+  go: {fileID: 0}
 --- !u!1001 &1488671465
 Prefab:
   m_ObjectHideFlags: 0

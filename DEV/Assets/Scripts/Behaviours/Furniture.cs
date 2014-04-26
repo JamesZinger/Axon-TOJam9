@@ -28,7 +28,7 @@ public class Furniture : MonoBehaviour
         {
             Debug.Log("YO");
             Game.Instance.Player.DeductCash(this.price);
-            Destroy(this.gameObject);
+            Destroy(this.gameObject, 0.1f);
         }
     }
 

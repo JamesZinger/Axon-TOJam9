@@ -12,6 +12,6 @@ public class DeSpawn : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D other)
     {
         //Debug.Log(other.name);
-        Destroy(other.gameObject);
+        Destroy(other.gameObject, 0.1f);
     }
 }
