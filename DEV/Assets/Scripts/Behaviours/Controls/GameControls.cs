@@ -35,7 +35,7 @@ public class GameControls : MonoBehaviour
 
 	#endregion
 
-	void Start()
+	void Awale()
 	{
 		Game.Instance.Controls = this;
 	}
