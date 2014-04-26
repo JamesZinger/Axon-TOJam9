@@ -20,7 +20,7 @@ public class Game : MonoBehaviour
 
 	public Player Player
 	{
-		get { return Player; }
+		get { return player; }
 		set { Player = value; }
 	}
 

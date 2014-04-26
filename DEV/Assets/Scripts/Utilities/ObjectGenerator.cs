@@ -7,7 +7,7 @@ public class ObjectGenerator : MonoBehaviour {
 	float maxHeight;
 	float _defaultBuffer = 50.0f;
 	public float jumpForce;
-
+	float _ratio = 4.0f/3.0f;
 	public GameObject prefab;
 	public BoxCollider2D currentPrefab;
 
@@ -15,8 +15,8 @@ public class ObjectGenerator : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//Add GetInitialVelocity to event handler
-		currentPrefab = Instantiate(prefab, new Vector3(Screen.width/2, 0, 0), Quaternion.identity)as BoxCollider2D;
-		Game.Instance.Player.Jump += GetInitialVelocity;
+		currentPrefab = Instantiate(prefab, new Vector3((Camera.main.orthographicSize * _ratio) /2, 0, 0), Quaternion.identity)as BoxCollider2D;
+		Game.Instance.Player.Jump += OnJump;
 	}
 	
 	// Update is called once per frame
@@ -27,7 +27,7 @@ public class ObjectGenerator : MonoBehaviour {
 		}
 	}
 
-	void GetInitialVelocity(){
+	void OnJump(){
 		StartCoroutine(calcMaxHeight());
 	}
 

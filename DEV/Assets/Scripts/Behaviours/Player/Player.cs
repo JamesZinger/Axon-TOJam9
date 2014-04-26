@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
 
 	void Start () 
     {
+		Game.Instance.Player = this;
         Debug.Log(Game.Instance.Controls);
 		Game.Instance.Controls.JumpButton += OnJump;
 	}
