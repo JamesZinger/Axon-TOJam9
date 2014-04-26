@@ -97,7 +97,7 @@ public class ObjectGenerator : MonoBehaviour {
 		//Should be renamed end
 		return start;
 	}
-	/*
+	
 	//Latest take-off point. Use the bottom-right corner of the player
 	Vector2 CalcLatestJump2(Rect obstacle){
 		//All the same as above
@@ -121,7 +121,7 @@ public class ObjectGenerator : MonoBehaviour {
 	}
 	//Latest take-off point. Use the bottom-right corner of the player
 	Vector2 CalcLatestJump(Rect obstacle){
-		/*Vector2 start;
+		Vector2 start;
 		Vector2 collision;
 		collision = new Vector2(obstacle.x, obstacle.y);
 		float a = Physics2D.gravity.y;
@@ -138,33 +138,6 @@ public class ObjectGenerator : MonoBehaviour {
 		start.x = totalDist - background.velocity.x*t1;
 		start.y = 0;
 
-
-
-
-		return start;*/
-
-		//All the same as above
-		Vector2 start;
-		Vector2 peak;
-		Vector2 collision;
-		float timeToCollide;
-		float timeToFall;
-		float deltaTime;
-		float distToStart;
-		
-		//The collision here is with the top left, not the top right, of the obstacle
-		collision = new Vector2(obstacle.x, obstacle.y);
-		peak.y = maxHeight;
-		timeToFall = Mathf.Sqrt(2.0f*maxHeight / -Physics2D.gravity.y);
-		peak.x = timeToFall * background.velocity.x;
-
-		timeToCollide = Mathf.Sqrt(2.0f*(maxHeight - collision.y) / -Physics2D.gravity.y);
-		deltaTime = timeToFall - timeToCollide;
-		distToStart = deltaTime * background.velocity.x;
-		start.x = 2*timeToFall*background.velocity.x - distToStart + collision.x;
-		start.y = groundLevel;
-
-		//Should be renamed end
 		return start;
-	}*/
+	}
 }

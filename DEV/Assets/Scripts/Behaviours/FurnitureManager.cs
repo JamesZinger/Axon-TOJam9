@@ -3,20 +3,20 @@ using System.Collections.Generic;
 
 public class FurnitureManager : MonoBehaviour 
 {
-    Dictionary<DepartmentType, List<Furniture>> furnitureMap;
+    Dictionary<DepartmentType, List<Furniture>> furnitureMap;    
     TextAsset txt;
 
 	void Awake () 
     {
-        furnitureMap = new Dictionary<DepartmentType, List<Furniture>>();
+        FurnitureMap = new Dictionary<DepartmentType, List<Furniture>>();
 
-        furnitureMap.Add(DepartmentType.BathRoom, new List<Furniture>());
-        furnitureMap.Add(DepartmentType.BedRoom, new List<Furniture>());
-        furnitureMap.Add(DepartmentType.Chlidrens, new List<Furniture>());
-        furnitureMap.Add(DepartmentType.DiningRoom, new List<Furniture>());
-        furnitureMap.Add(DepartmentType.Kitchen, new List<Furniture>()); 
-        furnitureMap.Add(DepartmentType.LivingRoom, new List<Furniture>());
-        furnitureMap.Add(DepartmentType.Workspaces, new List<Furniture>());
+        FurnitureMap.Add(DepartmentType.BathRoom, new List<Furniture>());
+        FurnitureMap.Add(DepartmentType.BedRoom, new List<Furniture>());
+        FurnitureMap.Add(DepartmentType.Chlidrens, new List<Furniture>());
+        FurnitureMap.Add(DepartmentType.DiningRoom, new List<Furniture>());
+        FurnitureMap.Add(DepartmentType.Kitchen, new List<Furniture>()); 
+        FurnitureMap.Add(DepartmentType.LivingRoom, new List<Furniture>());
+        FurnitureMap.Add(DepartmentType.Workspaces, new List<Furniture>());
 
         ReadCSV();
 	}
@@ -42,7 +42,7 @@ public class FurnitureManager : MonoBehaviour
                 if (j == 5) furniture.SetAllenKeyVal(values[j]);
              }
             //Debug.Log(furniture.Department);
-            furnitureMap[furniture.Department].Add(furniture);
+            FurnitureMap[furniture.Department].Add(furniture);
         }
     }
 	
@@ -50,4 +50,10 @@ public class FurnitureManager : MonoBehaviour
     {
 	
 	}
+    
+    public Dictionary<DepartmentType, List<Furniture>> FurnitureMap
+    {
+        get { return furnitureMap; }
+        set { furnitureMap = value; }
+    }
 }
