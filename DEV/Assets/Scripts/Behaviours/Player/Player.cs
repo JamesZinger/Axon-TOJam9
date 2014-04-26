@@ -7,6 +7,12 @@ public class Player : MonoBehaviour
 
 	public Vector2 jumpForce;
 
+    public bool Invincible
+    {
+        get { return invincible; }
+        set { invincible = value; }
+    }
+
 	public bool HasDoubleJumped
 	{
 		get { return hasDoubleJumped; }
@@ -46,12 +52,14 @@ public class Player : MonoBehaviour
 
 	#region Fields
 
+    private bool invincible;
+    private float invincibillityRemainingTime;
 	private int meatBallCount;
 	private int cash;
     private bool hasDiscount;
+    private float discountRemainingTime;
 	private SpriteRenderer sprite;
 	private int rayFilter;
-	private float discountRemainingTime;
 	private bool isGrounded = true;
 	private bool hasDoubleJumped = false;
 	private bool isSliding = false;
@@ -97,11 +105,12 @@ public class Player : MonoBehaviour
 	void Update () 
     {
         Discount();
+        Invincibillity();
 	}
     
     void OnGUI()
     {
-        GUI.Label(new Rect(0, 0, 300, 50), "Cash: $" + this.cash + " MeatBalls: " + MeatBallCount + " Discount Time: " + discountRemainingTime + "Has Discount: " + hasDiscount);
+        GUI.Label(new Rect(0, 0, 300, 50), "Cash: $" + this.cash + " MeatBalls: " + MeatBallCount + " Discount Time: " + discountRemainingTime + "Has Discount: " + hasDiscount + " Inv: " + invincible);
     }
 
 	#endregion
@@ -138,7 +147,8 @@ public class Player : MonoBehaviour
 	{
 		if (MeatBallCount > 0)
 		{
-
+            Invincible = true;
+            invincibillityRemainingTime += 10f;
 			MeatBallCount --;
 		}
 	}
@@ -170,6 +180,15 @@ public class Player : MonoBehaviour
 
         hasDiscount = true;
         discountRemainingTime -= Time.fixedDeltaTime;
+    }
+
+    void Invincibillity()
+    {
+        if (!invincible) return;
+
+        if (invincibillityRemainingTime <= 0.0f) { invincible = false; return; }
+
+        invincibillityRemainingTime -= Time.fixedDeltaTime;
     }
 
 	IEnumerator CheckIfGrounded()
