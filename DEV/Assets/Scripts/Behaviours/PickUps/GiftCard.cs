@@ -9,4 +9,10 @@ public class GiftCard : PickUp
         this.Pickup = PickUpType.GitCard;
     }
 
+    public override void  AddPickUp()
+    {
+        Game.Instance.Player.AddDiscountTime();
+ 	    base.AddPickUp();
+    }
+
 }

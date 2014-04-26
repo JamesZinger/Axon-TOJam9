@@ -3,14 +3,19 @@ using System.Collections.Generic;
 
 public class Player : MonoBehaviour 
 {
-    List<PickUp> pickUplist = new List<PickUp>();
-    
+    // Jump Force
     public Vector2 jumpForce;
 
+    // Event Handlers
 	public delegate void JumpHandeler();
 	public event JumpHandeler Jump;
 
+    // Class Variables
     private int cash;
+    private bool hasDiscount;
+    List<PickUp> pickUplist = new List<PickUp>();
+
+    private float discountRemainingTime;
 
 	void Start () 
     {
@@ -20,8 +25,14 @@ public class Player : MonoBehaviour
 
 	void Update () 
     {
-        Debug.Log("Count: " + pickUplist.Count);
+        Debug.Log("Discount: " + hasDiscount);
+        Discount();
 	}
+    
+    void OnGUI()
+    {
+        GUI.Label(new Rect(0, 0, 300, 50), "Cash: $" + this.cash + " MeatBalls: " + pickUplist.Count + " Discount Time: " + discountRemainingTime + "Has Discount: " + hasDiscount);
+    }
 
     void OnJump()
     {
@@ -30,6 +41,16 @@ public class Player : MonoBehaviour
 		if (Jump != null)
 			Jump();
     }
+
+    void Discount()
+    {
+        if (discountRemainingTime <= 0.0f) { hasDiscount = false; return; } 
+
+        hasDiscount = true;
+        discountRemainingTime -= Time.fixedDeltaTime;
+    }
+
+    
 
     public List<PickUp> PickUplist
     {
@@ -41,9 +62,13 @@ public class Player : MonoBehaviour
         get { return cash; }
         set { cash = value; }
     }
-
-    void OnGUI()
+    public float DiscountRemainingTime
     {
-        GUI.Label(new Rect(0, 0, 200, 25), "Cash: $" + this.cash + " MeatBalls: " + pickUplist.Count);
+        get { return discountRemainingTime; }
+        set { discountRemainingTime = value; }
+    }
+    public void AddDiscountTime()
+    {
+        discountRemainingTime += 5.0f;
     }
 }
