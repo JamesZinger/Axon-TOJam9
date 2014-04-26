@@ -11,6 +11,7 @@ public class FurnitureManager : MonoBehaviour
 		public DepartmentType Department;
 		public float Price;
 		public int AllanKeys;
+        public Furniture.Zone Zone;
 
 		public void SetDepartment( string s )
 		{
@@ -33,7 +34,15 @@ public class FurnitureManager : MonoBehaviour
 
 			//Debug.Log(texture);
 		}
-	}
+
+        public void SetZone(string s)
+        {
+            //Debug.Log(s);
+            if (s.Contains("0")) { this.Zone = Furniture.Zone.Low; return; }
+            if (s.Contains("1")) { this.Zone = Furniture.Zone.Medium; return; }
+            if (s.Contains("2")) { this.Zone = Furniture.Zone.High; return; }
+        }
+    }
 
    public  Dictionary<DepartmentType, List<TemplateFurniture>> furnitureMap;
     TextAsset txt;
@@ -62,11 +71,11 @@ public class FurnitureManager : MonoBehaviour
 
     void ReadCSV()
     {
-        txt = (TextAsset)Resources.Load("ikea", typeof(TextAsset));
+        txt = (TextAsset)Resources.Load("ikea2", typeof(TextAsset));
 
         string[] line = txt.text.Split('\n');
 
-		for (int i = 1; i < line.Length - 1; ++i)
+		for (int i = 1; i < line.Length -1; ++i)
 		{
 			TemplateFurniture furniture = new TemplateFurniture();
 			string[] values = line[i].Split(',');
@@ -79,8 +88,9 @@ public class FurnitureManager : MonoBehaviour
 				if (j == 3) furniture.SetDepartment(values[j]);
 				if (j == 4) furniture.Price = float.Parse(values[j]);
 				if (j == 5) furniture.AllanKeys = int.Parse(values[j]);
+                if (j == 6) furniture.SetZone(values[j]);
 			 }
-			//Debug.Log(furniture.Department);
+			Debug.Log(furniture.Zone);
 			furnitureMap[furniture.Department].Add(furniture);
 		}
     }

@@ -10,7 +10,11 @@ public class Player : MonoBehaviour
     public bool Invincible
     {
         get { return invincible; }
-        set { invincible = value; }
+        set 
+        { 
+            invincible = value;
+            invincibillityRemainingTime += 10.0f;
+        }
     }
 
 	public bool HasDoubleJumped
@@ -88,28 +92,14 @@ public class Player : MonoBehaviour
 
 	void Start()
 	{
-		Game.Instance.Controls.JumpButton += OnJump;
 		GameControls controls = Game.Instance.Controls;
-
+		
 		controls.JumpButton			+= OnJump;
 		controls.UseItemButton		+= OnUseItem;
 		controls.SlideButton		+= OnSlide;
 		controls.StopSlideButton	+= OnStopSlide;
 		controls.UseShortcutButton	+= OnUseShortcut;
-        
-        this.gameObject.AddComponent<IkeaMonkey>();
-        this.gameObject.AddComponent<GoatOnAPole>();
-        this.gameObject.AddComponent<Cats>();
-	}
 
-	void OnDestroy()
-	{
-		GameControls controls = Game.Instance.Controls;
-		controls.JumpButton			-= OnJump;
-		controls.UseItemButton		-= OnUseItem;
-		controls.SlideButton		-= OnSlide;
-		controls.StopSlideButton	-= OnStopSlide;
-		controls.UseShortcutButton	-= OnUseShortcut;
 	}
 
 	void Update () 
@@ -129,9 +119,6 @@ public class Player : MonoBehaviour
 
 	void OnJump()
 	{
-		if (isSliding == true)
-			return;
-
 		if ( IsGrounded == true )
 		{
 			IsGrounded = false;
@@ -157,19 +144,13 @@ public class Player : MonoBehaviour
 	{
 		if (MeatBallCount > 0)
 		{
-            Invincible = true;
-            invincibillityRemainingTime += 10f;
+            Debug.Log("Meatballs Activated");
 			MeatBallCount --;
 		}
 	}
 
 	void OnSlide()
 	{
-		if (IsGrounded != true)
-			return;
-
-
-
 	}
 
 	void OnStopSlide()
@@ -231,6 +212,9 @@ public class Player : MonoBehaviour
     {
         discountRemainingTime += 5.0f;
 	}
-
+    public void AddInvincibilityTime(float time)
+    {
+        invincibillityRemainingTime += time;
+    }
 
 }

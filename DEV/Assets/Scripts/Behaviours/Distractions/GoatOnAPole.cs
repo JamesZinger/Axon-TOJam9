@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GoatOnAPole : Distraction {
-
+public class GoatOnAPole : PickUp
+{
     const int TIME_ADDED = 20;
 
     void Start()
@@ -10,8 +10,10 @@ public class GoatOnAPole : Distraction {
         base.Start();
     }
 
-    public override void AddTime()
+    public override void AddPickUp()
     {
-        remainingTime += TIME_ADDED;
+        Game.Instance.Player.Invincible = true;
+        Game.Instance.Player.AddInvincibilityTime(10f);
+        base.AddPickUp();
     }
 }

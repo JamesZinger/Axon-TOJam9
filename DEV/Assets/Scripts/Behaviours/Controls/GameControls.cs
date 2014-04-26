@@ -49,8 +49,10 @@ public class GameControls : MonoBehaviour
 		//Controller = Controller.GetState();
 
 		if ( CheckJumpControls() )
+		{ 
 			if ( JumpButton != null )
 				JumpButton();
+		}
 
 		if ( CheckSlideControls() )
 			if ( SlideButton != null )

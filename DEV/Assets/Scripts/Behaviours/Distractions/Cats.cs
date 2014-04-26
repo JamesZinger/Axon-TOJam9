@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Cats : Distraction
+public class Cats : PickUp
 {
     const int TIME_ADDED = 15;
 
@@ -10,8 +10,10 @@ public class Cats : Distraction
         base.Start();
     }
 
-    public override void AddTime()
+    public override void AddPickUp()
     {
-        remainingTime += TIME_ADDED;
+        Game.Instance.Player.Invincible = true;
+        Game.Instance.Player.AddInvincibilityTime(15f);
+        base.AddPickUp();
     }
 }

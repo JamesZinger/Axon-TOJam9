@@ -6,7 +6,7 @@ public class GiftCard : PickUp
     void Start()
     {
         base.Start();
-        this.Pickup = PickUpType.GitCard;
+        this.Pickup = PickUpType.GiftCard;
     }
 
     public override void  AddPickUp()
