@@ -93,7 +93,7 @@ public class ObjectGenerator : MonoBehaviour {
 		//return new WaitForEndOfFrame();
 		initialVelocity = Game.Instance.Player.rigidbody2D.velocity.y;
 		maxHeight = -(initialVelocity * initialVelocity) / (2.0f*Physics2D.gravity.y) + groundLevel;
-		Debug.Log(maxHeight);
+		//Debug.Log(maxHeight);
 	}
 	float GetMinDist(Rect obstacle){
 		//For now, return farDist so successfully jumping or sliding an object always results in safety
@@ -102,7 +102,7 @@ public class ObjectGenerator : MonoBehaviour {
 		if(obstacle.y >= maxHeight){
 			//Object is too tall to jump, therefore slide
 			closeDist = new Vector2(obstacle.xMax, groundLevel);
-			Debug.Log("High");
+			//Debug.Log("High");
 		}else{
 			//Object is short enough to jump
 			//closeDist = CalcEarliestJump(obstacle);
@@ -123,7 +123,7 @@ public class ObjectGenerator : MonoBehaviour {
 		float timeToLand;//Time from peak to ground (this shouldn't ever change
 
 		collision = new Vector2(obstacle.x, obstacle.y + obstacle.width);
-		DrawDebugRect(obstacle);
+		//DrawDebugRect(obstacle);
 		timeToCollide = Mathf.Sqrt(2.0f*(collision.y - maxHeight) / -Physics2D.gravity.y);
 		peak.y = maxHeight;
 		peak.x = collision.x - background.velocity.x*timeToCollide;
