@@ -17,7 +17,9 @@ public class Game : MonoBehaviour
 	private Dictionary<DepartmentType, Sprite> departmentMap;
 	private List<Background> background = null;
 	private int backgroundTick = 0;
-   
+	private bool isPaused = false;
+	private float fixedTimeStep = 0.0f;
+	
 	public Vector2 ScrollSpeed;
 
 	public GameControls Controls
@@ -36,6 +38,12 @@ public class Game : MonoBehaviour
 	{
 		get { return currentDepartment; }
 		private set { currentDepartment = value; }
+	}
+
+	public bool IsPaused
+	{
+		get { return isPaused; }
+		private set { isPaused = value; }
 	}
 
 	public List<Background> Background
@@ -100,6 +108,8 @@ public class Game : MonoBehaviour
 		background = new List<Background>(2);
 
 		MapDepartmentTextures();
+
+		fixedTimeStep = Time.fixedDeltaTime;
 	}
 
 	void Start()
@@ -111,6 +121,7 @@ public class Game : MonoBehaviour
 			Controls = gameObject.AddComponent<GameControls>();
 		}
 
+		Controls.PauseButton += OnPause;
 
 	}
 
@@ -155,4 +166,14 @@ public class Game : MonoBehaviour
 			backgroundTick = 0;
 		}
 	}
+
+	void OnPause()
+	{
+		if (IsPaused)
+			Time.fixedDeltaTime = fixedTimeStep;	
+
+		else
+			Time.fixedDeltaTime = 0;
+	}
+
 }
