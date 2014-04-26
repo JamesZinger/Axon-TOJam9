@@ -683,8 +683,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0ea9dff0062ab7498d68e4e279b54fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Obstical: {fileID: 100000, guid: be57f74e48df6344faa8b69bda727286, type: 2}
-  SpawnsInterval: .5
+  SpawnsInterval: 2
 --- !u!1001 &1488671465
 Prefab:
   m_ObjectHideFlags: 0
