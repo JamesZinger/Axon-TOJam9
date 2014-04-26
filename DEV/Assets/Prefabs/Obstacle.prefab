@@ -9,11 +9,10 @@ GameObject:
   m_Component:
   - 4: {fileID: 400000}
   - 212: {fileID: 21200000}
-  - 61: {fileID: 6100000}
   - 50: {fileID: 5000000}
-  - 114: {fileID: 11400000}
-  m_Layer: 9
-  m_Name: Player
+  - 61: {fileID: 6100000}
+  m_Layer: 0
+  m_Name: Obstacle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,8 +25,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.52028227, y: 4.95755625, z: 0}
-  m_LocalScale: {x: 1.71024263, y: 1.52337861, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
 --- !u!50 &5000000
@@ -41,7 +40,7 @@ Rigidbody2D:
   m_AngularDrag: .0500000007
   m_GravityScale: 1
   m_FixedAngle: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -53,20 +52,9 @@ BoxCollider2D:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Size: {x: .399999976, y: .400000006}
+  m_IsTrigger: 0
+  m_Size: {x: 9.99999975e-05, y: 9.99999975e-05}
   m_Center: {x: 0, y: 0}
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90764b59987fec44cb2211f637a3a624, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -88,8 +76,8 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_SortingLayerID: 0
-  m_Sprite: {fileID: 21300000, guid: cce1020d00c1392458773e1451f70f16, type: 3}
-  m_Color: {r: .801470578, g: .597688973, b: .159115493, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 9f46773006a80364bb7c9b57a82c5b7e, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

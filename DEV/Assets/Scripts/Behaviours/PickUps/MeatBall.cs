@@ -12,10 +12,6 @@ public class MeatBall : PickUp
     public override void AddPickUp()
     {
         Game.Instance.Player.PickUplist.Add(this);
-    }
-
-    public override void DoAction()
-    {
- 	    base.DoAction();
+        base.AddPickUp();
     }
 }
