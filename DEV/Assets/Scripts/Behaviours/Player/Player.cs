@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
 		private set { isGrounded = value; }
 	}
 
-	public int Cash
+	public float Cash
 	{
 		get { return cash; }
 		set { cash = value; }
@@ -59,7 +59,7 @@ public class Player : MonoBehaviour
     private bool invincible;
     private float invincibillityRemainingTime;
 	private int meatBallCount;
-	private int cash;
+	private float cash;
     private bool hasDiscount;
     private float discountRemainingTime;
 	private SpriteRenderer sprite;
@@ -215,6 +215,14 @@ public class Player : MonoBehaviour
     public void AddInvincibilityTime(float time)
     {
         invincibillityRemainingTime += time;
+    }
+    public void DeductCash(float price)
+    {
+        if (hasDiscount)
+        {
+            this.cash -= price * 0.5f;
+        }
+        else this.cash -= price;
     }
 
 }

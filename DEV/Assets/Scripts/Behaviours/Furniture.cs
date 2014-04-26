@@ -19,7 +19,17 @@ public class Furniture : MonoBehaviour
 
     void Update()
     {
+    
+    }
 
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            Debug.Log("YO");
+            Game.Instance.Player.DeductCash(this.price);
+            Destroy(this.gameObject);
+        }
     }
 
 
