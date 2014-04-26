@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class FurnitureManager : MonoBehaviour 
 {
-	private struct TemplateFurniture
+	public struct TemplateFurniture
 	{
 		public Sprite Sprite;
 		public string Description;
@@ -30,11 +30,12 @@ public class FurnitureManager : MonoBehaviour
 		{
 			//Debug.Log(s);
 			this.Sprite = (Sprite)Resources.Load( "FurnitureTextures/" + s, typeof( Sprite ) );
+
 			//Debug.Log(texture);
 		}
 	}
 
-    Dictionary<DepartmentType, List<TemplateFurniture>> furnitureMap;
+   public  Dictionary<DepartmentType, List<TemplateFurniture>> furnitureMap;
     TextAsset txt;
 
 	void Awake () 
@@ -49,7 +50,14 @@ public class FurnitureManager : MonoBehaviour
         furnitureMap.Add(DepartmentType.LivingRoom, new List<TemplateFurniture>());
         furnitureMap.Add(DepartmentType.Workspaces, new List<TemplateFurniture>());
 
+	
+
         ReadCSV();
+	}
+
+	void Start()
+	{
+		Game.Instance.FurnitureManager = this;
 	}
 
     void ReadCSV()

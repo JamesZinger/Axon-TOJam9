@@ -88,6 +88,16 @@ public class Player : MonoBehaviour
 		controls.UseShortcutButton	+= OnUseShortcut;
 	}
 
+	void OnDestroy()
+	{
+		GameControls controls = Game.Instance.Controls;
+		controls.JumpButton			-= OnJump;
+		controls.UseItemButton		-= OnUseItem;
+		controls.SlideButton		-= OnSlide;
+		controls.StopSlideButton	-= OnStopSlide;
+		controls.UseShortcutButton	-= OnUseShortcut;
+	}
+
 	void Update () 
     {
         Discount();

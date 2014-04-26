@@ -19,6 +19,8 @@ public class Game : MonoBehaviour
 	private int backgroundTick = 0;
 	private bool isPaused = false;
 	private float fixedTimeStep = 0.0f;
+	private FurnitureManager furnitureManager;
+
 	
 	public Vector2 ScrollSpeed;
 
@@ -56,6 +58,12 @@ public class Game : MonoBehaviour
 	{
 		get { return departmentMap; }
 		private set {  departmentMap = value; }
+	}
+
+	public FurnitureManager FurnitureManager
+	{
+		get { return furnitureManager; }
+		set { furnitureManager = value; }
 	}
 
 	#region Singleton Method and Instance
