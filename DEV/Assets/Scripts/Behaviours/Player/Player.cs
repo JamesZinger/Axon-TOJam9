@@ -83,9 +83,6 @@ public class Player : MonoBehaviour
 
 	void Update () 
     {
-
-
-        Debug.Log("Count: " + pickUplist.Count);
         Discount();
 	}
     
@@ -106,16 +103,12 @@ public class Player : MonoBehaviour
 			if ( Jump != null )
 				Jump();
 
-			Debug.Log("First JUMP");
-			Debug.Log("Is Grounded: " + IsGrounded);
-
 			StartCoroutine(CheckIfGrounded());
 		}
 
 		else if (HasDoubleJumped == false)
 		{
 			HasDoubleJumped = true;
-			Debug.Log("Double JUMP!");
 			gameObject.rigidbody2D.AddForce(jumpForce); 
 		}
 		

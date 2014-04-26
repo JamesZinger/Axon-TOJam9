@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 /// <summary>
 /// 	A game singleton responsible for being a container for essential game objects and various
@@ -11,7 +13,10 @@ public class Game : MonoBehaviour
 
 	private GameControls controls = null;
 	private Player player = null;
-
+	private DepartmentType currentDepartment = DepartmentType.NONE;
+	private Dictionary<DepartmentType, Sprite> departmentMap;
+	private Background background = null;
+	private int backgroundTick = 0;
     public Vector2 ScrollSpeed;
 
 	public GameControls Controls
@@ -26,6 +31,23 @@ public class Game : MonoBehaviour
         set { player = value; }
 	}
 
+	public DepartmentType CurrentDepartment
+	{
+		get { return currentDepartment; }
+		private set { currentDepartment = value; }
+	}
+
+	public Background Background
+	{
+		get { return background; }
+		set { background = value; }
+	}
+
+	public Dictionary<DepartmentType, Sprite> DeparmentMap
+	{
+		get { return departmentMap; }
+		private set {  departmentMap = value; }
+	}
 
 	#region Singleton Method and Instance
 
@@ -66,6 +88,15 @@ public class Game : MonoBehaviour
 
 		Instance = this;
 
+		departmentMap = new Dictionary<DepartmentType, Sprite>();
+
+		string[] names = System.Enum.GetNames( typeof( DepartmentType ) );
+		
+		int firstdepartment = UnityEngine.Random.Range(0, names.Length - 2);
+
+		CurrentDepartment = (DepartmentType)firstdepartment;
+
+		MapDepartmentTextures();
 	}
 
 	void Start()
@@ -76,6 +107,8 @@ public class Game : MonoBehaviour
 		{
 			Controls = gameObject.AddComponent<GameControls>();
 		}
+
+
 	}
 
 	void OnDestory()
@@ -85,4 +118,34 @@ public class Game : MonoBehaviour
 
 	#endregion
 
+	/// <summary>	Map department textures to a dictionary of types to textures. </summary>
+	/// <remarks>	James, 2014-04-26. </remarks>
+	void MapDepartmentTextures()
+	{
+		string[] names = System.Enum.GetNames( typeof( DepartmentType ) );
+		foreach ( string s in names )
+		{
+
+			DepartmentType deptType = (DepartmentType)System.Enum.Parse(typeof(DepartmentType), s);
+
+			if (deptType == DepartmentType.NONE)
+				continue;
+
+			Sprite tex = null;
+
+			tex = Resources.Load<Sprite>("Sprites/" + s + "");
+			departmentMap.Add(deptType, tex);
+		}
+	}
+
+	public void TickBackgroundInt(Background bg)
+	{
+		backgroundTick++;
+		if(backgroundTick >= 1)
+		{ 
+			currentDepartment = (DepartmentType) Random.Range(0, System.Enum.GetNames(typeof(DepartmentType)).Length - 2);
+			Debug.Log("Current Department: " + currentDepartment);
+			bg.UpdateBackground();
+		}
+	}
 }
