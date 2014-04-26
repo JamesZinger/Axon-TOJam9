@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class IkeaMonkey : Distraction
+public class IkeaMonkey : PickUp
 {
     const int TIME_ADDED = 10;
 
@@ -10,9 +10,11 @@ public class IkeaMonkey : Distraction
         base.Start();
 	}
 
-    public override void AddTime()
+    public override void AddPickUp()
     {
-        remainingTime += TIME_ADDED;
+        Game.Instance.Player.Invincible = true;
+        Game.Instance.Player.AddInvincibilityTime(15f);
+        base.AddPickUp();
     }
 	
 }

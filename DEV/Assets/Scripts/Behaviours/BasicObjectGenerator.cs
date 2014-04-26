@@ -48,7 +48,9 @@ public class BasicObjectGenerator : MonoBehaviour
 		{
 
 			Vector2 pos = new Vector2( PlayableRect.xMax, PlayableRect.yMin + SpawnYDiff * Random.Range( 1, 8 ) );
-			GameObject go = Instantiate( new GameObject(), pos, Quaternion.identity ) as GameObject;
+			//GameObject go = Instantiate( new GameObject(), pos, Quaternion.identity ) as GameObject;
+            GameObject go = new GameObject();
+            go.transform.position = pos;
 			Furniture f = go.AddComponent<Furniture>();
 			BoxCollider2D bc = go.AddComponent<BoxCollider2D>();
 			Rigidbody2D rb = go.AddComponent<Rigidbody2D>();
