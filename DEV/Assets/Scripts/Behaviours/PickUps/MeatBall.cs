@@ -6,12 +6,12 @@ public class MeatBall : PickUp
 
 	void Start () 
     {
-        this.pickUp = PickUpType.MeatBalls;
+        this.Pickup = PickUpType.MeatBalls;
 	}
 
-    public override PickUp.PickUpType AddPickUp()
+    public override void AddPickUp()
     {
-        return base.AddPickUp();
+        Game.Instance.Player.PickUplist.Add(this);
     }
 
     public override void DoAction()

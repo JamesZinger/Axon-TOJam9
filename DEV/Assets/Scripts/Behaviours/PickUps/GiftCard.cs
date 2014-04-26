@@ -5,7 +5,7 @@ public class GiftCard : PickUp
 {
     void Start()
     {
-        this.pickUp = PickUpType.GitCard;
+        this.Pickup = PickUpType.GitCard;
     }
 
 }
