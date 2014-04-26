@@ -133,7 +133,7 @@ public class Player : MonoBehaviour
 
 	IEnumerator CheckIfGrounded()
 	{
-		yield return new WaitForSeconds(0.5f);
+		yield return new WaitForSeconds(0.1f);
 		while ( true )
 		{
 			Vector2 origin = new Vector2( transform.position.x, transform.position.y );
