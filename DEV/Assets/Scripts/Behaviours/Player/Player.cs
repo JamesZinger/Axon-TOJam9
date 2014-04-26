@@ -10,7 +10,11 @@ public class Player : MonoBehaviour
     public bool Invincible
     {
         get { return invincible; }
-        set { invincible = value; }
+        set 
+        { 
+            invincible = value;
+            invincibillityRemainingTime += 10.0f;
+        }
     }
 
 	public bool HasDoubleJumped
@@ -141,15 +145,13 @@ public class Player : MonoBehaviour
 	{
 		if (MeatBallCount > 0)
 		{
-            Invincible = true;
-            invincibillityRemainingTime += 10f;
+            Debug.Log("Meatballs Activated");
 			MeatBallCount --;
 		}
 	}
 
 	void OnSlide()
 	{
-
 	}
 
 	void OnStopSlide()
@@ -212,6 +214,9 @@ public class Player : MonoBehaviour
     {
         discountRemainingTime += 5.0f;
 	}
-
+    public void AddInvincibilityTime(float time)
+    {
+        invincibillityRemainingTime += time;
+    }
 
 }
