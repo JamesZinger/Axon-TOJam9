@@ -7,12 +7,12 @@ public class Player : MonoBehaviour
 
 	public Vector2 jumpForce;
 
-	public List<PickUp> PickUplist
-	{
-		get { return pickUplist; }
-		set { pickUplist = value; }
-	}
-    
+    public bool Invincible
+    {
+        get { return invincible; }
+        set { invincible = value; }
+    }
+
 	public bool HasDoubleJumped
 	{
 		get { return hasDoubleJumped; }
@@ -37,6 +37,12 @@ public class Player : MonoBehaviour
 		set { discountRemainingTime = value; }
 	}
 
+	public int MeatBallCount
+	{
+		get { return meatBallCount; }
+		set { meatBallCount = value; }
+	}
+
 	#region Events
 
 	public delegate void JumpHandeler();
@@ -46,15 +52,17 @@ public class Player : MonoBehaviour
 
 	#region Fields
 
+    private bool invincible;
+    private float invincibillityRemainingTime;
+	private int meatBallCount;
 	private int cash;
     private bool hasDiscount;
-    List<PickUp> pickUplist = new List<PickUp>();
+    private float discountRemainingTime;
 	private SpriteRenderer sprite;
 	private int rayFilter;
-	private float discountRemainingTime;
 	private bool isGrounded = true;
 	private bool hasDoubleJumped = false;
-
+	private bool isSliding = false;
 	#endregion
 
 	#region Unity Events
@@ -74,49 +82,105 @@ public class Player : MonoBehaviour
 		int layerMask = LayerMask.NameToLayer("Ground");
 
 		rayFilter = 1 << layerMask;
+
+		meatBallCount = 0;
 	}
 
 	void Start()
 	{
 		Game.Instance.Controls.JumpButton += OnJump;
+		GameControls controls = Game.Instance.Controls;
+
+		controls.JumpButton			+= OnJump;
+		controls.UseItemButton		+= OnUseItem;
+		controls.SlideButton		+= OnSlide;
+		controls.StopSlideButton	+= OnStopSlide;
+		controls.UseShortcutButton	+= OnUseShortcut;
+        
+        this.gameObject.AddComponent<IkeaMonkey>();
+        this.gameObject.AddComponent<GoatOnAPole>();
+        this.gameObject.AddComponent<Cats>();
+	}
+
+	void OnDestroy()
+	{
+		GameControls controls = Game.Instance.Controls;
+		controls.JumpButton			-= OnJump;
+		controls.UseItemButton		-= OnUseItem;
+		controls.SlideButton		-= OnSlide;
+		controls.StopSlideButton	-= OnStopSlide;
+		controls.UseShortcutButton	-= OnUseShortcut;
 	}
 
 	void Update () 
     {
         Discount();
+        Invincibillity();
 	}
     
     void OnGUI()
     {
-        GUI.Label(new Rect(0, 0, 300, 50), "Cash: $" + this.cash + " MeatBalls: " + pickUplist.Count + " Discount Time: " + discountRemainingTime + "Has Discount: " + hasDiscount);
+        GUI.Label(new Rect(0, 0, 300, 50), "Cash: $" + this.cash + " MeatBalls: " + MeatBallCount + " Discount Time: " + discountRemainingTime + "Has Discount: " + hasDiscount + " Inv: " + invincible);
     }
 
-    void OnJump()
-    {
-		if (IsGrounded  == true)
+	#endregion
+
+	#region Event Handelers
+
+	void OnJump()
+	{
+		if (isSliding == true)
+			return;
+
+		if ( IsGrounded == true )
 		{
 			IsGrounded = false;
 			HasDoubleJumped = false;
 
-			gameObject.rigidbody2D.AddForce(jumpForce);
+			gameObject.rigidbody2D.velocity = jumpForce;
 
 			if ( Jump != null )
 				Jump();
 
-			Debug.Log("First JUMP");
-			Debug.Log("Is Grounded: " + IsGrounded);
-
-			StartCoroutine(CheckIfGrounded());
+			StartCoroutine( CheckIfGrounded() );
 		}
 
-		else if (HasDoubleJumped == false)
+		else if ( HasDoubleJumped == false )
 		{
 			HasDoubleJumped = true;
-			Debug.Log("Double JUMP!");
-			gameObject.rigidbody2D.AddForce(jumpForce); 
+			gameObject.rigidbody2D.velocity = jumpForce;
 		}
-		
-    }
+
+	}
+
+	void OnUseItem()
+	{
+		if (MeatBallCount > 0)
+		{
+            Invincible = true;
+            invincibillityRemainingTime += 10f;
+			MeatBallCount --;
+		}
+	}
+
+	void OnSlide()
+	{
+		if (IsGrounded != true)
+			return;
+
+
+
+	}
+
+	void OnStopSlide()
+	{
+
+	}
+
+	void OnUseShortcut()
+	{
+
+	}
 
 	#endregion
 
@@ -126,6 +190,15 @@ public class Player : MonoBehaviour
 
         hasDiscount = true;
         discountRemainingTime -= Time.fixedDeltaTime;
+    }
+
+    void Invincibillity()
+    {
+        if (!invincible) return;
+
+        if (invincibillityRemainingTime <= 0.0f) { invincible = false; return; }
+
+        invincibillityRemainingTime -= Time.fixedDeltaTime;
     }
 
 	IEnumerator CheckIfGrounded()
