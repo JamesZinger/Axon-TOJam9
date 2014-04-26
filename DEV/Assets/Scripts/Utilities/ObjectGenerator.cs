@@ -62,19 +62,13 @@ public class ObjectGenerator : MonoBehaviour {
 		//Check if we can jump the oncoming obstacle
 		if(obstacle.y >= maxHeight){
 			//Object is too tall to jump, therefore slide
-			closeDist = new Vector2(obstacle.xMax, 0);
-			farDist = new Vector2(obstacle.xMax + _defaultBuffer, 0);
-			Debug.Log("Tall");
+			closeDist = new Vector2(obstacle.xMax, groundLevel);
 		}else{
 			//Object is short enough to slide
 			closeDist = CalcEarliestJump(obstacle);
-			farDist = CalcLatestJump(obstacle);
-			Debug.Log("Short");
 		}
 		Debug.Log(closeDist);
-		Debug.Log(farDist);
-
-
+		//Debug.Log(farDist);
 
 		return closeDist.x;
 	}
@@ -95,49 +89,6 @@ public class ObjectGenerator : MonoBehaviour {
 		start.y = groundLevel;
 
 		//Should be renamed end
-		return start;
-	}
-	
-	//Latest take-off point. Use the bottom-right corner of the player
-	Vector2 CalcLatestJump2(Rect obstacle){
-		//All the same as above
-		Vector2 start = new Vector2();
-		Vector2 peak;
-		Vector2 collision;
-		float timeToCollide;
-		float timeToLand;
-
-		//The collision here is with the top left, not the top right, of the obstacle
-		collision = new Vector2(obstacle.x, obstacle.y);
-		timeToCollide = Mathf.Sqrt(2.0f*(collision.y - maxHeight) / Physics2D.gravity.y);
-		peak.y = maxHeight;
-		peak.x = collision.x + background.velocity.x*timeToCollide;
-		timeToLand = Mathf.Sqrt( (2.0f*maxHeight)/(-Physics2D.gravity.y) );
-		start.x = peak.x + background.velocity.x*timeToLand;
-		start.y = groundLevel;
-
-		//Should be renamed end
-		return start;
-	}
-	//Latest take-off point. Use the bottom-right corner of the player
-	Vector2 CalcLatestJump(Rect obstacle){
-		Vector2 start;
-		Vector2 collision;
-		collision = new Vector2(obstacle.x, obstacle.y);
-		float a = Physics2D.gravity.y;
-		float t1, t2;
-		float v1 = initialVelocity;
-
-		t1 = (-v1 + Mathf.Sqrt(v1*v1 - 4.0f*0.5f*-collision.y));
-		t2 = (-v1 - Mathf.Sqrt(v1*v1 - 4.0f*0.5f*-collision.y));
-
-		t1 = (t1 < t2 ? t1 : t2);
-
-		float timeToTop = v1 / a;
-		float totalDist = background.velocity.x *timeToTop*2;
-		start.x = totalDist - background.velocity.x*t1;
-		start.y = 0;
-
 		return start;
 	}
 }
