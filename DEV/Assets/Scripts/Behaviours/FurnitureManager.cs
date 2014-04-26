@@ -90,7 +90,7 @@ public class FurnitureManager : MonoBehaviour
 				if (j == 5) furniture.AllanKeys = int.Parse(values[j]);
                 if (j == 6) furniture.SetZone(values[j]);
 			 }
-			Debug.Log(furniture.Zone);
+			//Debug.Log(furniture.Zone);
 			furnitureMap[furniture.Department].Add(furniture);
 		}
     }
