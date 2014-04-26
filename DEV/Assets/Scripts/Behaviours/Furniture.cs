@@ -9,6 +9,8 @@ public class Furniture : MonoBehaviour
 	public DepartmentType department = DepartmentType.NONE;
 	public string desc;
 	public SpriteRenderer SpriteRenderer;
+    public enum Zone { None, High, Medium, Low }
+    public Zone zone;
 
 	void Start () 
 	{
