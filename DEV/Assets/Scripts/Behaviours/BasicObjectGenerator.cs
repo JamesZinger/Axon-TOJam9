@@ -18,6 +18,7 @@ public class BasicObjectGenerator : MonoBehaviour
 		ScreenRect = new Rect(0, 0, 10.0f * (4f/3f), 10);
 		PlayableRect = new Rect(0, (4f/3f),10.0f * (4f/3f),7.5f );
 		SpawnYDiff = PlayableRect.height / 8;
+		DrawDebugRect(PlayableRect);
 		StartCoroutine(SpawnCycle());
 	}
 	
@@ -51,10 +52,8 @@ public class BasicObjectGenerator : MonoBehaviour
 			GameObject go = new GameObject();
 			go.transform.position = pos;
 			Furniture f = go.AddComponent<Furniture>();
-			BoxCollider2D bc = go.AddComponent<BoxCollider2D>();
-			Rigidbody2D rb = go.AddComponent<Rigidbody2D>();
 			SpriteRenderer rend = go.AddComponent<SpriteRenderer>();
-			rb.isKinematic = true;
+			
 			List<FurnitureManager.TemplateFurniture> RandomList = Game.Instance.FurnitureManager.furnitureMap[Game.Instance.CurrentDepartment];
 
 			FurnitureManager.TemplateFurniture template = RandomList[Random.Range(0, RandomList.Count - 1)];
@@ -65,6 +64,11 @@ public class BasicObjectGenerator : MonoBehaviour
 			f.desc = template.Description;
 			f.name = template.Name;
 			go.name = template.Name;
+
+			PolygonCollider2D bc = go.AddComponent<PolygonCollider2D>();
+			Rigidbody2D rb = go.AddComponent<Rigidbody2D>();
+			rb.isKinematic = true;
+			
 
 			yield return new WaitForSeconds( SpawnsInterval );
 		}
