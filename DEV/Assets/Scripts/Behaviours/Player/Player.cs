@@ -12,14 +12,13 @@ public class Player : MonoBehaviour
 
 	void Start () 
     {
-		Game.Instance.Player = this;
-        Debug.Log(Game.Instance.Controls);
+        Game.Instance.Player = this;
 		Game.Instance.Controls.JumpButton += OnJump;
 	}
 
 	void Update () 
     {
-	
+        Debug.Log("Count: " + pickUplist.Count);
 	}
 
     void OnJump()
