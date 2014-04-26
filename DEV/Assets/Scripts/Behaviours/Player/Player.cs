@@ -79,6 +79,9 @@ public class Player : MonoBehaviour
 	void Start()
 	{
 		Game.Instance.Controls.JumpButton += OnJump;
+        this.gameObject.AddComponent<IkeaMonkey>();
+        this.gameObject.AddComponent<GoatOnAPole>();
+        this.gameObject.AddComponent<Cats>();
 	}
 
 	void Update () 
