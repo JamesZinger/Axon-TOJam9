@@ -4,29 +4,38 @@ using System.Collections.Generic;
 
 public class Player : MonoBehaviour 
 {
-    List<PickUp> pickUplist = new List<PickUp>();
+
+	public Vector2 jumpForce;
+
 	public List<PickUp> PickUplist
 	{
 		get { return pickUplist; }
 		set { pickUplist = value; }
 	}
-
-    public Vector2 jumpForce;
-
-	private bool hasDoubleJumped = false;
+    
 	public bool HasDoubleJumped
 	{
 		get { return hasDoubleJumped; }
 		private set { hasDoubleJumped = value; }
 	}
 
-	private bool isGrounded = true;
 	public bool IsGrounded
 	{
 		get { return isGrounded; }
 		private set { isGrounded = value; }
 	}
 
+	public int Cash
+	{
+		get { return cash; }
+		set { cash = value; }
+	}
+
+	public float DiscountRemainingTime
+	{
+		get { return discountRemainingTime; }
+		set { discountRemainingTime = value; }
+	}
 
 	#region Events
 
@@ -35,8 +44,20 @@ public class Player : MonoBehaviour
 
 	#endregion
 
+	#region Fields
+
+	private int cash;
+    private bool hasDiscount;
+    List<PickUp> pickUplist = new List<PickUp>();
 	private SpriteRenderer sprite;
 	private int rayFilter;
+	private float discountRemainingTime;
+	private bool isGrounded = true;
+	private bool hasDoubleJumped = false;
+
+	#endregion
+
+	#region Unity Events
 
 	void Awake () 
     {	
@@ -63,7 +84,15 @@ public class Player : MonoBehaviour
 	void Update () 
     {
 
+
+        Debug.Log("Count: " + pickUplist.Count);
+        Discount();
 	}
+    
+    void OnGUI()
+    {
+        GUI.Label(new Rect(0, 0, 300, 50), "Cash: $" + this.cash + " MeatBalls: " + pickUplist.Count + " Discount Time: " + discountRemainingTime + "Has Discount: " + hasDiscount);
+    }
 
     void OnJump()
     {
@@ -92,6 +121,16 @@ public class Player : MonoBehaviour
 		
     }
 
+	#endregion
+
+	void Discount()
+    {
+        if (discountRemainingTime <= 0.0f) { hasDiscount = false; return; } 
+
+        hasDiscount = true;
+        discountRemainingTime -= Time.fixedDeltaTime;
+    }
+
 	IEnumerator CheckIfGrounded()
 	{
 		yield return new WaitForSeconds(0.5f);
@@ -116,6 +155,11 @@ public class Player : MonoBehaviour
 
 			yield return new WaitForEndOfFrame();
 		}
+	}
+
+    public void AddDiscountTime()
+    {
+        discountRemainingTime += 5.0f;
 	}
 
 

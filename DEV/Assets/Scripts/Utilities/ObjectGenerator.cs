@@ -8,22 +8,27 @@ public class ObjectGenerator : MonoBehaviour {
 	float _defaultBuffer = 50.0f;
 	public float jumpForce;
 	float _ratio = 4.0f/3.0f;
+	float _size;
 	public GameObject prefab;
-	public BoxCollider2D currentPrefab;
+	public GameObject currentPrefab;
 
 
 	// Use this for initialization
 	void Start () {
-		//Add GetInitialVelocity to event handler
-		currentPrefab = Instantiate(prefab, new Vector3((Camera.main.orthographicSize * _ratio) /2, 0, 0), Quaternion.identity)as BoxCollider2D;
+		_size = Camera.main.orthographicSize;
+		currentPrefab = (GameObject)Instantiate(prefab, new Vector3((_size * _ratio) * 2, 2.35f, 0), Quaternion.identity);
 		Game.Instance.Player.Jump += OnJump;
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-		Rect checkRect = new Rect(currentPrefab.center.x - currentPrefab.size.x, currentPrefab.center.y - currentPrefab.size.y, currentPrefab.size.x, currentPrefab.size.y);
-		if(currentPrefab.transform.position.x < Screen.width / 2){
-			currentPrefab = Instantiate(prefab, new Vector3(GetNextDist(checkRect), 0, 0), Quaternion.identity)as BoxCollider2D;
+		currentPrefab.rigidbody2D.velocity = new Vector2(-5.0f,0);
+		Rect checkRect = new Rect(currentPrefab.transform.position.x, currentPrefab.transform.position.y, currentPrefab.transform.localScale.x, currentPrefab.transform.localScale.y);
+		Debug.DrawLine(new Vector2(checkRect.x, checkRect.y), new Vector2(checkRect.x, checkRect.y - checkRect.height));
+		Debug.DrawLine(new Vector2(checkRect.x, checkRect.y), new Vector2(checkRect.x + checkRect.width, checkRect.y));
+		if(currentPrefab.transform.position.x < (_size * _ratio)){
+			currentPrefab = (GameObject)Instantiate(prefab, new Vector3(GetNextDist(checkRect), currentPrefab.transform.position.y, 0), Quaternion.identity);
+			Debug.Log(checkRect);
 		}
 	}
 
@@ -38,7 +43,8 @@ public class ObjectGenerator : MonoBehaviour {
 		//This will trigger after a frame, at the end of a fixed update.
 		//return new WaitForEndOfFrame();
 		initialVelocity = Game.Instance.Player.rigidbody2D.velocity.y;
-		maxHeight = (initialVelocity * initialVelocity) / (2.0f*Physics2D.gravity.y);
+		maxHeight = -(initialVelocity * initialVelocity) / (2.0f*Physics2D.gravity.y);
+		Debug.Log(maxHeight);
 	}
 	float GetNextDist(Rect obstacle){
 		//For now, return farDist so successfully jumping or sliding an object always results in safety
@@ -48,11 +54,14 @@ public class ObjectGenerator : MonoBehaviour {
 			//Object is too tall to jump, therefore slide
 			closeDist = new Vector2(obstacle.xMax, 0);
 			farDist = new Vector2(obstacle.xMax + _defaultBuffer, 0);
+			Debug.Log("Tall");
 		}else{
 			//Object is short enough to slide
 			closeDist = CalcEarliestJump(obstacle);
 			farDist = CalcLatestJump(obstacle);
+			Debug.Log("Short");
 		}
+		Debug.Log(farDist);
 		return farDist.x;
 	}
 	//Calculate the earliest take-off point and return the landing. Use the bottom-left corner of the player hitbox
