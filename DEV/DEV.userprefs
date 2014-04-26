@@ -1,8 +1,7 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Utilities\ObjectGenerator.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Behaviours\FurnitureManager.cs">
     <Files>
-      <File FileName="Assets\Scripts\Utilities\ObjectGenerator.cs" Line="58" Column="3" />
       <File FileName="Assets\Scripts\Behaviours\FurnitureManager.cs" Line="19" Column="45" />
     </Files>
   </MonoDevelop.Ide.Workbench>
