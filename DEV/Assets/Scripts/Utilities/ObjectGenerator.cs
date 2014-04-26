@@ -62,14 +62,10 @@ public class ObjectGenerator : MonoBehaviour {
 		//Check if we can jump the oncoming obstacle
 		if(obstacle.y >= maxHeight){
 			//Object is too tall to jump, therefore slide
-			closeDist = new Vector2(obstacle.xMax, 0);
-			farDist = new Vector2(obstacle.xMax + _defaultBuffer, 0);
-			Debug.Log("Tall");
+			closeDist = new Vector2(obstacle.xMax, groundLevel);
 		}else{
 			//Object is short enough to slide
 			closeDist = CalcEarliestJump(obstacle);
-			farDist = CalcLatestJump(obstacle);
-			Debug.Log("Short");
 		}
 		Debug.Log(closeDist);
 		Debug.Log(farDist);
