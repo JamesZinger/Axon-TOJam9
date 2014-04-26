@@ -20,7 +20,7 @@ public class Menu : MonoBehaviour
 		{
 			if ( instance == null )
 			{
-				GameObject go = Instantiate( new GameObject(), Vector3.zero, Quaternion.identity ) as GameObject;
+				GameObject go = new GameObject();
 				go.name = "MenuManager";
 				instance = go.AddComponent<Menu>();
 
