@@ -12,23 +12,40 @@ public class ObjectGenerator : MonoBehaviour {
 	float _ratio = 4.0f/3.0f;
 	float _size;
 	public float groundLevel = 1.35f;
-	public GameObject prefab;
+	public GameObject go;
 	float initialVelocity;
 	int _nextSpawnType = 1;
-	List<GameObject> obstacles;
 	float _elapsedTime;
 
 
 	// Use this for initialization
 	void Start () {
-		obstacles = new List<GameObject>();
 		_size = Camera.main.orthographicSize;
-		obstacles.Add((GameObject)Instantiate(prefab, new Vector3((_size * _ratio) * 2, 2.34f, 0), Quaternion.identity));
-		obstacles.Last().rigidbody2D.velocity = new Vector2(-5.0f,0);
+		SpawnObject(new Vector3((_size * _ratio) * 2, 2.34f, 0));
 		Game.Instance.Player.Jump += OnJump;
 		maxHeight = 3.0f;
 	}
-
+	void SpawnObject(Vector2 pos){
+		go = new GameObject();
+		go.transform.position = pos;
+		Furniture f = go.AddComponent<Furniture>();
+		SpriteRenderer rend = go.AddComponent<SpriteRenderer>();
+		
+		List<FurnitureManager.TemplateFurniture> RandomList = Game.Instance.FurnitureManager.furnitureMap[Game.Instance.CurrentDepartment];
+		
+		FurnitureManager.TemplateFurniture template = RandomList[Random.Range(0, RandomList.Count - 1)];
+		rend.sprite = template.Sprite;
+		f.allanKeyValue = template.AllanKeys;
+		f.price = template.Price;
+		f.department = template.Department;
+		f.desc = template.Description;
+		f.name = template.Name;
+		go.name = template.Name;
+		
+		PolygonCollider2D bc = go.AddComponent<PolygonCollider2D>();
+		Rigidbody2D rb = go.AddComponent<Rigidbody2D>();
+		rb.isKinematic = true;
+	}
 	// Update is called once per frame
 	void Update () {
 		_elapsedTime += Time.deltaTime;
@@ -37,12 +54,29 @@ public class ObjectGenerator : MonoBehaviour {
 			_elapsedTime = 0;
 		}
 	}
+	void DrawDebugRect(Rect r)
+	{
+		Vector3 TopLeft, TopRight, BottomLeft, BottomRight;
+		TopLeft = new Vector3(r.xMin, r.yMax);
+		TopRight = new Vector3(r.xMax, r.yMax);
+		BottomLeft = new Vector3(r.xMin, r.yMin);
+		BottomRight = new Vector3(r.xMax, r.yMin);
+		
+		Debug.DrawLine(TopLeft, TopRight, Color.green, 10000, false);
+		Debug.DrawLine(TopLeft, BottomLeft, Color.green, 10000, false);
+		Debug.DrawLine(TopLeft, BottomRight, Color.white, 10000, false);
+		Debug.DrawLine(BottomRight, TopRight, Color.green, 10000, false);
+		Debug.DrawLine(BottomRight, BottomLeft, Color.green, 10000, false);
+		Debug.DrawLine(BottomLeft, TopRight, Color.white, 10000, false);
+	}
 	void CheckSpawn(){
-		obstacles.Add((GameObject)Instantiate(prefab, new Vector3(_size * _ratio, obstacles.Last().transform.position.y, 0), Quaternion.identity));
-		Rect checkRect = new Rect(obstacles.Last().transform.position.x, obstacles.Last().transform.position.y, obstacles.Last().GetComponent<BoxCollider2D>().size.x * obstacles.Last().transform.localScale.x, obstacles.Last().GetComponent<BoxCollider2D>().size.y * obstacles.Last().transform.localScale.y);
+		SpawnObject(new Vector3(_size * _ratio * 2, go.transform.position.y, 0));
+		Rect checkRect = new Rect(go.transform.position.x, go.transform.position.y, go.GetComponent<SpriteRenderer>().sprite.rect.width/200, go.GetComponent<SpriteRenderer>().sprite.rect.height/200);
 		float dist = GetMinDist(checkRect);
-		obstacles.Add((GameObject)Instantiate(prefab, new Vector3(dist + obstacles.Last().transform.position.x, obstacles.Last().transform.position.y, 0), Quaternion.identity));
-		obstacles.Last().rigidbody2D.velocity = new Vector2(-5.0f,0);
+		Debug.Log(checkRect);
+		Debug.Log(dist);
+		SpawnObject(new Vector3(dist + go.transform.position.x, go.transform.position.y, 0));
+		go.rigidbody2D.velocity = new Vector2(-5.0f,0);
 	}
 
 	void OnJump(){
@@ -70,7 +104,7 @@ public class ObjectGenerator : MonoBehaviour {
 		}else{
 			//Object is short enough to jump
 			//closeDist = CalcEarliestJump(obstacle);
-			closeDist = new Vector2(obstacle.xMax, groundLevel);
+			closeDist = new Vector2(obstacle.height, groundLevel);
 		}
 		return closeDist.x;
 	}

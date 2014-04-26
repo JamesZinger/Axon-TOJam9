@@ -706,10 +706,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1051273706}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0ea9dff0062ab7498d68e4e279b54fb, type: 3}
+  m_Script: {fileID: 11500000, guid: a7b8f1506d856ae4387e067176a66574, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpawnsInterval: 2
+  background: {fileID: 0}
+  jumpForce: 0
+  groundLevel: 1.35000002
+  prefab: {fileID: 0}
 --- !u!1001 &1488671465
 Prefab:
   m_ObjectHideFlags: 0
