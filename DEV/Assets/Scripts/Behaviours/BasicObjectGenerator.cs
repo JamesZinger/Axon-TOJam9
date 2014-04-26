@@ -64,11 +64,12 @@ public class BasicObjectGenerator : MonoBehaviour
 			f.desc = template.Description;
 			f.name = template.Name;
 			go.name = template.Name;
-
-			PolygonCollider2D bc = go.AddComponent<PolygonCollider2D>();
+            go.gameObject.layer = 10;
+            
 			Rigidbody2D rb = go.AddComponent<Rigidbody2D>();
-			rb.isKinematic = true;
-			
+            rb.gravityScale = 0;
+            PolygonCollider2D bc = go.AddComponent<PolygonCollider2D>();
+            bc.isTrigger = true;
 
 			yield return new WaitForSeconds( SpawnsInterval );
 		}

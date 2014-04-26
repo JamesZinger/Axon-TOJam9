@@ -32,7 +32,7 @@ public class PickUp : MonoBehaviour
 
     void Update()
     {
-        CheckIfOnScreen();
+        //CheckIfOnScreen();
     }
 
     void CheckIfOnScreen()
