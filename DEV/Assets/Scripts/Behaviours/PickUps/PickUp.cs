@@ -14,6 +14,7 @@ public class PickUp : MonoBehaviour
 
     public virtual void AddPickUp() 
     {
+        if (this.gameObject == Game.Instance.Player.gameObject) return;
         Destroy(this.gameObject);
     }
 
