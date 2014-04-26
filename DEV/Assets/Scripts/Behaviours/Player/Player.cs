@@ -24,7 +24,6 @@ public class Player : MonoBehaviour
     void OnJump()
     {
         gameObject.rigidbody2D.AddForce(jumpForce);
-        Debug.Log("Helo");
 
 		if (Jump != null)
 			Jump();

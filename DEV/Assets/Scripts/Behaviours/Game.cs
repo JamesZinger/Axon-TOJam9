@@ -15,7 +15,7 @@ public class Game : MonoBehaviour
 	public GameControls Controls
 	{
 		get { return controls; }
-		private set { controls = value; }
+		set { controls = value; }
 	}
 
 	public Player Player
