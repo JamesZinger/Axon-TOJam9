@@ -11,18 +11,21 @@ public class PickUp : MonoBehaviour
     {
 	}
 
-    public virtual void AddPickUp()
+    public virtual void AddPickUp() 
     {
-    }
-
-    public virtual void DoAction()
-    {
-        
+        Destroy(this.gameObject);
     }
 
     public PickUpType Pickup
     {
         get { return pickUp; }
         set { pickUp = value; }
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log("Entered");
+
+        AddPickUp();
     }
 }
