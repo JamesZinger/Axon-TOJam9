@@ -80,7 +80,7 @@ public class ObjectGenerator : MonoBehaviour {
 	}
 	//Calculate the earliest take-off point and return the landing. Use the bottom-left corner of the player hitbox
 	Vector2 CalcEarliestJump(Rect obstacle){
-		Vector2 start;//Where the jump has to start
+		Vector2 start = new Vector2();//Where the jump has to start
 		Vector2 peak;//The peak of the first jump
 		Vector2 collision;//Where the player hits the obstacle
 		float timeToCollide;//Time between jump peak and collision
@@ -101,7 +101,7 @@ public class ObjectGenerator : MonoBehaviour {
 	//Latest take-off point. Use the bottom-right corner of the player
 	Vector2 CalcLatestJump2(Rect obstacle){
 		//All the same as above
-		Vector2 start;
+		Vector2 start = new Vector2();
 		Vector2 peak;
 		Vector2 collision;
 		float timeToCollide;

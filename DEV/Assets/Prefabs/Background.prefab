@@ -9,9 +9,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 400000}
   - 212: {fileID: 21200000}
-  - 114: {fileID: 11400002}
-  - 50: {fileID: 5000000}
   - 114: {fileID: 11400000}
+  - 50: {fileID: 5000000}
+  - 114: {fileID: 11400002}
   m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
@@ -26,8 +26,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: .616300881, y: .616300821, z: 1}
+  m_LocalPosition: {x: 13.3333302, y: 0, z: 0}
+  m_LocalScale: {x: .620000005, y: .616300821, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
 --- !u!50 &5000000
@@ -53,14 +53,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bd8c9fa3e6a14d40a17d1fce48e7a59, type: 3}
+  m_Script: {fileID: 11500000, guid: 343710301fcdc6243b7f2873b99ddf93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  background: {fileID: 5000000}
-  jumpForce: 300
-  groundLevel: 1.35000002
-  prefab: {fileID: 100000, guid: be57f74e48df6344faa8b69bda727286, type: 2}
-  currentPrefab: {fileID: 0}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -91,7 +86,7 @@ SpriteRenderer:
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: -2
   m_SortingLayerID: 0
   m_Sprite: {fileID: 21300000, guid: a99302568f4125348ab19aeeb40ccd40, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

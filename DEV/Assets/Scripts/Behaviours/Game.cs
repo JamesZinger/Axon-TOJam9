@@ -40,7 +40,9 @@ public class Game : MonoBehaviour
 			if ( instance == null )
 			{
 				GameObject go = Instantiate( new GameObject(), Vector3.zero, Quaternion.identity ) as GameObject;
+				go.name = "GameManager";
 				instance = go.AddComponent<Game>();
+	
 			}
 
 			return instance;
@@ -68,7 +70,7 @@ public class Game : MonoBehaviour
 
 	void Start()
 	{
-		DontDestroyOnLoad( this );
+		DontDestroyOnLoad( gameObject );
 		
 		if (Controls == null)
 		{
