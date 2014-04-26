@@ -10,9 +10,9 @@ public class Furniture : MonoBehaviour
     private Texture2D texture;
     private string desc;
 
-    void Start()
-    {
-
+	void Start () 
+	{
+		
     }
 
     void Update()

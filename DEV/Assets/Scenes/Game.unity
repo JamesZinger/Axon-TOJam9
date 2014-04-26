@@ -979,6 +979,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 2014133743}
   - 212: {fileID: 2014133742}
+  - 114: {fileID: 2014133748}
+  - 50: {fileID: 2014133747}
+  - 114: {fileID: 2014133746}
   - 114: {fileID: 2014133745}
   - 50: {fileID: 2014133744}
   m_Layer: 0
@@ -1008,7 +1011,7 @@ SpriteRenderer:
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: -2
   m_SortingLayerID: 0
   m_Sprite: {fileID: 21300000, guid: a99302568f4125348ab19aeeb40ccd40, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1020,7 +1023,7 @@ Transform:
   m_GameObject: {fileID: 2014133741}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: .616300881, y: .616300821, z: 1}
+  m_LocalScale: {x: .620000005, y: .616300821, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
 --- !u!50 &2014133744
@@ -1043,6 +1046,46 @@ MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2014133741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 343710301fcdc6243b7f2873b99ddf93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2014133746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400002, guid: 2d8531998578cc54e9338d52cc1becfd,
+    type: 2}
+  m_PrefabInternal: {fileID: 1523745964}
+  m_GameObject: {fileID: 2014133741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 343710301fcdc6243b7f2873b99ddf93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!50 &2014133747
+Rigidbody2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 5000000, guid: 2d8531998578cc54e9338d52cc1becfd,
+    type: 2}
+  m_PrefabInternal: {fileID: 1523745964}
+  m_GameObject: {fileID: 2014133741}
+  m_Mass: 9.99999975e-05
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_FixedAngle: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+--- !u!114 &2014133748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400000, guid: 2d8531998578cc54e9338d52cc1becfd,
+    type: 2}
+  m_PrefabInternal: {fileID: 1523745964}
   m_GameObject: {fileID: 2014133741}
   m_Enabled: 1
   m_EditorHideFlags: 0
