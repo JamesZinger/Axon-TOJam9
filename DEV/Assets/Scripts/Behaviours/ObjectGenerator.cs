@@ -25,15 +25,6 @@ public class ObjectGenerator : MonoBehaviour {
 		Game.Instance.Player.Jump += OnJump;
 		maxHeight = 3.0f;
 	}
-
-    public void initGo(Vector2 pos, FurnitureManager.TemplateFurniture template)
-    {
-        go = new GameObject();
-        go.transform.position = pos;
-        go.name = template.Name;
-        go.layer = LayerMask.NameToLayer("Furniture");
-    }
-
 	void SpawnObject(Vector2 pos){
 		go = new GameObject();
 		go.transform.position = pos;
@@ -50,14 +41,10 @@ public class ObjectGenerator : MonoBehaviour {
 		f.desc = template.Description;
 		f.name = template.Name;
 		go.name = template.Name;
-        go.layer = LayerMask.NameToLayer("Furniture");
-
-        Debug.Log(go);
-
+		
 		PolygonCollider2D bc = go.AddComponent<PolygonCollider2D>();
 		Rigidbody2D rb = go.AddComponent<Rigidbody2D>();
-        rb.gravityScale = 0f;
-        bc.isTrigger = true;
+		rb.isKinematic = true;
 	}
 	// Update is called once per frame
 	void Update () {
@@ -82,13 +69,14 @@ public class ObjectGenerator : MonoBehaviour {
 		Debug.DrawLine(BottomRight, BottomLeft, Color.green, 10000, false);
 		Debug.DrawLine(BottomLeft, TopRight, Color.white, 10000, false);
 	}
-	void CheckSpawn()
-    {
-		SpawnObject(new Vector3(_size * _ratio * 2, go.transform.position.y, 0));
+	void CheckSpawn(){
+		if(go != null){
+			SpawnObject(new Vector3(_size * _ratio * 2, go.transform.position.y, 0));
+		}else{
+			SpawnObject(new Vector3(_size * _ratio * 2, groundLevel, 0));
+		}
 		Rect checkRect = new Rect(go.transform.position.x, go.transform.position.y, go.GetComponent<SpriteRenderer>().sprite.rect.width/200, go.GetComponent<SpriteRenderer>().sprite.rect.height/200);
 		float dist = GetMinDist(checkRect);
-		//Debug.Log(checkRect);
-		//Debug.Log(dist);
 		SpawnObject(new Vector3(dist + go.transform.position.x, go.transform.position.y, 0));
 		go.rigidbody2D.velocity = new Vector2(-5.0f,0);
 	}
@@ -105,7 +93,7 @@ public class ObjectGenerator : MonoBehaviour {
 		//return new WaitForEndOfFrame();
 		initialVelocity = Game.Instance.Player.rigidbody2D.velocity.y;
 		maxHeight = -(initialVelocity * initialVelocity) / (2.0f*Physics2D.gravity.y) + groundLevel;
-		//Debug.Log(maxHeight);
+		Debug.Log(maxHeight);
 	}
 	float GetMinDist(Rect obstacle){
 		//For now, return farDist so successfully jumping or sliding an object always results in safety
@@ -118,9 +106,13 @@ public class ObjectGenerator : MonoBehaviour {
 		}else{
 			//Object is short enough to jump
 			//closeDist = CalcEarliestJump(obstacle);
-			closeDist = new Vector2(obstacle.height, groundLevel);
+			closeDist = CalcEarliestJump(obstacle);
+			//closeDist = new Vector2(obstacle.height, groundLevel);
 		}
-		return closeDist.x;
+		if(closeDist.x < 0){
+			closeDist = new Vector2((_size * _ratio) * 2, groundLevel);
+		}
+		return 7;
 	}
 	//Calculate the earliest take-off point and return the landing. Use the bottom-left corner of the player hitbox
 	Vector2 CalcEarliestJump(Rect obstacle){
@@ -131,6 +123,7 @@ public class ObjectGenerator : MonoBehaviour {
 		float timeToLand;//Time from peak to ground (this shouldn't ever change
 
 		collision = new Vector2(obstacle.x, obstacle.y + obstacle.width);
+		DrawDebugRect(obstacle);
 		timeToCollide = Mathf.Sqrt(2.0f*(collision.y - maxHeight) / -Physics2D.gravity.y);
 		peak.y = maxHeight;
 		peak.x = collision.x - background.velocity.x*timeToCollide;

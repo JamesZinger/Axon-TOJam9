@@ -709,7 +709,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7b8f1506d856ae4387e067176a66574, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  background: {fileID: 0}
+  background: {fileID: 2014133747}
   jumpForce: 0
   groundLevel: 1.35000002
   go: {fileID: 0}
