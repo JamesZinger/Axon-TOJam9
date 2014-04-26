@@ -29,4 +29,15 @@ public class PickUp : MonoBehaviour
 
         AddPickUp();
     }
+
+    void Update()
+    {
+        CheckIfOnScreen();
+    }
+
+    void CheckIfOnScreen()
+    {
+        if (transform.position.x < -5)
+            Destroy(this.gameObject);
+    }
 }
