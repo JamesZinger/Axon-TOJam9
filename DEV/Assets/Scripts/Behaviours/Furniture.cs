@@ -26,9 +26,8 @@ public class Furniture : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            Debug.Log("YO");
             Game.Instance.Player.DeductCash(this.price);
-            Destroy(this.gameObject, 0.1f);
+            Destroy(this.gameObject);
         }
     }
 
