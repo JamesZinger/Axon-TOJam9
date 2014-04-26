@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+using System.Linq;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ObjectGenerator : MonoBehaviour {
 	float startY = 0;
@@ -11,35 +13,36 @@ public class ObjectGenerator : MonoBehaviour {
 	float _size;
 	public float groundLevel = 1.35f;
 	public GameObject prefab;
-	public GameObject currentPrefab;
 	float initialVelocity;
-	GameObject closeDistSphere, farDistSphere;
+	int _nextSpawnType = 1;
+	List<GameObject> obstacles;
+	float _elapsedTime;
 
 
 	// Use this for initialization
 	void Start () {
-		closeDistSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-		farDistSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+		obstacles = new List<GameObject>();
 		_size = Camera.main.orthographicSize;
-		currentPrefab = (GameObject)Instantiate(prefab, new Vector3((_size * _ratio) * 2, 2.34f, 0), Quaternion.identity);
+		obstacles.Add((GameObject)Instantiate(prefab, new Vector3((_size * _ratio) * 2, 2.34f, 0), Quaternion.identity));
+		obstacles.Last().rigidbody2D.velocity = new Vector2(-5.0f,0);
 		Game.Instance.Player.Jump += OnJump;
 		maxHeight = 3.0f;
 	}
 
 	// Update is called once per frame
 	void Update () {
-		currentPrefab.rigidbody2D.velocity = new Vector2(-5.0f,0);
-		Rect checkRect = new Rect(currentPrefab.transform.position.x, currentPrefab.transform.position.y, currentPrefab.GetComponent<BoxCollider2D>().size.x * currentPrefab.transform.localScale.x, currentPrefab.GetComponent<BoxCollider2D>().size.y * currentPrefab.transform.localScale.y);
-		//Rect checkRect = currentPrefab.GetComponent<BoxCollider2D>().size
-		//Debug.DrawLine(new Vector2(checkRect.x, checkRect.y), new Vector2(checkRect.x, checkRect.y - checkRect.height), Color.green);
-		//Debug.DrawLine(new Vector2(checkRect.x, checkRect.y), new Vector2(checkRect.x + checkRect.width, checkRect.y), Color.green);
-		if(currentPrefab.transform.position.x < (_size * _ratio)){
-			currentPrefab = (GameObject)Instantiate(prefab, new Vector3(GetNextDist(checkRect) + currentPrefab.transform.position.x, currentPrefab.transform.position.y, 0), Quaternion.identity);
-			//Debug.Log(checkRect);
-			//Debug.DrawRay(new Vector2(0,maxHeight), new Vector2(10000,0));
-			//Debug.DrawRay(new Vector2(0,1.35f), new Vector2(10000,0));
+		_elapsedTime += Time.deltaTime;
+		if(_elapsedTime > 3){
+			CheckSpawn();
+			_elapsedTime = 0;
 		}
-		GetNextDist(checkRect);
+	}
+	void CheckSpawn(){
+		obstacles.Add((GameObject)Instantiate(prefab, new Vector3(_size * _ratio, obstacles.Last().transform.position.y, 0), Quaternion.identity));
+		Rect checkRect = new Rect(obstacles.Last().transform.position.x, obstacles.Last().transform.position.y, obstacles.Last().GetComponent<BoxCollider2D>().size.x * obstacles.Last().transform.localScale.x, obstacles.Last().GetComponent<BoxCollider2D>().size.y * obstacles.Last().transform.localScale.y);
+		float dist = GetMinDist(checkRect);
+		obstacles.Add((GameObject)Instantiate(prefab, new Vector3(dist + obstacles.Last().transform.position.x, obstacles.Last().transform.position.y, 0), Quaternion.identity));
+		obstacles.Last().rigidbody2D.velocity = new Vector2(-5.0f,0);
 	}
 
 	void OnJump(){
@@ -56,20 +59,19 @@ public class ObjectGenerator : MonoBehaviour {
 		maxHeight = -(initialVelocity * initialVelocity) / (2.0f*Physics2D.gravity.y) + groundLevel;
 		Debug.Log(maxHeight);
 	}
-	float GetNextDist(Rect obstacle){
+	float GetMinDist(Rect obstacle){
 		//For now, return farDist so successfully jumping or sliding an object always results in safety
-		Vector2 closeDist, farDist;
+		Vector2 closeDist;
 		//Check if we can jump the oncoming obstacle
 		if(obstacle.y >= maxHeight){
 			//Object is too tall to jump, therefore slide
 			closeDist = new Vector2(obstacle.xMax, groundLevel);
+			Debug.Log("High");
 		}else{
-			//Object is short enough to slide
-			closeDist = CalcEarliestJump(obstacle);
+			//Object is short enough to jump
+			//closeDist = CalcEarliestJump(obstacle);
+			closeDist = new Vector2(obstacle.xMax, groundLevel);
 		}
-		Debug.Log(closeDist);
-		//Debug.Log(farDist);
-
 		return closeDist.x;
 	}
 	//Calculate the earliest take-off point and return the landing. Use the bottom-left corner of the player hitbox
@@ -91,4 +93,74 @@ public class ObjectGenerator : MonoBehaviour {
 		//Should be renamed end
 		return start;
 	}
+	/*
+	//Latest take-off point. Use the bottom-right corner of the player
+	Vector2 CalcLatestJump2(Rect obstacle){
+		//All the same as above
+		Vector2 start = new Vector2();
+		Vector2 peak;
+		Vector2 collision;
+		float timeToCollide;
+		float timeToLand;
+
+		//The collision here is with the top left, not the top right, of the obstacle
+		collision = new Vector2(obstacle.x, obstacle.y);
+		timeToCollide = Mathf.Sqrt(2.0f*(collision.y - maxHeight) / Physics2D.gravity.y);
+		peak.y = maxHeight;
+		peak.x = collision.x + background.velocity.x*timeToCollide;
+		timeToLand = Mathf.Sqrt( (2.0f*maxHeight)/(-Physics2D.gravity.y) );
+		start.x = peak.x + background.velocity.x*timeToLand;
+		start.y = groundLevel;
+
+		//Should be renamed end
+		return start;
+	}
+	//Latest take-off point. Use the bottom-right corner of the player
+	Vector2 CalcLatestJump(Rect obstacle){
+		/*Vector2 start;
+		Vector2 collision;
+		collision = new Vector2(obstacle.x, obstacle.y);
+		float a = Physics2D.gravity.y;
+		float t1, t2;
+		float v1 = initialVelocity;
+
+		t1 = (-v1 + Mathf.Sqrt(v1*v1 - 4.0f*0.5f*-collision.y));
+		t2 = (-v1 - Mathf.Sqrt(v1*v1 - 4.0f*0.5f*-collision.y));
+
+		t1 = (t1 < t2 ? t1 : t2);
+
+		float timeToTop = v1 / a;
+		float totalDist = background.velocity.x *timeToTop*2;
+		start.x = totalDist - background.velocity.x*t1;
+		start.y = 0;
+
+
+
+
+		return start;*/
+
+		/*//All the same as above
+		Vector2 start;
+		Vector2 peak;
+		Vector2 collision;
+		float timeToCollide;
+		float timeToFall;
+		float deltaTime;
+		float distToStart;
+		
+		//The collision here is with the top left, not the top right, of the obstacle
+		collision = new Vector2(obstacle.x, obstacle.y);
+		peak.y = maxHeight;
+		timeToFall = Mathf.Sqrt(2.0f*maxHeight / -Physics2D.gravity.y);
+		peak.x = timeToFall * background.velocity.x;
+
+		timeToCollide = Mathf.Sqrt(2.0f*(maxHeight - collision.y) / -Physics2D.gravity.y);
+		deltaTime = timeToFall - timeToCollide;
+		distToStart = deltaTime * background.velocity.x;
+		start.x = 2*timeToFall*background.velocity.x - distToStart + collision.x;
+		start.y = groundLevel;
+
+		//Should be renamed end
+		return start;
+	}*/
 }

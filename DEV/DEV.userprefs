@@ -2,15 +2,12 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Utilities\ObjectGenerator.cs">
     <Files>
-      <File FileName="Assets\Scripts\Utilities\ObjectGenerator.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Utilities\ObjectGenerator.cs" Line="90" Column="26" />
-      <File FileName="Assets\Scripts\Behaviours\Background.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Utilities\ObjectGenerator.cs" Line="58" Column="3" />
+      <File FileName="Assets\Scripts\Behaviours\FurnitureManager.cs" Line="19" Column="45" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="C:\Users\Andrew\Documents\Axon-TOJam9\DEV\Assets\Scripts\Utilities\ObjectGenerator.cs" line="112" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
