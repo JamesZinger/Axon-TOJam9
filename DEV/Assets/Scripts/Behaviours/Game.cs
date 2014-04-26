@@ -12,6 +12,8 @@ public class Game : MonoBehaviour
 	private GameControls controls = null;
 	private Player player = null;
 
+    public Vector2 ScrollSpeed;
+
 	public GameControls Controls
 	{
 		get { return controls; }
