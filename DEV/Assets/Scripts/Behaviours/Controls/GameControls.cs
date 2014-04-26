@@ -50,7 +50,6 @@ public class GameControls : MonoBehaviour
 
 		if ( CheckJumpControls() )
 		{ 
-			Debug.Log("Jump Button");
 			if ( JumpButton != null )
 				JumpButton();
 		}

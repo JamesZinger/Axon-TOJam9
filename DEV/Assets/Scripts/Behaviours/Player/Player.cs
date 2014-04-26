@@ -93,12 +93,12 @@ public class Player : MonoBehaviour
 	void Start()
 	{
 		GameControls controls = Game.Instance.Controls;
-
+		
 		controls.JumpButton			+= OnJump;
-		//controls.UseItemButton		+= OnUseItem;
-		//controls.SlideButton		+= OnSlide;
-		//controls.StopSlideButton	+= OnStopSlide;
-		//controls.UseShortcutButton	+= OnUseShortcut;
+		controls.UseItemButton		+= OnUseItem;
+		controls.SlideButton		+= OnSlide;
+		controls.StopSlideButton	+= OnStopSlide;
+		controls.UseShortcutButton	+= OnUseShortcut;
 
 	}
 
@@ -134,7 +134,6 @@ public class Player : MonoBehaviour
 
 		else if ( HasDoubleJumped == false )
 		{
-			Debug.Log("Double Jump");
 			HasDoubleJumped = true;
 			gameObject.rigidbody2D.velocity = jumpForce;
 		}
@@ -199,7 +198,6 @@ public class Player : MonoBehaviour
 				//Debug.Log(hitVector.magnitude);
 				if ( hitVector.magnitude < 0.703f )
 				{
-					Debug.Log("Grounded");
 					IsGrounded = true;
 					HasDoubleJumped = false;
 					break;
