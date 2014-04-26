@@ -12,7 +12,7 @@ public class MeatBall : PickUp
 
     public override void AddPickUp()
     {
-        Game.Instance.Player.PickUplist.Add(this);
+        Game.Instance.Player.MeatBallCount++;
         base.AddPickUp();
     }
 }

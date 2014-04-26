@@ -35,19 +35,7 @@ public class Furniture : MonoBehaviour
         //Debug.Log(texture);
     }
 
-    public void SetDepartment(string s)
-    {
-        if (s.Contains("Bathroom"))     this.department = DepartmentType.BathRoom;
-        if (s.Contains("Bedroom"))      this.department = DepartmentType.BedRoom;
-        if (s.Contains("Children"))     this.department = DepartmentType.Chlidrens;
-        if (s.Contains("Dining"))       this.department = DepartmentType.DiningRoom;
-        if (s.Contains("Kitchen"))      this.department = DepartmentType.Kitchen;
-        if (s.Contains("Living Room"))  this.department = DepartmentType.LivingRoom;
-        if (s.Contains("Workspace"))    this.department = DepartmentType.Workspaces;
 
-        //Debug.Log(s);
-        //Debug.Log(this.Department);
-    }
 
     public float Price
     {

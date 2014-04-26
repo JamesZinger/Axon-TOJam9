@@ -15,6 +15,9 @@ public class GameControls : MonoBehaviour
 	public delegate void	SlideHandeler();
 	public event			SlideHandeler SlideButton;
 
+	public delegate void	StopSlideHandeler();
+	public event			StopSlideHandeler StopSlideButton;
+
 	public delegate void	PauseHandeler();
 	public event			PauseHandeler PauseButton;
 
@@ -52,6 +55,10 @@ public class GameControls : MonoBehaviour
 		if ( CheckSlideControls() )
 			if ( SlideButton != null )
 				SlideButton();
+
+		if ( CheckStopSlideControls())
+			if (StopSlideButton != null )
+				StopSlideButton();
 
 		if ( CheckPauseControls() )
 			if ( PauseButton != null )
@@ -104,6 +111,20 @@ public class GameControls : MonoBehaviour
 			return true;
 
 		if ( Input.GetKeyDown( KeyCode.DownArrow ) )
+			return true;
+
+		return false;
+	}
+
+	private bool CheckStopSlideControls()
+	{
+		if ( Input.GetKeyUp( KeyCode.LeftControl ) )
+			return true;
+
+		if ( Input.GetKeyUp( KeyCode.S ) )
+			return true;
+
+		if ( Input.GetKeyUp( KeyCode.DownArrow ) )
 			return true;
 
 		return false;

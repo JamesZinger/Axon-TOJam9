@@ -20,7 +20,7 @@ public class PickUp : MonoBehaviour
     public PickUpType Pickup
     {
         get { return pickUp; }
-        set { pickUp = value; }
+        protected set { pickUp = value; }
     }
 
     void OnTriggerEnter2D(Collider2D other)
