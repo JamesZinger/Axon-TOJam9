@@ -80,12 +80,18 @@ public class Player : MonoBehaviour
 
 	void Start()
 	{
+		Game.Instance.Controls.JumpButton += OnJump;
 		GameControls controls = Game.Instance.Controls;
+
 		controls.JumpButton			+= OnJump;
 		controls.UseItemButton		+= OnUseItem;
 		controls.SlideButton		+= OnSlide;
 		controls.StopSlideButton	+= OnStopSlide;
 		controls.UseShortcutButton	+= OnUseShortcut;
+        
+        this.gameObject.AddComponent<IkeaMonkey>();
+        this.gameObject.AddComponent<GoatOnAPole>();
+        this.gameObject.AddComponent<Cats>();
 	}
 
 	void OnDestroy()
