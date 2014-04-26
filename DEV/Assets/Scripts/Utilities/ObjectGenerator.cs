@@ -7,15 +7,23 @@ public class ObjectGenerator : MonoBehaviour {
 	float maxHeight;
 	public float jumpForce;
 
+	public GameObject prefab;
+	public BoxCollider2D currentPrefab;
+
 
 	// Use this for initialization
 	void Start () {
 		//Add GetInitialVelocity to event handler
+		currentPrefab = Instantiate(prefab, Vector3(Screen.width/2, 0, 0), Quaternion.identity);
+		Game.Instance
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
+		Rect checkRect = new Rect(currentPrefab.center.x - currentPrefab.size.x, currentPrefab.center.y - currentPrefab.size.y, currentPrefab.size.x, currentPrefab.size.y);
+		if(currentPrefab.transform.position.x < Screen.width / 2){
+			currentPrefab = Instantiate(prefab, Vector3(GetNextDist(checkRect), 0, 0), Quaternion.identity);
+		}
 	}
 
 	void GetInitialVelocity(EventArgs e){
@@ -32,16 +40,19 @@ public class ObjectGenerator : MonoBehaviour {
 		maxHeight = (initialVelocity * initialVelocity) / (2.0f*Physics2D.gravity.y);
 	}
 	float GetNextDist(Rect obstacle){
-
+		//For now, return farDist so successfully jumping or sliding an object always results in safety
 		float closeDist, farDist;
 		//Check if we can jump the oncoming obstacle
 		if(obstacle.y >= maxHeight){
 			//Object is too tall to jump, therefore slide
-			return slideDist;
+			closeDist = obstacle.xMax;
+			farDist = obstacle.xMax + slideDist;
 		}else{
 			//Object is short enough to slide
-
+			closeDist = CalcEarliestJump(obstacle);
+			farDist = CalcLatestJump(obstacle);
 		}
+		return farDist;
 	}
 	//Calculate the earliest take-off point and return the landing. Use the bottom-left corner of the player hitbox
 	Vector2 CalcEarliestJump(Rect obstacle){
