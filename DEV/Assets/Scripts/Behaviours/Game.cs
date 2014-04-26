@@ -15,9 +15,10 @@ public class Game : MonoBehaviour
 	private Player player = null;
 	private DepartmentType currentDepartment = DepartmentType.NONE;
 	private Dictionary<DepartmentType, Sprite> departmentMap;
-	private Background background = null;
+	private List<Background> background = null;
 	private int backgroundTick = 0;
-    public Vector2 ScrollSpeed;
+   
+	public Vector2 ScrollSpeed;
 
 	public GameControls Controls
 	{
@@ -37,7 +38,7 @@ public class Game : MonoBehaviour
 		private set { currentDepartment = value; }
 	}
 
-	public Background Background
+	public List<Background> Background
 	{
 		get { return background; }
 		set { background = value; }
@@ -96,6 +97,8 @@ public class Game : MonoBehaviour
 
 		CurrentDepartment = (DepartmentType)firstdepartment;
 
+		background = new List<Background>(2);
+
 		MapDepartmentTextures();
 	}
 
@@ -138,14 +141,18 @@ public class Game : MonoBehaviour
 		}
 	}
 
-	public void TickBackgroundInt(Background bg)
+	public void TickBackgroundInt()
 	{
 		backgroundTick++;
-		if(backgroundTick >= 1)
+		if(backgroundTick >= 5)
 		{ 
 			currentDepartment = (DepartmentType) Random.Range(0, System.Enum.GetNames(typeof(DepartmentType)).Length - 2);
 			Debug.Log("Current Department: " + currentDepartment);
-			bg.UpdateBackground();
+		
+			foreach (Background BG in Background)
+				BG.UpdateBackground();
+
+			backgroundTick = 0;
 		}
 	}
 }

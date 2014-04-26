@@ -27,23 +27,23 @@ public class FurnitureManager : MonoBehaviour
 
         string[] line = txt.text.Split('\n');
 
-        for (int i = 1; i < line.Length - 1; ++i)
-        {
-            Furniture furniture = new Furniture();
-            string[] values = line[i].Split(',');
+		//for (int i = 1; i < line.Length - 1; ++i)
+		//{
+		//	Furniture furniture = new Furniture();
+		//	string[] values = line[i].Split(',');
 
-            for (int j = 0; j < values.Length; ++j)
-            {
-                if (j == 0) furniture.SetTexture(values[j]);
-                if (j == 1) furniture.Desc = (values[j]);
-                if (j == 2) furniture.Name = (values[j]);
-                if (j == 3) furniture.SetDepartment(values[j]);
-                if (j == 4) furniture.SetPrice(values[j]);
-                if (j == 5) furniture.SetAllenKeyVal(values[j]);
-             }
-            //Debug.Log(furniture.Department);
-            furnitureMap[furniture.Department].Add(furniture);
-        }
+		//	for (int j = 0; j < values.Length; ++j)
+		//	{
+		//		if (j == 0) furniture.SetTexture(values[j]);
+		//		if (j == 1) furniture.Desc = (values[j]);
+		//		if (j == 2) furniture.Name = (values[j]);
+		//		if (j == 3) furniture.SetDepartment(values[j]);
+		//		if (j == 4) furniture.SetPrice(values[j]);
+		//		if (j == 5) furniture.SetAllenKeyVal(values[j]);
+		//	 }
+		//	//Debug.Log(furniture.Department);
+		//	furnitureMap[furniture.Department].Add(furniture);
+		//}
     }
 	
 	void Update () 

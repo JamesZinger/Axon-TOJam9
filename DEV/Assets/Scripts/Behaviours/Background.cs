@@ -9,7 +9,8 @@ public class Background : MonoBehaviour {
 	// Use this for initialization
 	void Start()
 	{
-		Game.Instance.Background = this;
+		Game.Instance.Background.Add(this);
+
 		this.rigidbody2D.velocity = Game.Instance.ScrollSpeed;
 	}
 	
@@ -20,7 +21,7 @@ public class Background : MonoBehaviour {
 
 			this.transform.position = new Vector2(X_MAX, 0);
 
-			Game.Instance.TickBackgroundInt(this);
+			Game.Instance.TickBackgroundInt();
 
 			if (isReadyToUpdate)
 			{

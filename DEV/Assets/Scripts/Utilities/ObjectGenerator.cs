@@ -68,9 +68,7 @@ public class ObjectGenerator : MonoBehaviour {
 			closeDist = CalcEarliestJump(obstacle);
 		}
 		Debug.Log(closeDist);
-		Debug.Log(farDist);
-
-
+		//Debug.Log(farDist);
 
 		return closeDist.x;
 	}
@@ -93,74 +91,4 @@ public class ObjectGenerator : MonoBehaviour {
 		//Should be renamed end
 		return start;
 	}
-	/*
-	//Latest take-off point. Use the bottom-right corner of the player
-	Vector2 CalcLatestJump2(Rect obstacle){
-		//All the same as above
-		Vector2 start = new Vector2();
-		Vector2 peak;
-		Vector2 collision;
-		float timeToCollide;
-		float timeToLand;
-
-		//The collision here is with the top left, not the top right, of the obstacle
-		collision = new Vector2(obstacle.x, obstacle.y);
-		timeToCollide = Mathf.Sqrt(2.0f*(collision.y - maxHeight) / Physics2D.gravity.y);
-		peak.y = maxHeight;
-		peak.x = collision.x + background.velocity.x*timeToCollide;
-		timeToLand = Mathf.Sqrt( (2.0f*maxHeight)/(-Physics2D.gravity.y) );
-		start.x = peak.x + background.velocity.x*timeToLand;
-		start.y = groundLevel;
-
-		//Should be renamed end
-		return start;
-	}
-	//Latest take-off point. Use the bottom-right corner of the player
-	Vector2 CalcLatestJump(Rect obstacle){
-		/*Vector2 start;
-		Vector2 collision;
-		collision = new Vector2(obstacle.x, obstacle.y);
-		float a = Physics2D.gravity.y;
-		float t1, t2;
-		float v1 = initialVelocity;
-
-		t1 = (-v1 + Mathf.Sqrt(v1*v1 - 4.0f*0.5f*-collision.y));
-		t2 = (-v1 - Mathf.Sqrt(v1*v1 - 4.0f*0.5f*-collision.y));
-
-		t1 = (t1 < t2 ? t1 : t2);
-
-		float timeToTop = v1 / a;
-		float totalDist = background.velocity.x *timeToTop*2;
-		start.x = totalDist - background.velocity.x*t1;
-		start.y = 0;
-
-
-
-
-		return start;*/
-
-		//All the same as above
-		Vector2 start;
-		Vector2 peak;
-		Vector2 collision;
-		float timeToCollide;
-		float timeToFall;
-		float deltaTime;
-		float distToStart;
-		
-		//The collision here is with the top left, not the top right, of the obstacle
-		collision = new Vector2(obstacle.x, obstacle.y);
-		peak.y = maxHeight;
-		timeToFall = Mathf.Sqrt(2.0f*maxHeight / -Physics2D.gravity.y);
-		peak.x = timeToFall * background.velocity.x;
-
-		timeToCollide = Mathf.Sqrt(2.0f*(maxHeight - collision.y) / -Physics2D.gravity.y);
-		deltaTime = timeToFall - timeToCollide;
-		distToStart = deltaTime * background.velocity.x;
-		start.x = 2*timeToFall*background.velocity.x - distToStart + collision.x;
-		start.y = groundLevel;
-
-		//Should be renamed end
-		return start;
-	}*/
 }
