@@ -10,6 +10,8 @@ public class Background : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+		if(this.transform.position.x < -10){
+			this.transform.position = new Vector2(10, 0);
+		}
 	}
 }
