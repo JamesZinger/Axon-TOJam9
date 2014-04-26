@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PickUp : MonoBehaviour 
 {
-    public enum PickUpType { MeatBalls, Money, GitCard, Cash }
+    public enum PickUpType { MeatBalls, GitCard, Cash }
 
     private PickUpType pickUp;
 
@@ -25,8 +25,6 @@ public class PickUp : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Entered");
-
         AddPickUp();
     }
 
