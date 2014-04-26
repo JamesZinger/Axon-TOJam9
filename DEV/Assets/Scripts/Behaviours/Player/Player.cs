@@ -6,7 +6,8 @@ public class Player : MonoBehaviour
     List<PickUp> pickUplist = new List<PickUp>();
     public Vector2 jumpForce;
 
-	//public delegate void 
+	public delegate void JumpHandeler();
+	public event JumpHandeler Jump;
 
 	void Start () 
     {
@@ -25,5 +26,8 @@ public class Player : MonoBehaviour
     void OnJump()
     {
         gameObject.rigidbody2D.AddForce(jumpForce);
+
+		if (Jump != null)
+			Jump();
     }
 }
