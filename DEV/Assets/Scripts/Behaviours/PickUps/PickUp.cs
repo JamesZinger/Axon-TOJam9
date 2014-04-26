@@ -5,19 +5,24 @@ public class PickUp : MonoBehaviour
 {
     public enum PickUpType { MeatBalls, Money, GitCard }
 
-    protected PickUpType pickUp;
+    private PickUpType pickUp;
 
 	void Start () 
     {
 	}
 
-    public PickUpType AddPickUp()
+    public virtual void AddPickUp()
     {
-        return this.pickUp;
     }
 
     public virtual void DoAction()
     {
+        
+    }
 
+    public PickUpType Pickup
+    {
+        get { return pickUp; }
+        set { pickUp = value; }
     }
 }

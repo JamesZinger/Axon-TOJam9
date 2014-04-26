@@ -9,7 +9,21 @@ using System.Collections;
 public class Game : MonoBehaviour
 {
 
-	public GameControls Controls = null;
+	private GameControls controls = null;
+	private Player player = null;
+
+	public GameControls Controls
+	{
+		get { return controls; }
+		set { controls = value; }
+	}
+
+	public Player Player
+	{
+		get { return Player; }
+		set { Player = value; }
+	}
+
 
 	#region Singleton Method and Instance
 
