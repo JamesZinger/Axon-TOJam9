@@ -35,6 +35,11 @@ public class GameControls : MonoBehaviour
 
 	#endregion
 
+	void Start()
+	{
+		Game.Instance.Controls = this;
+	}
+
 	void Update()
 	{
 		// Update the controller
