@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
 
 	void Start () 
     {
+        Debug.Log(Game.Instance.Controls);
 		Game.Instance.Controls.JumpButton += OnJump;
 	}
 
@@ -19,13 +20,10 @@ public class Player : MonoBehaviour
 	
 	}
 
-    void UserInput()
-    {
-    }
-
     void OnJump()
     {
         gameObject.rigidbody2D.AddForce(jumpForce);
+        Debug.Log("Helo");
     }
 
     public List<PickUp> PickUplist
