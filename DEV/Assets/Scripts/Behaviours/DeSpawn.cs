@@ -11,7 +11,6 @@ public class DeSpawn : MonoBehaviour {
 	// Update is called once per frame
     void OnTriggerEnter2D(Collider2D other)
     {
-        //Debug.Log(other.name);
         Destroy(other.gameObject);
     }
 }

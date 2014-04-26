@@ -41,10 +41,12 @@ public class ObjectGenerator : MonoBehaviour {
 		f.desc = template.Description;
 		f.name = template.Name;
 		go.name = template.Name;
+        go.layer = LayerMask.NameToLayer("Furniture");
 		
 		PolygonCollider2D bc = go.AddComponent<PolygonCollider2D>();
 		Rigidbody2D rb = go.AddComponent<Rigidbody2D>();
-		rb.isKinematic = true;
+        rb.gravityScale = 0f;
+        bc.isTrigger = true;
 	}
 	// Update is called once per frame
 	void Update () {
