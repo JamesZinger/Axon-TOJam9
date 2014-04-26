@@ -3,12 +3,13 @@ using System.Collections;
 
 public class PickUp : MonoBehaviour 
 {
-    public enum PickUpType { MeatBalls, Money, GitCard }
+    public enum PickUpType { MeatBalls, Money, GitCard, Cash }
 
     private PickUpType pickUp;
 
-	void Start () 
+	protected void Start () 
     {
+        this.rigidbody2D.velocity = Game.Instance.ScrollSpeed;
 	}
 
     public virtual void AddPickUp() 

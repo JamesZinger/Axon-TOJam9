@@ -6,6 +6,7 @@ public class MeatBall : PickUp
 
 	void Start () 
     {
+        base.Start();
         this.Pickup = PickUpType.MeatBalls;
 	}
 

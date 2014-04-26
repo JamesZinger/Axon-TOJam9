@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
 	public delegate void JumpHandeler();
 	public event JumpHandeler Jump;
 
+    private int cash;
+
 	void Start () 
     {
         Game.Instance.Player = this;
@@ -33,5 +35,15 @@ public class Player : MonoBehaviour
     {
         get { return pickUplist; }
         set { pickUplist = value; }
+    }
+    public int Cash
+    {
+        get { return cash; }
+        set { cash = value; }
+    }
+
+    void OnGUI()
+    {
+        GUI.Label(new Rect(0, 0, 200, 25), "Cash: $" + this.cash + " MeatBalls: " + pickUplist.Count);
     }
 }
