@@ -16,7 +16,7 @@ public class Cash : PickUp
     {
         base.Start();
         this.Pickup = PickUpType.Cash;
-
+		pickupSound = Audiopocalypse.Sounds.Pickup_Money;
         int rand = Random.Range(0, 3);
 
         sprite = this.gameObject.GetComponent<SpriteRenderer>();
