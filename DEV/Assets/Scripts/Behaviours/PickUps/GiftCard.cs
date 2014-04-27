@@ -10,6 +10,7 @@ public class GiftCard : PickUp
     {
         base.Start();
         this.Pickup = PickUpType.GiftCard;
+		pickupSound = Audiopocalypse.Sounds.Pickup_Card;
 
         switch(Random.Range(0, 3))
         {

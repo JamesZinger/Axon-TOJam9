@@ -4,6 +4,7 @@ using System.Collections;
 public class PickUp : MonoBehaviour 
 {
     public enum PickUpType { MeatBalls, GiftCard, Cash }
+	public Audiopocalypse.Sounds pickupSound;
 
     private PickUpType pickUp;
 
@@ -15,6 +16,7 @@ public class PickUp : MonoBehaviour
     public virtual void AddPickUp() 
     {
         if (this.gameObject == Game.Instance.Player.gameObject) return;
+		Game.Instance.ap.PlayClip(pickupSound);
         Destroy(this.gameObject);
     }
 

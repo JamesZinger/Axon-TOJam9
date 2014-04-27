@@ -181,7 +181,7 @@ public class Player : MonoBehaviour
 			HasDoubleJumped = true;
 			gameObject.rigidbody2D.velocity = jumpForce;
 		}
-
+		Game.Instance.ap.PlayClip(Audiopocalypse.Sounds.Jump);
 	}
 
 	void OnUseItem()
@@ -192,6 +192,7 @@ public class Player : MonoBehaviour
 		if (MeatBallCount > 0)
 		{
             Debug.Log("Meatballs Activated");
+			Game.Instance.ap.PlayClip(Audiopocalypse.Sounds.Use_Meatball);
 			MeatBallCount --;
 		}
 	}
@@ -203,7 +204,7 @@ public class Player : MonoBehaviour
 
 		if(isSliding){
 		}else{
-			//Game.Instance.Player.transform.position = Game.Instance.Player.transform.position - new Vector3(0, 1.5f, 0);
+			Game.Instance.ap.PlayClip(Audiopocalypse.Sounds.Slide);
 			isSliding = true;
 		}
 	}
@@ -213,7 +214,6 @@ public class Player : MonoBehaviour
 		if ( Game.Instance.IsPaused )
 			return;
 
-		//Game.Instance.Player.transform.position = Game.Instance.Player.transform.position + new Vector3(0, 1.5f, 0);
 		isSliding = false;
 	}
 
