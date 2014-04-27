@@ -11,12 +11,13 @@ public class ObjectGenerator : MonoBehaviour {
 	public float jumpForce;
 	float _ratio = 4.0f/3.0f;
 	float _size;
-	public float groundLevel = 1.35f;
+	public float groundLevel = 1.0f;
 	public GameObject go;
 	float initialVelocity;
 	int _nextSpawnType = 1;
 	float _elapsedTime;
-
+	public float topValue;
+	public float middleValue;
 	public GameObject cashPrefab;
 	public GameObject giftPrefab;
 	public GameObject meatPrefab;
@@ -24,13 +25,13 @@ public class ObjectGenerator : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		_size = Camera.main.orthographicSize;
-		SpawnObject(new Vector3((_size * _ratio) * 2, 2.34f, 0));
+		SpawnObject(new Vector3((_size * _ratio) * 2, 1.0f, 0));
 		Game.Instance.Player.Jump += OnJump;
 		maxHeight = 3.0f;
 	}
 	void SpawnObject(Vector2 pos){
 		go = new GameObject();
-		go.transform.position = pos;
+
 		Furniture f = go.AddComponent<Furniture>();
 		SpriteRenderer rend = go.AddComponent<SpriteRenderer>();
 		
@@ -45,7 +46,19 @@ public class ObjectGenerator : MonoBehaviour {
 		f.name = template.Name;
 		go.name = template.Name;
         go.layer = LayerMask.NameToLayer("Furniture");
-		
+		float yValue = 0;
+		switch(template.Zone){
+		case Furniture.Zone.High:
+			yValue = topValue;
+			break;
+		case Furniture.Zone.Medium:
+			yValue = middleValue;
+			break;
+		case Furniture.Zone.Low:
+			yValue = groundLevel;
+			break;
+		}
+		go.transform.position = new Vector2(pos.x, yValue);
 		PolygonCollider2D bc = go.AddComponent<PolygonCollider2D>();
 		Rigidbody2D rb = go.AddComponent<Rigidbody2D>();
         rb.gravityScale = 0f;
