@@ -11,6 +11,8 @@ public class Furniture : MonoBehaviour
 	public SpriteRenderer SpriteRenderer;
     public enum Zone { None, High, Medium, Low }
     public Zone zone;
+	public FurnitureManager.TemplateFurniture templateSource;
+
     PolygonCollider2D c;
 
     private GUISkin skin;
@@ -36,6 +38,16 @@ public class Furniture : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             Game.Instance.Player.DeductCash(this.price);
+			
+			if (Game.Instance.ShoppingList.Contains(templateSource))
+			{
+				Game.Instance.ShoppingList.Remove(templateSource);
+				if (Game.Instance.ShoppingList.Count == 0)
+				{
+					
+				}
+			}
+
             Destroy(this.gameObject);
         }
     }

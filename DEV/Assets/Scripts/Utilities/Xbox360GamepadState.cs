@@ -104,8 +104,8 @@ public class Xbox360GamepadState
 	public void UpdateState()
 	{
 		prevAxies[XboxAxis.DPad]		= Axies[XboxAxis.DPad];
-		prevAxies[XboxAxis.LAnalog]	= Axies[XboxAxis.DPad];
-		prevAxies[XboxAxis.RAnalog]	= Axies[XboxAxis.DPad];
+		prevAxies[XboxAxis.LAnalog]		= Axies[XboxAxis.LAnalog];
+		prevAxies[XboxAxis.RAnalog]		= Axies[XboxAxis.RAnalog];
 
 
 		prevButtons[XboxButton.A]			= Buttons[XboxButton.A];

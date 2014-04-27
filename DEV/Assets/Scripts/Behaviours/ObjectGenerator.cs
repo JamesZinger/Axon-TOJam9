@@ -45,6 +45,7 @@ public class ObjectGenerator : MonoBehaviour {
 		f.department = template.Department;
 		f.desc = template.Description;
 		f.name = template.Name;
+		f.templateSource = template;
 		go.name = template.Name;
         go.layer = LayerMask.NameToLayer("Furniture");
 		float yValue = 0;

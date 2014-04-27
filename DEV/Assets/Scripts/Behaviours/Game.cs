@@ -17,10 +17,13 @@ public class Game : MonoBehaviour
 	private Dictionary<DepartmentType, Sprite> departmentMap;
 	private List<Background> background = null;
 	private List<FurnitureManager.TemplateFurniture> shoppingList;
+	private List<FurnitureManager.TemplateFurniture> originalShoppingList;
 	private int backgroundTick = 0;
 	private bool isPaused = false;
 	private float fixedTimeStep = 0.0f;
+
 	private FurnitureManager furnitureManager;
+
     public GUISkin Skin;
 
     #region Events
@@ -74,6 +77,12 @@ public class Game : MonoBehaviour
 		set { furnitureManager = value; }
 	}
 
+	public List<FurnitureManager.TemplateFurniture> ShoppingList
+	{
+		get { return shoppingList; }
+		private set { shoppingList = value; }
+	}
+
 	#region Singleton Method and Instance
 
 	private static Game instance = null;
@@ -118,7 +127,7 @@ public class Game : MonoBehaviour
 		string[] names = System.Enum.GetNames( typeof( DepartmentType ) );
 		
 		int firstdepartment = UnityEngine.Random.Range(0, names.Length - 2);
-
+		
 		CurrentDepartment = (DepartmentType)firstdepartment;
 
 		background = new List<Background>(2);
@@ -138,7 +147,7 @@ public class Game : MonoBehaviour
         }
 
         Controls.PauseButton += OnPause;
-		int DeptCount = 7;
+		int DeptCount = 7;//System.Enum.GetNames(typeof(DepartmentType)).Length;
 		shoppingList = new List<FurnitureManager.TemplateFurniture>();
 		for(int ii = 0; ii < 3; ii++){
 			int rand = Random.Range(0,DeptCount);
@@ -148,6 +157,8 @@ public class Game : MonoBehaviour
 			FurnitureManager.TemplateFurniture template = RandomList[Random.Range(0, RandomList.Count - 1)];
 			shoppingList.Add(template);
 		}
+
+		originalShoppingList = shoppingList;
     }
 
 
@@ -214,6 +225,16 @@ public class Game : MonoBehaviour
 			Time.timeScale = 0;
 
 		IsPaused = !IsPaused;
+	}
+
+	void Win()
+	{
+
+	}
+
+	void Lose()
+	{
+
 	}
 
 }

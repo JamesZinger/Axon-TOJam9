@@ -5,8 +5,6 @@ using System;
 public class GameControls : MonoBehaviour
 {
 
-	private Xbox360GamepadState controller;
-
 	#region Input Events
 
 	public delegate void	JumpHandeler();
@@ -41,13 +39,10 @@ public class GameControls : MonoBehaviour
 	void Awake()
 	{
 		Game.Instance.Controls = this;
-		controller = new Xbox360GamepadState();
 	}
 
 	void Update()
 	{
-		controller.UpdateState();
-
 		if ( CheckJumpControls() )
 		{ 
 			if ( JumpButton != null )
@@ -104,8 +99,8 @@ public class GameControls : MonoBehaviour
 		if ( Input.GetKeyDown( KeyCode.UpArrow ) )
 			return true;
 
-		if (controller.GetButtonDown(XboxButton.A) == true)
-			return true;
+	//	if (controller.GetButtonDown(XboxButton.A) == true)
+	//		return true;
 
 		return false;
 	}
@@ -118,8 +113,8 @@ public class GameControls : MonoBehaviour
 		if ( Input.GetKeyDown( KeyCode.DownArrow ) )
 			return true;
 
-		if ( controller.GetButtonDown( XboxButton.B ) )
-			return true;
+	//	if ( controller.GetButtonDown( XboxButton.B ) )
+	//		return true;
 
 		return false;
 	}
@@ -132,8 +127,8 @@ public class GameControls : MonoBehaviour
 		if ( Input.GetKeyUp( KeyCode.DownArrow ) )
 			return true;
 
-		if ( controller.GetButtonUp( XboxButton.B ) )
-			return true;
+	//	if ( controller.GetButtonUp( XboxButton.B ) )
+	//		return true;
 
 		return false;
 	}
@@ -143,8 +138,8 @@ public class GameControls : MonoBehaviour
 		if ( Input.GetKeyDown( KeyCode.P ) )
 			return true;
 
-		if (controller.GetButtonDown(XboxButton.Start))
-			return true;
+	//	if (controller.GetButtonDown(XboxButton.Start))
+	//		return true;
 
 		return false;
 	}
@@ -190,8 +185,8 @@ public class GameControls : MonoBehaviour
 		if ( Input.GetKeyDown( KeyCode.LeftControl ) )
 			return true;
 
-		if (controller.GetButtonDown(XboxButton.X))
-			return true;
+	//	if (controller.GetButtonDown(XboxButton.X))
+	//		return true;
 
 		return false;
 	}
@@ -201,8 +196,8 @@ public class GameControls : MonoBehaviour
 		if ( Input.GetKeyDown( KeyCode.Q ) )
 			return true;
 
-		if (controller.GetButtonDown(XboxButton.Start))
-			return true;
+	//	if (controller.GetButtonDown(XboxButton.Start))
+	//		return true;
 
 		return false;
 	}

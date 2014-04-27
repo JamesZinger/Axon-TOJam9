@@ -6,10 +6,13 @@ public class MenuBackGround : MonoBehaviour
     public enum UIScreen { None, Main, PlayMode, Credits };
     public UIScreen screen;
 
+	public enum MenuButton { Play = 0, Instructions, Credits, Quit, NONE = int.MaxValue }
+	private MenuButton ActiveButton = MenuButton.NONE;
     public GUISkin skin; 
 
     List<Sprite> imgList = new List<Sprite>();
     SpriteRenderer spRender;
+	Xbox360GamepadState controller = new Xbox360GamepadState();
 
     #region GUI Rects
 
@@ -57,6 +60,13 @@ public class MenuBackGround : MonoBehaviour
     void MainScreen()
     {
         if (screen != UIScreen.Main) return;
+		if (controller.Axies[XboxAxis.LAnalog].y == -1 && controller.prevAxies[XboxAxis.LAnalog].y == 0)
+		{ 
+
+			ActiveButton--;
+			if (ActiveButton == MenuButton.Quit)
+				ActiveButton = MenuButton.Play;
+		}
 
         if (GUI.Button(playRct, "", skin.GetStyle("Play Button")))
         {
