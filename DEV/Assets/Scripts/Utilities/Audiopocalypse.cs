@@ -15,6 +15,7 @@ public class Audiopocalypse : MonoBehaviour {
 		Pickup_Money,
 		Slide,
 		Win,
+		Empty,
 		Use_Meatball
 	}
 	// Use this for initialization
