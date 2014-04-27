@@ -33,7 +33,6 @@ public class Game : MonoBehaviour
 	public GUIText list;
 	
     public GameObject PointBurst;
-    public GameObject PointCash;
 
     #region Events
 
@@ -232,9 +231,7 @@ public class Game : MonoBehaviour
 				levelsNeeded = Random.Range(0, shoppingList.Count);
 				currentDepartment = shoppingList[levelsNeeded].Department;
 			}
-				Debug.Log("Current Department: " + currentDepartment);
-			currentDepartment = (DepartmentType) Random.Range(0, System.Enum.GetNames(typeof(DepartmentType)).Length - 2);
-			//Debug.Log("Current Department: " + currentDepartment);
+		    //Debug.Log("Current Department: " + currentDepartment);
 		
 			foreach (Background BG in Background)
 				BG.UpdateBackground();

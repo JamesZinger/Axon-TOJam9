@@ -133,7 +133,7 @@ public class Player : MonoBehaviour
         Distract();
         Meatball();
 
-        //Debug.Log(meatBalledRemainingTime);
+        //.Log(meatBalledRemainingTime);
 
 		if(IsGrounded == true){
 			SetSprite(activeWalk);
@@ -151,7 +151,7 @@ public class Player : MonoBehaviour
     
     void OnGUI()
     {
-        //GUI.Label(new Rect(0, 0, 300, 50), "Cash: $" + this.cash + " MeatBalls: " + MeatBallCount + " Discount Time: " + discountRemainingTime + "Has Discount: " + HasDiscount + " Inv: " + distracted);
+        GUI.Label(new Rect(0, 0, 300, 50), "Cash: $" + this.cash + " MeatBalls: " + MeatBallCount + " Discount Time: " + discountRemainingTime + "Has Discount: " + HasDiscount + " Inv: " + distracted);
     }
 
 	#endregion
@@ -203,7 +203,8 @@ public class Player : MonoBehaviour
 		if (MeatBallCount > 0)
 		{
             Meatballed = true;
-            //Debug.Log("Meatballs Activated");
+            meatBalledRemainingTime = 10;
+            Debug.Log("Meatballs Activated");
 			Game.Instance.ap.PlayClip(Audiopocalypse.Sounds.Menu_Click);
 			MeatBallCount --;
 		}
@@ -310,7 +311,7 @@ public class Player : MonoBehaviour
 	}
     public void AddDiscount(GiftCard.Discount type)
     {
-        discountRemainingTime = 15;
+        discountRemainingTime = 5;
 
         this.DiscountType = type;
 	}
