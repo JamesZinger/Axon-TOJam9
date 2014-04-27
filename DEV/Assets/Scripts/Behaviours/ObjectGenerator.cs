@@ -15,12 +15,13 @@ public class ObjectGenerator : MonoBehaviour {
 	public GameObject go;
 	float initialVelocity;
 	int _nextSpawnType = 1;
-	float _elapsedTime;
+	float _elapsedTime, _elapsedTimeBad;
 	public float topValue;
 	public float middleValue;
 	public GameObject cashPrefab;
 	public GameObject giftPrefab;
 	public GameObject meatPrefab;
+	public GameObject a,b,c;
 
 	// Use this for initialization
 	void Start () {
@@ -60,9 +61,9 @@ public class ObjectGenerator : MonoBehaviour {
 			break;
 		}
 		go.transform.position = new Vector2(pos.x, yValue);
-		if(go.GetComponent<SpriteRenderer>().sprite.rect.height < 900){
+		int blockHeight = go.GetComponent<SpriteRenderer>().sprite.rect.height / 150;
+		int blockWidth = go.GetComponent<SpriteRenderer>().sprite.rect.width / 150;
 
-		}
 		PolygonCollider2D bc = go.AddComponent<PolygonCollider2D>();
 		Rigidbody2D rb = go.AddComponent<Rigidbody2D>();
         rb.gravityScale = 0f;
@@ -84,7 +85,23 @@ public class ObjectGenerator : MonoBehaviour {
 			powerup.transform.position = pos;
 			break;
 		}
-
+	}
+	void SpawnDistraction(Vector2 pos, int id){
+		GameObject powerup;
+		switch(id){
+		case 1:
+			powerup = (GameObject)Instantiate(a);
+			powerup.transform.position = pos;
+			break;
+		case 2:
+			powerup = (GameObject)Instantiate(b);
+			powerup.transform.position = pos;
+			break;
+		case 3:
+			powerup = (GameObject)Instantiate(c);
+			powerup.transform.position = pos;
+			break;
+		}
 	}
 	// Update is called once per frame
 	void Update () {
@@ -93,6 +110,12 @@ public class ObjectGenerator : MonoBehaviour {
 			SpawnPowerup(new Vector2(_size * _ratio * 2, 7), Random.Range(1,4));
 			CheckSpawn();
 			_elapsedTime = 0;
+		}
+		_elapsedTimeBad += Time.deltaTime;
+		if(_elapsedTimeBad > 3){
+			SpawnDistraction(new Vector2(_size * _ratio * 2, 3), Random.Range(1,4));
+			CheckSpawn();
+			_elapsedTimeBad = 0;
 		}
 	}
 	void DrawDebugRect(Rect r)

@@ -19,7 +19,6 @@ public class Background : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		Debug.Log(X_MAX);
 		if(this.transform.position.x < -X_MAX)
 		{
 			//X_MAX = gameObject.GetComponent<SpriteRenderer>().sprite.rect.width*gameObject.transform.localScale.x/100 * (4.0f/3.0f);
