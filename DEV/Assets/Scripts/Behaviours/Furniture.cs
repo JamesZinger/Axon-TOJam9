@@ -29,7 +29,6 @@ public class Furniture : MonoBehaviour
         //Vector2 tmp = Camera.main.WorldToScreenPoint(new Vector3(gameObject.renderer.bounds.center.x, gameObject.renderer.bounds.max.y, 1));
         Vector2 tmp = Camera.main.WorldToScreenPoint(gameObject.transform.position);
         labelRct.Set(tmp.x, (642 - tmp.y), 100, 25);
-        Debug.Log("Size: " + gameObject.renderer.bounds.center);
     }
 
     void OnTriggerEnter2D(Collider2D other)

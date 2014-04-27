@@ -127,7 +127,7 @@ public class Game : MonoBehaviour
 
 		MapDepartmentTextures();
 
-		fixedTimeStep = Time.fixedDeltaTime;
+		fixedTimeStep = Time.timeScale;
 	}
 
     void Start()
@@ -202,10 +202,12 @@ public class Game : MonoBehaviour
 	void OnPause()
 	{
 		if (IsPaused)
-			Time.fixedDeltaTime = fixedTimeStep;	
+			Time.timeScale = fixedTimeStep;	
 
 		else
-			Time.fixedDeltaTime = 0;
+			Time.timeScale = 0;
+
+		IsPaused = !IsPaused;
 	}
 
 }

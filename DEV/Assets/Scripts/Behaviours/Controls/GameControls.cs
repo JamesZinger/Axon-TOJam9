@@ -5,7 +5,7 @@ using System;
 public class GameControls : MonoBehaviour
 {
 
-	private Xbox360GamepadState Controller;
+	private Xbox360GamepadState controller;
 
 	#region Input Events
 
@@ -38,15 +38,15 @@ public class GameControls : MonoBehaviour
 
 	#endregion
 
-	void Awale()
+	void Awake()
 	{
 		Game.Instance.Controls = this;
+		controller = new Xbox360GamepadState();
 	}
 
 	void Update()
 	{
-		// Update the controller
-		//Controller = Controller.GetState();
+		controller.UpdateState();
 
 		if ( CheckJumpControls() )
 		{ 
@@ -86,6 +86,9 @@ public class GameControls : MonoBehaviour
 			if ( UseShortcutButton != null )
 				UseShortcutButton();
 
+		if (Input.GetKeyDown(KeyCode.Escape))
+			Application.Quit();
+
 	}
 
 	#region Check Controls
@@ -101,18 +104,21 @@ public class GameControls : MonoBehaviour
 		if ( Input.GetKeyDown( KeyCode.UpArrow ) )
 			return true;
 
+		if (controller.GetButtonDown(XboxButton.A) == true)
+			return true;
+
 		return false;
 	}
 
 	private bool CheckSlideControls()
 	{
-		if ( Input.GetKeyDown( KeyCode.LeftControl ) )
-			return true;
-
 		if ( Input.GetKeyDown( KeyCode.S ) )
 			return true;
 
 		if ( Input.GetKeyDown( KeyCode.DownArrow ) )
+			return true;
+
+		if ( controller.GetButtonDown( XboxButton.B ) )
 			return true;
 
 		return false;
@@ -120,13 +126,13 @@ public class GameControls : MonoBehaviour
 
 	private bool CheckStopSlideControls()
 	{
-		if ( Input.GetKeyUp( KeyCode.LeftControl ) )
-			return true;
-
 		if ( Input.GetKeyUp( KeyCode.S ) )
 			return true;
 
 		if ( Input.GetKeyUp( KeyCode.DownArrow ) )
+			return true;
+
+		if ( controller.GetButtonUp( XboxButton.B ) )
 			return true;
 
 		return false;
@@ -135,6 +141,9 @@ public class GameControls : MonoBehaviour
 	private bool CheckPauseControls()
 	{
 		if ( Input.GetKeyDown( KeyCode.P ) )
+			return true;
+
+		if (controller.GetButtonDown(XboxButton.Start))
 			return true;
 
 		return false;
@@ -172,7 +181,16 @@ public class GameControls : MonoBehaviour
 
 	private bool CheckUseItemControls()
 	{
-		if ( Input.GetKeyDown( KeyCode.E ) )
+		if ( Input.GetKeyDown( KeyCode.Z ) )
+			return true;
+
+		if (Input.GetKeyDown(KeyCode.RightControl))
+			return true;
+
+		if ( Input.GetKeyDown( KeyCode.LeftControl ) )
+			return true;
+
+		if (controller.GetButtonDown(XboxButton.X))
 			return true;
 
 		return false;
@@ -180,7 +198,10 @@ public class GameControls : MonoBehaviour
 
 	private bool CheckUseShortcutControls()
 	{
-		if ( Input.GetKeyDown( KeyCode.F ) )
+		if ( Input.GetKeyDown( KeyCode.Q ) )
+			return true;
+
+		if (controller.GetButtonDown(XboxButton.Start))
 			return true;
 
 		return false;
