@@ -26,6 +26,7 @@ public class Game : MonoBehaviour
 	public GUIText list;
 
     public GameObject PointBurst;
+    public GameObject PointCash;
 
     #region Events
 
