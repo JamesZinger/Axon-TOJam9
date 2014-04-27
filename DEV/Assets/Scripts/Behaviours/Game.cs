@@ -21,8 +21,15 @@ public class Game : MonoBehaviour
 	private float fixedTimeStep = 0.0f;
 	private FurnitureManager furnitureManager;
 
-	
-	public Vector2 ScrollSpeed;
+    #region Events
+
+    public delegate void GameOverHandler();
+    public event GameOverHandler GameOver;
+
+    #endregion
+
+
+    public Vector2 ScrollSpeed;
 
 	public GameControls Controls
 	{
@@ -99,13 +106,15 @@ public class Game : MonoBehaviour
 		if ( instance != null )
 		{
 			Debug.LogError( "[ERROR - Singleton] Tried to instantiate a second instance of the Game singleton" );
-			Destroy( this );
+            this.GameOver += OnGameOver;
+            Destroy( this );
 			return;
 		}
 
 		Instance = this;
 
 		departmentMap = new Dictionary<DepartmentType, Sprite>();
+
 
 		string[] names = System.Enum.GetNames( typeof( DepartmentType ) );
 		
@@ -120,23 +129,36 @@ public class Game : MonoBehaviour
 		fixedTimeStep = Time.fixedDeltaTime;
 	}
 
-	void Start()
-	{
-		DontDestroyOnLoad( gameObject );
-		
-		if (Controls == null)
-		{
-			Controls = gameObject.AddComponent<GameControls>();
-		}
+    void Start()
+    {
+        DontDestroyOnLoad(gameObject);
 
-		Controls.PauseButton += OnPause;
+        if (Controls == null)
+        {
+            Controls = gameObject.AddComponent<GameControls>();
+        }
 
-	}
+        Controls.PauseButton += OnPause;
+
+    }
+
 
 	void OnDestory()
 	{
 		Instance = null;
 	}
+    public void OutOfCoins()
+    {
+        OnGameOver();
+    }
+
+    void OnGameOver()
+    {
+
+        Debug.Log("Game is Over");
+        if (GameOver != null)
+            GameOver();
+    }
 
 	#endregion
 
