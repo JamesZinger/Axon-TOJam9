@@ -22,6 +22,8 @@ public class Game : MonoBehaviour
 	private FurnitureManager furnitureManager;
     public GUISkin Skin;
 
+    public GameObject PointBurst;
+
     #region Events
 
     public delegate void GameOverHandler();
@@ -178,7 +180,7 @@ public class Game : MonoBehaviour
 
 			tex = Resources.Load<Sprite>("Sprites/BackGround/" + s + "");
 
-            Debug.Log("Sprites/BackGround/" + s + "");
+            //Debug.Log("Sprites/BackGround/" + s + "");
 
 			departmentMap.Add(deptType, tex);
 		}

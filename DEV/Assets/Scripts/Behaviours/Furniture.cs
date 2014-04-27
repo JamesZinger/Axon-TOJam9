@@ -27,16 +27,26 @@ public class Furniture : MonoBehaviour
     void Update()
     {
         //Vector2 tmp = Camera.main.WorldToScreenPoint(new Vector3(gameObject.renderer.bounds.center.x, gameObject.renderer.bounds.max.y, 1));
-        Vector2 tmp = Camera.main.WorldToScreenPoint(gameObject.transform.position);
-        labelRct.Set(tmp.x, (642 - tmp.y), 100, 25);
-        Debug.Log("Size: " + gameObject.renderer.bounds.center);
+        Vector2 tmp = Camera.main.WorldToScreenPoint(new Vector3(gameObject.renderer.bounds.center.x, gameObject.renderer.bounds.max.y, 0));
+        labelRct.Set(tmp.x - 50, (Screen.height - tmp.y) - (Screen.height/10), 100, 25);
+        //Debug.Log("Size: " + gameObject.renderer.bounds.center);
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
+
+            GameObject obj = Instantiate(Game.Instance.PointBurst, Vector3.zero, Quaternion.identity) as GameObject;
+            PointBurst burst = obj.GetComponent<PointBurst>();
+
+            burst.SetUp(new Vector2(0, 0), this.price, this.allanKeyValue);
+
+
+
             Game.Instance.Player.DeductCash(this.price);
+            Game.Instance.Player.AllanKeys += this.allanKeyValue;
+
             Destroy(this.gameObject);
         }
     }
@@ -45,7 +55,7 @@ public class Furniture : MonoBehaviour
     void OnGUI()
     {
         GUI.skin = skin;
-        GUI.matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, new Vector3(1.0f * Screen.width / 856, 1.0f * Screen.height / 642, 1.0f));
+       //GUI.matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, new Vector3(1.0f * Screen.width / 856, 1.0f * Screen.height / 642, 1.0f));
 
         GUI.Label(labelRct, this.name.ToUpper());
 

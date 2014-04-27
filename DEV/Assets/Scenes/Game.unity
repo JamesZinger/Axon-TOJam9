@@ -357,6 +357,7 @@ GameObject:
   - 4: {fileID: 514866360}
   - 114: {fileID: 514866359}
   - 114: {fileID: 514866361}
+  - 114: {fileID: 514866362}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -377,6 +378,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Skin: {fileID: 11400000, guid: 3cd90dd3136fc3946acf594011095f60, type: 2}
+  PointBurst: {fileID: 100000, guid: 3fc69e5f87e7fb141b52d4f35d1d0362, type: 2}
   ScrollSpeed: {x: -5, y: 0}
 --- !u!4 &514866360
 Transform:
@@ -398,6 +400,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d9a81b01cd020854bbefcc3d203c2063, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &514866362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 514866358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e247fc16a15d5a4486b6bbd2ff31dd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &730385341
@@ -444,6 +457,10 @@ Prefab:
       value: 
       objectReference: {fileID: 11400000, guid: 3cd90dd3136fc3946acf594011095f60,
         type: 2}
+    - target: {fileID: 11400000, guid: ddc906495ab7b464da934ee1cb65fc3c, type: 2}
+      propertyPath: PointBurst
+      value: 
+      objectReference: {fileID: 100000, guid: 3fc69e5f87e7fb141b52d4f35d1d0362, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ddc906495ab7b464da934ee1cb65fc3c, type: 2}
   m_RootGameObject: {fileID: 514866358}
