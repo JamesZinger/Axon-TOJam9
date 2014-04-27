@@ -79,8 +79,8 @@ public class ObjectGenerator : MonoBehaviour {
 	}
 	void SpawnPowerup(Vector2 pos, int id){
 		GameObject powerup;
-		id = Random.Range(1, 7);
-		id = (id > 2 ? 1 : id);
+		id = Random.Range(1, 4);
+		id = (id > 3 ? 1 : id);
 		switch(id){
 		case 1:
 			powerup = (GameObject)Instantiate(cashPrefab);

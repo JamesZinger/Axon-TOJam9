@@ -204,7 +204,7 @@ public class Player : MonoBehaviour
 		{
             Meatballed = true;
             Debug.Log("Meatballs Activated");
-			Game.Instance.ap.PlayClip(Audiopocalypse.Sounds.Use_Meatball);
+			Game.Instance.ap.PlayClip(Audiopocalypse.Sounds.Menu_Click);
 			MeatBallCount --;
 		}
 	}
