@@ -61,8 +61,8 @@ public class ObjectGenerator : MonoBehaviour {
 			break;
 		}
 		go.transform.position = new Vector2(pos.x, yValue);
-		int blockHeight = go.GetComponent<SpriteRenderer>().sprite.rect.height / 150;
-		int blockWidth = go.GetComponent<SpriteRenderer>().sprite.rect.width / 150;
+		//int blockHeight = go.GetComponent<SpriteRenderer>().sprite.rect.height / 150;
+		//int blockWidth = go.GetComponent<SpriteRenderer>().sprite.rect.width / 150;
 
 		PolygonCollider2D bc = go.AddComponent<PolygonCollider2D>();
 		Rigidbody2D rb = go.AddComponent<Rigidbody2D>();
