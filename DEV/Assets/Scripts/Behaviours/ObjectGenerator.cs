@@ -15,7 +15,7 @@ public class ObjectGenerator : MonoBehaviour {
 	public GameObject go;
 	float initialVelocity;
 	int _nextSpawnType = 1;
-	float _elapsedTime, _elapsedTimeBad;
+	float _elapsedTime;
 	public float topValue;
 	public float middleValue;
 	public GameObject cashPrefab;
@@ -61,13 +61,19 @@ public class ObjectGenerator : MonoBehaviour {
 			break;
 		}
 		go.transform.position = new Vector2(pos.x, yValue);
-		int blockHeight = go.GetComponent<SpriteRenderer>().sprite.rect.height / 150;
-		int blockWidth = go.GetComponent<SpriteRenderer>().sprite.rect.width / 150;
-
+		
 		PolygonCollider2D bc = go.AddComponent<PolygonCollider2D>();
 		Rigidbody2D rb = go.AddComponent<Rigidbody2D>();
         rb.gravityScale = 0f;
         bc.isTrigger = true;
+	}
+	void SpawnEither(Vector2 pos, int id){
+		int spawn = Random.Range(0, 100);
+		if(spawn%2 == 0){
+			SpawnDistraction(pos, id);
+		}else{
+			SpawnPowerup(pos, id);
+		}
 	}
 	void SpawnPowerup(Vector2 pos, int id){
 		GameObject powerup;
@@ -107,15 +113,9 @@ public class ObjectGenerator : MonoBehaviour {
 	void Update () {
 		_elapsedTime += Time.deltaTime;
 		if(_elapsedTime > 3){
-			SpawnPowerup(new Vector2(_size * _ratio * 2, 7), Random.Range(1,4));
+			SpawnEither(new Vector2(_size * _ratio * 2, 7), Random.Range(1,4));
 			CheckSpawn();
 			_elapsedTime = 0;
-		}
-		_elapsedTimeBad += Time.deltaTime;
-		if(_elapsedTimeBad > 3){
-			SpawnDistraction(new Vector2(_size * _ratio * 2, 3), Random.Range(1,4));
-			CheckSpawn();
-			_elapsedTimeBad = 0;
 		}
 	}
 	void DrawDebugRect(Rect r)

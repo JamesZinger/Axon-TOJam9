@@ -377,7 +377,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Skin: {fileID: 11400000, guid: 3cd90dd3136fc3946acf594011095f60, type: 2}
-  ScrollSpeed: {x: -5, y: 0}
+  ScrollSpeed: {x: -7, y: 0}
 --- !u!4 &514866360
 Transform:
   m_ObjectHideFlags: 0
@@ -437,7 +437,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: ddc906495ab7b464da934ee1cb65fc3c, type: 2}
       propertyPath: ScrollSpeed.x
-      value: -5
+      value: -7
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: ddc906495ab7b464da934ee1cb65fc3c, type: 2}
       propertyPath: Skin
@@ -732,6 +732,9 @@ MonoBehaviour:
   cashPrefab: {fileID: 100000, guid: 08a51edc5ed35644cae6482ba915fab7, type: 2}
   giftPrefab: {fileID: 100000, guid: d509324551e6faa4293a92c9d92540a7, type: 2}
   meatPrefab: {fileID: 100000, guid: aa68671cfa914be42982dca5caab2dd9, type: 2}
+  a: {fileID: 0}
+  b: {fileID: 0}
+  c: {fileID: 0}
 --- !u!1001 &1488671465
 Prefab:
   m_ObjectHideFlags: 0
