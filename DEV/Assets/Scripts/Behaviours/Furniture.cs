@@ -40,7 +40,7 @@ public class Furniture : MonoBehaviour
             GameObject obj = Instantiate(Game.Instance.PointBurst, Vector3.zero, Quaternion.identity) as GameObject;
             PointBurst burst = obj.GetComponent<PointBurst>();
 
-            burst.SetUp(new Vector2(0, 0), this.price, this.allanKeyValue);
+            burst.SetUpForFurniture(new Vector2(0, 0), this.price, this.allanKeyValue);
 
 
 

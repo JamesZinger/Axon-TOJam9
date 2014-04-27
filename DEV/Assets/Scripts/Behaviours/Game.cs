@@ -25,6 +25,7 @@ public class Game : MonoBehaviour
 	public Audiopocalypse ap;
 
     public GameObject PointBurst;
+    public GameObject PointCash;
 
     #region Events
 

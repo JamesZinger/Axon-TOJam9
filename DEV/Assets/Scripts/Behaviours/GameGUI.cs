@@ -72,7 +72,7 @@ public class GameGUI : MonoBehaviour
         mb2 = new Rect(100, 0, 50, 50);
 
         // Boost Rect
-        boostRect = new Rect(0, 500, 1024, 65);
+        boostRect = new Rect((856/2) - 200, 500, 1024, 65);
         
         // Tip
         tipUseMB = new Rect((856/2) - 150, 0, 150, 50);
