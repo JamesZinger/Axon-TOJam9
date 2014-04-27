@@ -8,12 +8,13 @@ public class MeatBall : PickUp
     {
         base.Start();
         this.Pickup = PickUpType.MeatBalls;
-		pickupSound = Audiopocalypse.Sounds.Pickup_Meatball;
+		pickupSound = Audiopocalypse.Sounds.Menu_Click;
 	}
 
     public override void AddPickUp()
     {
         Game.Instance.Player.MeatBallCount++;
+        Game.Instance.Player.Meatballed = true;
         base.AddPickUp();
     }
 }

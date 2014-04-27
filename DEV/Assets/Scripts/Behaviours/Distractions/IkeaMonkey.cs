@@ -12,8 +12,8 @@ public class IkeaMonkey : PickUp
 
     public override void AddPickUp()
     {
-        Game.Instance.Player.Invincible = true;
-        Game.Instance.Player.AddInvincibilityTime(15f);
+        Game.Instance.Player.Distracted = true;
+        Game.Instance.Player.AddInvincibilityTime(10f);
         base.AddPickUp();
     }
 	

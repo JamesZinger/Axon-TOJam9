@@ -33,7 +33,10 @@ public class Cash : PickUp
     {
         switch (amount)
         {
-            case Amount.Fifty: Game.Instance.Player.Cash += 50;                 break;
+            case Amount.Fifty: 
+                Game.Instance.Player.Cash += 50; 
+
+                break;
             case Amount.One_Hundred: Game.Instance.Player.Cash += 100;          break;
             case Amount.One_Hundred_Fifty: Game.Instance.Player.Cash += 150;    break;
         }

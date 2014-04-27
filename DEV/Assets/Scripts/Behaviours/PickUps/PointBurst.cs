@@ -30,11 +30,17 @@ public class PointBurst : MonoBehaviour
         moveY = -10;
 	}
 
-    public void SetUp(Vector2 pos, float cost, int keys)
+    public void SetUpForFurniture(Vector2 pos, float cost, int keys)
     {
         groupRect.Set(pos.x, pos.y, 100, 100);
         this.cost = cost;
         this.keys = keys;
+    }
+    public void SetUpForCash(Vector2 pos, float cost)
+    {
+        groupRect.Set(pos.x, pos.y, 100, 100);
+        this.cost = cost;
+        keys = 0;
     }
 	
 	// Update is called once per frame

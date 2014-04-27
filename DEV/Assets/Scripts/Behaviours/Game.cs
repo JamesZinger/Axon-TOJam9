@@ -30,8 +30,10 @@ public class Game : MonoBehaviour
 
     public GUISkin Skin;
 	public Audiopocalypse ap;
+	public GUIText list;
 	
     public GameObject PointBurst;
+    public GameObject PointCash;
 
     #region Events
 
@@ -166,6 +168,7 @@ public class Game : MonoBehaviour
 			List<FurnitureManager.TemplateFurniture> RandomList = Game.Instance.FurnitureManager.furnitureMap[(DepartmentType)rand];	
 			FurnitureManager.TemplateFurniture template = RandomList[Random.Range(0, RandomList.Count - 1)];
 			shoppingList.Add(template);
+			list.guiText.text += template.Name + "\n";
 		}
 
 		originalShoppingList = shoppingList;
@@ -220,8 +223,18 @@ public class Game : MonoBehaviour
 		backgroundTick++;
 		if(backgroundTick >= 5)
 		{ 
+			int loadNeeded;
+			loadNeeded = Random.Range(0,100);
+			if(loadNeeded%2 == 1){
+				currentDepartment = (DepartmentType) Random.Range(0, System.Enum.GetNames(typeof(DepartmentType)).Length - 2);
+			}else{
+				int levelsNeeded;
+				levelsNeeded = Random.Range(0, shoppingList.Count);
+				currentDepartment = shoppingList[levelsNeeded].Department;
+			}
+				Debug.Log("Current Department: " + currentDepartment);
 			currentDepartment = (DepartmentType) Random.Range(0, System.Enum.GetNames(typeof(DepartmentType)).Length - 2);
-			Debug.Log("Current Department: " + currentDepartment);
+			//Debug.Log("Current Department: " + currentDepartment);
 		
 			foreach (Background BG in Background)
 				BG.UpdateBackground();
