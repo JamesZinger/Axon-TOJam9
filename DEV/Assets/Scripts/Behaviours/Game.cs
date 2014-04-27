@@ -201,7 +201,7 @@ public class Game : MonoBehaviour
 		if(backgroundTick >= 5)
 		{ 
 			currentDepartment = (DepartmentType) Random.Range(0, System.Enum.GetNames(typeof(DepartmentType)).Length - 2);
-			Debug.Log("Current Department: " + currentDepartment);
+			//Debug.Log("Current Department: " + currentDepartment);
 		
 			foreach (Background BG in Background)
 				BG.UpdateBackground();

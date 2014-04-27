@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
 	public Sprite jumpTexture, slideTexture;
 	Sprite activeWalk;
 	public Sprite[] walkAnims;
+    public bool Meatballed;
 
     private int allanKeys;
 
@@ -19,12 +20,12 @@ public class Player : MonoBehaviour
         set { allanKeys = value; }
     }
 
-    public bool Invincible
+    public bool Distracted
     {
-        get { return invincible; }
+        get { return distracted; }
         set 
         { 
-            invincible = value;
+            distracted = value;
             invincibillityRemainingTime += 10.0f;
         }
     }
@@ -58,7 +59,11 @@ public class Player : MonoBehaviour
 		get { return meatBallCount; }
 		set { meatBallCount = value; }
 	}
-
+    public GiftCard.Discount DiscountType
+    {
+        get { return discountType; }
+        set { discountType = value; }
+    }
 	#region Events
 
 	public delegate void JumpHandeler();
@@ -68,11 +73,11 @@ public class Player : MonoBehaviour
 
 	#region Fields
 
-    private bool invincible;
+    private bool distracted;
     private float invincibillityRemainingTime;
 	private int meatBallCount;
 	private float cash;
-    private bool hasDiscount;
+    public bool HasDiscount;
     private float discountRemainingTime;
 	private SpriteRenderer sprite;
 	private int rayFilter;
@@ -80,6 +85,7 @@ public class Player : MonoBehaviour
 	private bool hasDoubleJumped = false;
 	private bool isSliding = false;
     private GiftCard.Discount discountType;
+    private float meatBalledRemainingTime;
 
 	#endregion
 
@@ -122,8 +128,13 @@ public class Player : MonoBehaviour
 
 	void Update () 
     {
+
         Discount();
-        Invincibillity();
+        Distract();
+        Meatball();
+
+        Debug.Log(meatBalledRemainingTime);
+
 		if(IsGrounded == true){
 			SetSprite(activeWalk);
 			Vector2 box = new Vector2(sprite.sprite.rect.width / 150,sprite.sprite.rect.height / 150);
@@ -140,7 +151,7 @@ public class Player : MonoBehaviour
     
     void OnGUI()
     {
-        GUI.Label(new Rect(0, 0, 300, 50), "Cash: $" + this.cash + " MeatBalls: " + MeatBallCount + " Discount Time: " + discountRemainingTime + "Has Discount: " + hasDiscount + " Inv: " + invincible);
+        GUI.Label(new Rect(0, 0, 300, 50), "Cash: $" + this.cash + " MeatBalls: " + MeatBallCount + " Discount Time: " + discountRemainingTime + "Has Discount: " + HasDiscount + " Inv: " + distracted);
     }
 
 	#endregion
@@ -191,6 +202,7 @@ public class Player : MonoBehaviour
 
 		if (MeatBallCount > 0)
 		{
+            Meatballed = true;
             Debug.Log("Meatballs Activated");
 			Game.Instance.ap.PlayClip(Audiopocalypse.Sounds.Use_Meatball);
 			MeatBallCount --;
@@ -225,21 +237,40 @@ public class Player : MonoBehaviour
 
 	#endregion
 
+    void Meatball()
+    {
+        if (!Meatballed) return;
+
+        HasDiscount = false; discountRemainingTime = 0.0f;
+        distracted = false; invincibillityRemainingTime = 0.0f;
+
+        if (meatBalledRemainingTime <= 0.0f) { Meatballed = false; return; }
+
+        meatBalledRemainingTime -= Time.fixedDeltaTime;
+    }
+
 	void Discount()
     {
-        if (discountRemainingTime <= 0.0f) { hasDiscount = false; return; } 
+        if (discountRemainingTime <= 0.0f) { HasDiscount = false; return; } 
 
-        hasDiscount = true;
+        HasDiscount = true;
+        Distracted = false; invincibillityRemainingTime = 0;
+        Meatballed = false; meatBalledRemainingTime = 0.0f;
+
         discountRemainingTime -= Time.fixedDeltaTime;
     }
 
-    void Invincibillity()
+    void Distract()
     {
-        if (!invincible) return;
+        if (!distracted) return;
 
-        if (invincibillityRemainingTime <= 0.0f) { invincible = false; return; }
+        HasDiscount = false; discountRemainingTime = 0;
+        Meatballed = false; meatBalledRemainingTime = 0.0f;
+
+        if (invincibillityRemainingTime <= 0.0f) { distracted = false; return; }
 
         invincibillityRemainingTime -= Time.fixedDeltaTime;
+        //Debug.Log("Dis time: "+ invincibillityRemainingTime);
     }
 
 	IEnumerator CheckIfGrounded()
@@ -279,22 +310,22 @@ public class Player : MonoBehaviour
 	}
     public void AddDiscount(GiftCard.Discount type)
     {
-        discountRemainingTime += 10.0f;
+        discountRemainingTime = 15;
 
-        this.discountType = type;
+        this.DiscountType = type;
 	}
 
     public void AddInvincibilityTime(float time)
     {
-        invincibillityRemainingTime += time;
+        invincibillityRemainingTime = 15;
     }
 
     public void DeductCash(float price)
     {
         
-        if (hasDiscount)
+        if (HasDiscount)
         {
-            switch (discountType)
+            switch (DiscountType)
             {
                 case GiftCard.Discount.DIS_25: this.cash -= price * 0.75f; break;
                 case GiftCard.Discount.DIS_50: this.cash -= price * 0.5f; break;

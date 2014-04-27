@@ -14,6 +14,7 @@ public class MeatBall : PickUp
     public override void AddPickUp()
     {
         Game.Instance.Player.MeatBallCount++;
+        Game.Instance.Player.Meatballed = true;
         base.AddPickUp();
     }
 }
