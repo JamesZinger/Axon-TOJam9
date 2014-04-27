@@ -10,8 +10,8 @@ public class Audiopocalypse : MonoBehaviour {
 		Menu_Select,
 		Pickup_Card,
 		Pickup_Distractor,
-		Pickup_Furniture,
 		Pickup_Meatball,
+		Pickup_Furniture,
 		Pickup_Money,
 		Slide,
 		Win,
@@ -27,7 +27,7 @@ public class Audiopocalypse : MonoBehaviour {
 	}
 
 	public void PlayClip(Audiopocalypse.Sounds s){
-		audio.clip = clipList[(int)s];
+		audio.clip = clipList[(int)s + 1];
 		audio.Play();
 	}
 }

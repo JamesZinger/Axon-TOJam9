@@ -22,11 +22,13 @@ public class ObjectGenerator : MonoBehaviour {
 	public GameObject giftPrefab;
 	public GameObject meatPrefab;
 	public GameObject a,b,c;
+	public Vector2 spawnPoint;
 
 	// Use this for initialization
 	void Start () {
+		spawnPoint = new Vector2(15, groundLevel);
 		_size = Camera.main.orthographicSize;
-		SpawnObject(new Vector3((_size * _ratio) * 2, 1.0f, 0));
+		SpawnObject(new Vector3(spawnPoint.x, 1.0f, 0));
 		Game.Instance.Player.Jump += OnJump;
 		maxHeight = 3.0f;
 	}
@@ -77,6 +79,8 @@ public class ObjectGenerator : MonoBehaviour {
 	}
 	void SpawnPowerup(Vector2 pos, int id){
 		GameObject powerup;
+		id = Random.Range(1, 7);
+		id = (id > 2 ? 1 : id);
 		switch(id){
 		case 1:
 			powerup = (GameObject)Instantiate(cashPrefab);
@@ -94,6 +98,7 @@ public class ObjectGenerator : MonoBehaviour {
 	}
 	void SpawnDistraction(Vector2 pos, int id){
 		GameObject powerup;
+		pos = new Vector2(pos.x, groundLevel);
 		switch(id){
 		case 1:
 			powerup = (GameObject)Instantiate(a);
@@ -113,7 +118,6 @@ public class ObjectGenerator : MonoBehaviour {
 	void Update () {
 		_elapsedTime += Time.deltaTime;
 		if(_elapsedTime > 3){
-			SpawnEither(new Vector2(_size * _ratio * 2, 7), Random.Range(1,4));
 			CheckSpawn();
 			_elapsedTime = 0;
 		}
@@ -135,13 +139,15 @@ public class ObjectGenerator : MonoBehaviour {
 	}
 	void CheckSpawn(){
 		if(go != null){
-			SpawnObject(new Vector3(_size * _ratio * 2, go.transform.position.y, 0));
+			SpawnObject(new Vector3(spawnPoint.x, go.transform.position.y, 0));
+			SpawnPowerup(new Vector2(spawnPoint.x + Random.Range(1,5), 7), Random.Range(1,4));
 		}else{
-			SpawnObject(new Vector3(_size * _ratio * 2, groundLevel, 0));
+			SpawnObject(new Vector3(spawnPoint.x, groundLevel, 0));
 		}
 		Rect checkRect = new Rect(go.transform.position.x, go.transform.position.y, go.GetComponent<SpriteRenderer>().sprite.rect.width/200, go.GetComponent<SpriteRenderer>().sprite.rect.height/200);
 		float dist = GetMinDist(checkRect);
 		SpawnObject(new Vector3(dist + go.transform.position.x, go.transform.position.y, 0));
+		SpawnEither(new Vector2(dist + go.transform.position.x + 4, 7), Random.Range(1,4));
 		go.rigidbody2D.velocity = Game.Instance.ScrollSpeed;
 	}
 
