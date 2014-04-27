@@ -7,6 +7,9 @@ public class Player : MonoBehaviour
 
 	public Vector2 jumpForce;
     public float InitialCash;
+	public Sprite jumpTexture, slideTexture;
+	Sprite activeWalk;
+	public Sprite[] walkAnims;
 
     public bool Invincible
     {
@@ -104,12 +107,21 @@ public class Player : MonoBehaviour
 		controls.StopSlideButton	+= OnStopSlide;
 		controls.UseShortcutButton	+= OnUseShortcut;
 
+		//walkAnims = new Sprite[4];
+		activeWalk = walkAnims[0];
+		StartCoroutine(walk());
 	}
 
 	void Update () 
     {
         Discount();
         Invincibillity();
+		if(IsGrounded == true){
+			sprite.sprite = activeWalk;
+		}
+		if(isSliding){
+			sprite.sprite = slideTexture;
+		}
 	}
     
     void OnGUI()
@@ -125,6 +137,7 @@ public class Player : MonoBehaviour
 	{
 		if ( IsGrounded == true )
 		{
+			sprite.sprite = jumpTexture;
 			IsGrounded = false;
 			HasDoubleJumped = false;
 
@@ -155,12 +168,19 @@ public class Player : MonoBehaviour
 
 	void OnSlide()
 	{
-		Game.Instance.ScrollSpeed += new Vector2(2,2);
+		if(isSliding){
+		}else{
+			Game.Instance.ScrollSpeed += new Vector2(-10,0);
+			Game.Instance.Player.transform.position = Game.Instance.Player.transform.position - new Vector3(0, 1.5f, 0);
+			isSliding = true;
+		}
 	}
 
 	void OnStopSlide()
 	{
-		Game.Instance.ScrollSpeed += new Vector2(-2,-2);
+		Game.Instance.ScrollSpeed += new Vector2(10,0);
+		Game.Instance.Player.transform.position = Game.Instance.Player.transform.position + new Vector3(0, 1.5f, 0);
+		isSliding = false;
 	}
 
 	void OnUseShortcut()
@@ -201,8 +221,11 @@ public class Player : MonoBehaviour
 			{
 				Vector2 hitVector = hit.point - origin;
 				//Debug.Log(hitVector.magnitude);
-				if ( hitVector.magnitude < 0.703f )
+				//Half height
+				if ( hitVector.magnitude < 1.5f )
 				{
+
+					sprite.sprite = activeWalk;
 					IsGrounded = true;
 					HasDoubleJumped = false;
 					break;
@@ -212,7 +235,14 @@ public class Player : MonoBehaviour
 			yield return new WaitForEndOfFrame();
 		}
 	}
-
+	IEnumerator walk(){
+		int count = 0;
+		while(true){
+			count++;
+			activeWalk = walkAnims[count%4];
+			yield return new WaitForSeconds(0.10f);
+		}
+	}
     public void AddDiscount(GiftCard.Discount type)
     {
         discountRemainingTime += 10.0f;

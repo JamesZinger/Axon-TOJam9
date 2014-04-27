@@ -11,11 +11,12 @@ public class Background : MonoBehaviour {
 	{
 		Game.Instance.Background.Add(this);
 
-		this.rigidbody2D.velocity = Game.Instance.ScrollSpeed;
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		this.rigidbody2D.velocity = Game.Instance.ScrollSpeed;
 		if(this.transform.position.x < -X_MAX)
 		{
 

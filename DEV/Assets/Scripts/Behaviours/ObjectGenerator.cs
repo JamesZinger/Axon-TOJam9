@@ -119,7 +119,7 @@ public class ObjectGenerator : MonoBehaviour {
 		Rect checkRect = new Rect(go.transform.position.x, go.transform.position.y, go.GetComponent<SpriteRenderer>().sprite.rect.width/200, go.GetComponent<SpriteRenderer>().sprite.rect.height/200);
 		float dist = GetMinDist(checkRect);
 		SpawnObject(new Vector3(dist + go.transform.position.x, go.transform.position.y, 0));
-		go.rigidbody2D.velocity = new Vector2(-5.0f,0);
+		go.rigidbody2D.velocity = Game.Instance.ScrollSpeed;
 	}
 
 	void OnJump(){
@@ -154,7 +154,6 @@ public class ObjectGenerator : MonoBehaviour {
 			closeDist = new Vector2((_size * _ratio) * 2, groundLevel);
 		}
 		float dist = GetMaxDist();
-		Debug.Log(dist);
 		return dist;
 	}
 	float GetMaxDist(){
