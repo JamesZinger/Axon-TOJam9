@@ -19,7 +19,7 @@ public class Furniture : MonoBehaviour
 
     void Update()
     {
-    
+		//rigidbody2D.velocity = Game.Instance.ScrollSpeed;
     }
 
     void OnTriggerEnter2D(Collider2D other)
