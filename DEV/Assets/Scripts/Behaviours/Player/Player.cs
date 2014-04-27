@@ -117,10 +117,16 @@ public class Player : MonoBehaviour
         Discount();
         Invincibillity();
 		if(IsGrounded == true){
-			sprite.sprite = activeWalk;
+			SetSprite(activeWalk);
+			Vector2 box = new Vector2(sprite.sprite.rect.width / 150,sprite.sprite.rect.height / 150);
+			gameObject.GetComponent<BoxCollider2D>().size = box;
+			gameObject.GetComponent<BoxCollider2D>().center = box/2;
 		}
 		if(isSliding){
-			sprite.sprite = slideTexture;
+			SetSprite(slideTexture);
+			Vector2 box = new Vector2(sprite.sprite.rect.width / 150,sprite.sprite.rect.height / 150);
+			gameObject.GetComponent<BoxCollider2D>().size = box;
+			gameObject.GetComponent<BoxCollider2D>().center = box/2;
 		}
 	}
     
@@ -132,12 +138,20 @@ public class Player : MonoBehaviour
 	#endregion
 
 	#region Event Handelers
-
+	void SetSprite(Sprite sp){
+		sprite.sprite = sp;
+		Vector2 box = new Vector2(sprite.sprite.rect.width / 150,sprite.sprite.rect.height / 150);
+		gameObject.GetComponent<BoxCollider2D>().size = box;
+		gameObject.GetComponent<BoxCollider2D>().center = box/2;
+	}
 	void OnJump()
 	{
 		if ( IsGrounded == true )
 		{
-			sprite.sprite = jumpTexture;
+			SetSprite(jumpTexture);		
+			Vector2 box = new Vector2(sprite.sprite.rect.width / 150,sprite.sprite.rect.height / 150);
+			gameObject.GetComponent<BoxCollider2D>().size = box;
+			gameObject.GetComponent<BoxCollider2D>().center = box/2;
 			IsGrounded = false;
 			HasDoubleJumped = false;
 
@@ -170,16 +184,14 @@ public class Player : MonoBehaviour
 	{
 		if(isSliding){
 		}else{
-			Game.Instance.ScrollSpeed += new Vector2(-10,0);
-			Game.Instance.Player.transform.position = Game.Instance.Player.transform.position - new Vector3(0, 1.5f, 0);
+			//Game.Instance.Player.transform.position = Game.Instance.Player.transform.position - new Vector3(0, 1.5f, 0);
 			isSliding = true;
 		}
 	}
 
 	void OnStopSlide()
 	{
-		Game.Instance.ScrollSpeed += new Vector2(10,0);
-		Game.Instance.Player.transform.position = Game.Instance.Player.transform.position + new Vector3(0, 1.5f, 0);
+		//Game.Instance.Player.transform.position = Game.Instance.Player.transform.position + new Vector3(0, 1.5f, 0);
 		isSliding = false;
 	}
 
@@ -220,18 +232,17 @@ public class Player : MonoBehaviour
 			if ( hit != null )
 			{
 				Vector2 hitVector = hit.point - origin;
-				//Debug.Log(hitVector.magnitude);
 				//Half height
-				if ( hitVector.magnitude < 1.5f )
+				if ( hitVector.magnitude <= 1.0f )
 				{
-
-					sprite.sprite = activeWalk;
+					SetSprite(activeWalk);
+					Vector2 box = new Vector2(sprite.sprite.rect.width / 150,sprite.sprite.rect.height / 150);
+					gameObject.GetComponent<BoxCollider2D>().size = box;
 					IsGrounded = true;
 					HasDoubleJumped = false;
 					break;
 				}
 			}
-
 			yield return new WaitForEndOfFrame();
 		}
 	}

@@ -3,23 +3,26 @@ using System.Collections;
 
 public class Background : MonoBehaviour {
 
-	const float X_MAX = 10.0f * (4.0f/3.0f);
-	private bool isReadyToUpdate = false;
+	//float X_MAX = 25.8f * (4.0f/3.0f);
+	const float X_MAX = 25.8f;
+	private bool isReadyToUpdate = true;
 
 	// Use this for initialization
 	void Start()
 	{
 		Game.Instance.Background.Add(this);
 
-
+		this.rigidbody2D.velocity = Game.Instance.ScrollSpeed;
+		SpriteRenderer renderer = gameObject.GetComponent<SpriteRenderer>();
+		renderer.sprite = Game.Instance.DeparmentMap[Game.Instance.CurrentDepartment];
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-		this.rigidbody2D.velocity = Game.Instance.ScrollSpeed;
+		Debug.Log(X_MAX);
 		if(this.transform.position.x < -X_MAX)
 		{
-
+			//X_MAX = gameObject.GetComponent<SpriteRenderer>().sprite.rect.width*gameObject.transform.localScale.x/100 * (4.0f/3.0f);
 			this.transform.position = new Vector2(X_MAX, 0);
 
 			Game.Instance.TickBackgroundInt();
