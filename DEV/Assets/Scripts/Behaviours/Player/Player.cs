@@ -155,11 +155,12 @@ public class Player : MonoBehaviour
 
 	void OnSlide()
 	{
+		Game.Instance.ScrollSpeed += new Vector2(2,2);
 	}
 
 	void OnStopSlide()
 	{
-
+		Game.Instance.ScrollSpeed += new Vector2(-2,-2);
 	}
 
 	void OnUseShortcut()
