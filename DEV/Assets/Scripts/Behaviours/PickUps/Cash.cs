@@ -3,7 +3,13 @@ using System.Collections;
 
 public class Cash : PickUp 
 {
-    public enum Amount { Fifty, One_Hundred, One_Hundred_Fifty}
+    public Sprite s1;
+    public Sprite s2;
+    public Sprite s3;
+
+    SpriteRenderer sprite;
+
+    public enum Amount { None, Fifty, One_Hundred, One_Hundred_Fifty}
     public Amount amount;
 
 	void Start () 
@@ -13,11 +19,13 @@ public class Cash : PickUp
 
         int rand = Random.Range(0, 3);
 
+        sprite = this.gameObject.GetComponent<SpriteRenderer>();
+
         switch (rand)
         {
-            case 0: amount = Amount.Fifty;              break;
-            case 1: amount = Amount.One_Hundred;        break;
-            case 2: amount = Amount.One_Hundred_Fifty;  break;
+            case 0: amount = Amount.Fifty; sprite.sprite = s1; break;
+            case 1: amount = Amount.One_Hundred; sprite.sprite = s2; break;
+            case 2: amount = Amount.One_Hundred_Fifty; sprite.sprite = s3; break;
         }
 	}
 

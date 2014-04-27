@@ -6,7 +6,7 @@ public enum DepartmentType : byte
 	LivingRoom,
 	DiningRoom,
 	BedRoom,
-	Chlidrens,
+	Childrens,
 	BathRoom,
 	Workspaces,
 	NONE = Byte.MaxValue
