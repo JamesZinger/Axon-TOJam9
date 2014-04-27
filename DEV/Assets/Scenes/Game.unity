@@ -902,6 +902,10 @@ Prefab:
       propertyPath: m_FixedAngle
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 8384a9ae3baae6844ab98e4e13cec056, type: 2}
+      propertyPath: InitialCash
+      value: 2000
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6100000, guid: 8384a9ae3baae6844ab98e4e13cec056, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 8384a9ae3baae6844ab98e4e13cec056, type: 2}
@@ -1062,7 +1066,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpForce: {x: 0, y: 13}
-  InitialCash: 0
+  InitialCash: 2000
   jumpTexture: {fileID: 21300000, guid: f46a7c68d97028941a5683324d9c3d70, type: 3}
   slideTexture: {fileID: 21300000, guid: 305a8778c78a1d74f88985667758dc7d, type: 3}
   walkAnims:

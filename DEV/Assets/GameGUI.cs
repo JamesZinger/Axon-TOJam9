@@ -30,6 +30,9 @@ public class GameGUI : MonoBehaviour
         emptyMeatBallImg = (Texture2D)Resources.Load("Sprites/GUI/UI/fullMeatballUI", typeof(Texture2D));
         fullMeatBallImg = (Texture2D)Resources.Load("Sprites/GUI/UI/emptyMeatballUI", typeof(Texture2D));
 
+
+
+
         Init();
 	}
 
@@ -44,11 +47,11 @@ public class GameGUI : MonoBehaviour
         cashRect = new Rect(856 - 150, 0, 150, 75);
 
         // meatballs
-        meatGroupRct = new Rect(856/2, 0, 225, 75);
+        meatGroupRct = new Rect(856/2, 0, 150, 75);
 
-        mb0 = new Rect(0, 0, 75, 75);
-        mb1 = new Rect(75, 0, 75, 75);
-        mb2 = new Rect(150, 0, 75, 75);
+        mb0 = new Rect(0, 0, 50, 50);
+        mb1 = new Rect(50, 0, 50, 50);
+        mb2 = new Rect(100, 0, 50, 50);
         
     }
 	
