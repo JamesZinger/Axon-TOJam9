@@ -4,7 +4,7 @@ using System.Collections;
 public class Background : MonoBehaviour {
 
 	//float X_MAX = 25.8f * (4.0f/3.0f);
-	const float X_MAX = 25.8f;
+	const float X_MAX = 25.5f;
 	private bool isReadyToUpdate = true;
 
 	// Use this for initialization
