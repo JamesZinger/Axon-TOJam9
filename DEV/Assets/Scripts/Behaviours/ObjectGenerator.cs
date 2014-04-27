@@ -47,6 +47,7 @@ public class ObjectGenerator : MonoBehaviour {
 		go.name = template.Name;
         go.layer = LayerMask.NameToLayer("Furniture");
 		float yValue = 0;
+		int powerUpLevel;
 		switch(template.Zone){
 		case Furniture.Zone.High:
 			yValue = topValue;
@@ -59,6 +60,9 @@ public class ObjectGenerator : MonoBehaviour {
 			break;
 		}
 		go.transform.position = new Vector2(pos.x, yValue);
+		if(go.GetComponent<SpriteRenderer>().sprite.rect.height < 900){
+
+		}
 		PolygonCollider2D bc = go.AddComponent<PolygonCollider2D>();
 		Rigidbody2D rb = go.AddComponent<Rigidbody2D>();
         rb.gravityScale = 0f;
@@ -149,7 +153,16 @@ public class ObjectGenerator : MonoBehaviour {
 		if(closeDist.x < 0){
 			closeDist = new Vector2((_size * _ratio) * 2, groundLevel);
 		}
-		return 7;
+		float dist = GetMaxDist();
+		Debug.Log(dist);
+		return dist;
+	}
+	float GetMaxDist(){
+		float time1, time2;
+		float a = Physics2D.gravity.y;
+		float v = initialVelocity;
+
+		return 2*maxHeight/a * background.velocity.x;
 	}
 	//Calculate the earliest take-off point and return the landing. Use the bottom-left corner of the player hitbox
 	Vector2 CalcEarliestJump(Rect obstacle){
@@ -171,74 +184,4 @@ public class ObjectGenerator : MonoBehaviour {
 		//Should be renamed end
 		return start;
 	}
-	/*
-	//Latest take-off point. Use the bottom-right corner of the player
-	Vector2 CalcLatestJump2(Rect obstacle){
-		//All the same as above
-		Vector2 start = new Vector2();
-		Vector2 peak;
-		Vector2 collision;
-		float timeToCollide;
-		float timeToLand;
-
-		//The collision here is with the top left, not the top right, of the obstacle
-		collision = new Vector2(obstacle.x, obstacle.y);
-		timeToCollide = Mathf.Sqrt(2.0f*(collision.y - maxHeight) / Physics2D.gravity.y);
-		peak.y = maxHeight;
-		peak.x = collision.x + background.velocity.x*timeToCollide;
-		timeToLand = Mathf.Sqrt( (2.0f*maxHeight)/(-Physics2D.gravity.y) );
-		start.x = peak.x + background.velocity.x*timeToLand;
-		start.y = groundLevel;
-
-		//Should be renamed end
-		return start;
-	}
-	//Latest take-off point. Use the bottom-right corner of the player
-	Vector2 CalcLatestJump(Rect obstacle){
-		/*Vector2 start;
-		Vector2 collision;
-		collision = new Vector2(obstacle.x, obstacle.y);
-		float a = Physics2D.gravity.y;
-		float t1, t2;
-		float v1 = initialVelocity;
-
-		t1 = (-v1 + Mathf.Sqrt(v1*v1 - 4.0f*0.5f*-collision.y));
-		t2 = (-v1 - Mathf.Sqrt(v1*v1 - 4.0f*0.5f*-collision.y));
-
-		t1 = (t1 < t2 ? t1 : t2);
-
-		float timeToTop = v1 / a;
-		float totalDist = background.velocity.x *timeToTop*2;
-		start.x = totalDist - background.velocity.x*t1;
-		start.y = 0;
-
-
-
-
-		return start;*/
-
-		/*//All the same as above
-		Vector2 start;
-		Vector2 peak;
-		Vector2 collision;
-		float timeToCollide;
-		float timeToFall;
-		float deltaTime;
-		float distToStart;
-		
-		//The collision here is with the top left, not the top right, of the obstacle
-		collision = new Vector2(obstacle.x, obstacle.y);
-		peak.y = maxHeight;
-		timeToFall = Mathf.Sqrt(2.0f*maxHeight / -Physics2D.gravity.y);
-		peak.x = timeToFall * background.velocity.x;
-
-		timeToCollide = Mathf.Sqrt(2.0f*(maxHeight - collision.y) / -Physics2D.gravity.y);
-		deltaTime = timeToFall - timeToCollide;
-		distToStart = deltaTime * background.velocity.x;
-		start.x = 2*timeToFall*background.velocity.x - distToStart + collision.x;
-		start.y = groundLevel;
-
-		//Should be renamed end
-		return start;
-	}*/
 }
