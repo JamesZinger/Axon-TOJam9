@@ -317,6 +317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2abba61824609a547a4a5be7dcc9504e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Skin: {fileID: 11400000, guid: 3cd90dd3136fc3946acf594011095f60, type: 2}
   ScrollSpeed: {x: -5, y: 0}
 --- !u!4 &514866360
 Transform:
@@ -379,6 +380,11 @@ Prefab:
       propertyPath: ScrollSpeed.x
       value: -5
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ddc906495ab7b464da934ee1cb65fc3c, type: 2}
+      propertyPath: Skin
+      value: 
+      objectReference: {fileID: 11400000, guid: 3cd90dd3136fc3946acf594011095f60,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ddc906495ab7b464da934ee1cb65fc3c, type: 2}
   m_RootGameObject: {fileID: 514866358}
@@ -967,10 +973,6 @@ MonoBehaviour:
   InitialCash: 0
   jumpTexture: {fileID: 21300000, guid: f46a7c68d97028941a5683324d9c3d70, type: 3}
   slideTexture: {fileID: 21300000, guid: 305a8778c78a1d74f88985667758dc7d, type: 3}
-  walk1: {fileID: 21300000, guid: 1a4fabd51616cda4b9fb0839d3d10d7a, type: 3}
-  walk2: {fileID: 21300000, guid: 3b26b55efd19cae49a2313dec9580769, type: 3}
-  walk3: {fileID: 21300000, guid: dcc0b2ce41d3cde4c9ee142c72044ec0, type: 3}
-  walk4: {fileID: 21300000, guid: e598b7bf3c6b23f4bb03022142503837, type: 3}
   walkAnims:
   - {fileID: 21300000, guid: 1a4fabd51616cda4b9fb0839d3d10d7a, type: 3}
   - {fileID: 21300000, guid: 3b26b55efd19cae49a2313dec9580769, type: 3}

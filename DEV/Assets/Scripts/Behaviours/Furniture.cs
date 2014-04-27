@@ -11,15 +11,25 @@ public class Furniture : MonoBehaviour
 	public SpriteRenderer SpriteRenderer;
     public enum Zone { None, High, Medium, Low }
     public Zone zone;
+    PolygonCollider2D c;
+
+    private GUISkin skin;
+    Rect labelRct;
 
 	void Start () 
 	{
 		rigidbody2D.velocity = Game.Instance.ScrollSpeed;
+        skin = Game.Instance.Skin;
+        labelRct = new Rect(0, 0, 100, 25);
+        c = GetComponent<PolygonCollider2D>();
     }
 
     void Update()
     {
-    
+        //Vector2 tmp = Camera.main.WorldToScreenPoint(new Vector3(gameObject.renderer.bounds.center.x, gameObject.renderer.bounds.max.y, 1));
+        Vector2 tmp = Camera.main.WorldToScreenPoint(gameObject.transform.position);
+        labelRct.Set(tmp.x, (642 - tmp.y), 100, 25);
+        Debug.Log("Size: " + gameObject.renderer.bounds.center);
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -31,6 +41,16 @@ public class Furniture : MonoBehaviour
         }
     }
 
+
+    void OnGUI()
+    {
+        GUI.skin = skin;
+        GUI.matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, new Vector3(1.0f * Screen.width / 856, 1.0f * Screen.height / 642, 1.0f));
+
+        GUI.Label(labelRct, this.name.ToUpper());
+
+
+    }
 
 
 }
