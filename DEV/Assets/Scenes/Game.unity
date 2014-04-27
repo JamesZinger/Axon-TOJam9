@@ -376,6 +376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2abba61824609a547a4a5be7dcc9504e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Skin: {fileID: 11400000, guid: 3cd90dd3136fc3946acf594011095f60, type: 2}
   ScrollSpeed: {x: -5, y: 0}
 --- !u!4 &514866360
 Transform:
@@ -438,6 +439,11 @@ Prefab:
       propertyPath: ScrollSpeed.x
       value: -5
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: ddc906495ab7b464da934ee1cb65fc3c, type: 2}
+      propertyPath: Skin
+      value: 
+      objectReference: {fileID: 11400000, guid: 3cd90dd3136fc3946acf594011095f60,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ddc906495ab7b464da934ee1cb65fc3c, type: 2}
   m_RootGameObject: {fileID: 514866358}

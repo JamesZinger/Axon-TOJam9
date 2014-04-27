@@ -21,6 +21,7 @@ public class Game : MonoBehaviour
 	private bool isPaused = false;
 	private float fixedTimeStep = 0.0f;
 	private FurnitureManager furnitureManager;
+    public GUISkin Skin;
 
     #region Events
 

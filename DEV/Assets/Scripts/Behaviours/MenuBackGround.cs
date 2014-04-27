@@ -43,10 +43,10 @@ public class MenuBackGround : MonoBehaviour
     void Init()
     {
         
-        playRct = new Rect(((Screen.width / 2) - 240 / 2), 207, 200, 75);
-        instRct = new Rect(((Screen.width / 2) - 490 / 2), 300, 431, 75);
-        creditRct = new Rect(((Screen.width / 2) - 290/2), 400, 282, 75);
-        quitRct = new Rect(((Screen.width / 2) - 240 / 2), 500, 203, 75);
+        playRct = new Rect(328, 207, 200, 75);
+        instRct = new Rect(213, 300, 431, 75);
+        creditRct = new Rect(287, 400, 282, 75);
+        quitRct = new Rect(328, 500, 203, 75);
 
         backRct = new Rect(((Screen.width /2) - 150/2), Screen.height - 80, 150, 44);
 
@@ -94,11 +94,11 @@ public class MenuBackGround : MonoBehaviour
         if (GUI.Button(backRct, "", skin.GetStyle("Back Button")))
             ChangeScreen(UIScreen.Main);
 
-        if (GUI.Button(coworkRct, ""))
+        if (GUI.Button(coworkRct, "", skin.GetStyle("Coworker Opt")))
         {
             Application.LoadLevel(1);
         }
-        if (GUI.Button(studentRct, ""))
+        if (GUI.Button(studentRct, "", skin.GetStyle("Student Opt")))
         {
             Application.LoadLevel(1);
         }

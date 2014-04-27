@@ -193,13 +193,13 @@ MonoBehaviour:
     m_Name: label
     m_Normal:
       m_Background: {fileID: 0}
-      m_TextColor: {r: .899999976, g: .899999976, b: .899999976, a: 1}
+      m_TextColor: {r: .0705882385, g: .149019614, b: .53725493, a: 1}
     m_Hover:
       m_Background: {fileID: 0}
-      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+      m_TextColor: {r: .0705882385, g: .149019614, b: .533333361, a: 1}
     m_Active:
       m_Background: {fileID: 0}
-      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+      m_TextColor: {r: .0705882385, g: .149019614, b: .529411793, a: 1}
     m_Focused:
       m_Background: {fileID: 0}
       m_TextColor: {r: 0, g: 0, b: 0, a: 1}
@@ -235,9 +235,9 @@ MonoBehaviour:
       m_Right: 0
       m_Top: 0
       m_Bottom: 0
-    m_Font: {fileID: 0}
+    m_Font: {fileID: 12800000, guid: af8e65c033daaa44ab9e6e5483cd716f, type: 3}
     m_FontSize: 0
-    m_FontStyle: 0
+    m_FontStyle: 1
     m_Alignment: 0
     m_WordWrap: 1
     m_RichText: 1
@@ -1483,15 +1483,15 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
-  - m_Name: 
+  - m_Name: Coworker Opt
     m_Normal:
-      m_Background: {fileID: 0}
+      m_Background: {fileID: 2800000, guid: 1b6d0b80e33cd7b418100d9f4d45584d, type: 3}
       m_TextColor: {r: 0, g: 0, b: 0, a: 1}
     m_Hover:
-      m_Background: {fileID: 0}
+      m_Background: {fileID: 2800000, guid: 71c121fee458b954a9bfdbd7b977b12a, type: 3}
       m_TextColor: {r: 0, g: 0, b: 0, a: 1}
     m_Active:
-      m_Background: {fileID: 0}
+      m_Background: {fileID: 2800000, guid: 71c121fee458b954a9bfdbd7b977b12a, type: 3}
       m_TextColor: {r: 0, g: 0, b: 0, a: 1}
     m_Focused:
       m_Background: {fileID: 0}
@@ -1541,15 +1541,15 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
-  - m_Name: 
+  - m_Name: Student Opt
     m_Normal:
-      m_Background: {fileID: 0}
+      m_Background: {fileID: 2800000, guid: f7c52d6305f0daf4bb286bdcf345d849, type: 3}
       m_TextColor: {r: 0, g: 0, b: 0, a: 1}
     m_Hover:
-      m_Background: {fileID: 0}
+      m_Background: {fileID: 2800000, guid: 80379bcd27cc44146991547c0ae4e96f, type: 3}
       m_TextColor: {r: 0, g: 0, b: 0, a: 1}
     m_Active:
-      m_Background: {fileID: 0}
+      m_Background: {fileID: 2800000, guid: 80379bcd27cc44146991547c0ae4e96f, type: 3}
       m_TextColor: {r: 0, g: 0, b: 0, a: 1}
     m_Focused:
       m_Background: {fileID: 0}
