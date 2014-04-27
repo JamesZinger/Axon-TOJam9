@@ -561,7 +561,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400000, guid: 2d8531998578cc54e9338d52cc1becfd, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: .0125420094
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 2d8531998578cc54e9338d52cc1becfd, type: 2}
       propertyPath: m_LocalPosition.y
@@ -604,6 +604,10 @@ Prefab:
       value: 
       objectReference: {fileID: 21300000, guid: ca08b134b4bd5f74d93dd39fd5b936bb,
         type: 3}
+    - target: {fileID: 100000, guid: 2d8531998578cc54e9338d52cc1becfd, type: 2}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 11400000, guid: 2d8531998578cc54e9338d52cc1becfd, type: 2}
     - {fileID: 5000000, guid: 2d8531998578cc54e9338d52cc1becfd, type: 2}
@@ -717,13 +721,17 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 11400000, guid: 8384a9ae3baae6844ab98e4e13cec056, type: 2}
+      propertyPath: walkAnims.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 8384a9ae3baae6844ab98e4e13cec056, type: 2}
       propertyPath: m_LocalPosition.x
       value: 2.3080256
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 8384a9ae3baae6844ab98e4e13cec056, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 3.03710556
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 8384a9ae3baae6844ab98e4e13cec056, type: 2}
       propertyPath: m_LocalPosition.z
@@ -745,6 +753,61 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 8384a9ae3baae6844ab98e4e13cec056, type: 2}
+      propertyPath: jumpTexture
+      value: 
+      objectReference: {fileID: 21300000, guid: f46a7c68d97028941a5683324d9c3d70,
+        type: 3}
+    - target: {fileID: 11400000, guid: 8384a9ae3baae6844ab98e4e13cec056, type: 2}
+      propertyPath: slideTexture
+      value: 
+      objectReference: {fileID: 21300000, guid: 305a8778c78a1d74f88985667758dc7d,
+        type: 3}
+    - target: {fileID: 11400000, guid: 8384a9ae3baae6844ab98e4e13cec056, type: 2}
+      propertyPath: walk1
+      value: 
+      objectReference: {fileID: 21300000, guid: 1a4fabd51616cda4b9fb0839d3d10d7a,
+        type: 3}
+    - target: {fileID: 11400000, guid: 8384a9ae3baae6844ab98e4e13cec056, type: 2}
+      propertyPath: walk2
+      value: 
+      objectReference: {fileID: 21300000, guid: 3b26b55efd19cae49a2313dec9580769,
+        type: 3}
+    - target: {fileID: 11400000, guid: 8384a9ae3baae6844ab98e4e13cec056, type: 2}
+      propertyPath: walk3
+      value: 
+      objectReference: {fileID: 21300000, guid: dcc0b2ce41d3cde4c9ee142c72044ec0,
+        type: 3}
+    - target: {fileID: 11400000, guid: 8384a9ae3baae6844ab98e4e13cec056, type: 2}
+      propertyPath: walk4
+      value: 
+      objectReference: {fileID: 21300000, guid: e598b7bf3c6b23f4bb03022142503837,
+        type: 3}
+    - target: {fileID: 21200000, guid: 8384a9ae3baae6844ab98e4e13cec056, type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1a4fabd51616cda4b9fb0839d3d10d7a,
+        type: 3}
+    - target: {fileID: 11400000, guid: 8384a9ae3baae6844ab98e4e13cec056, type: 2}
+      propertyPath: walkAnims.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 1a4fabd51616cda4b9fb0839d3d10d7a,
+        type: 3}
+    - target: {fileID: 11400000, guid: 8384a9ae3baae6844ab98e4e13cec056, type: 2}
+      propertyPath: walkAnims.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 3b26b55efd19cae49a2313dec9580769,
+        type: 3}
+    - target: {fileID: 11400000, guid: 8384a9ae3baae6844ab98e4e13cec056, type: 2}
+      propertyPath: walkAnims.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: dcc0b2ce41d3cde4c9ee142c72044ec0,
+        type: 3}
+    - target: {fileID: 11400000, guid: 8384a9ae3baae6844ab98e4e13cec056, type: 2}
+      propertyPath: walkAnims.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300000, guid: e598b7bf3c6b23f4bb03022142503837,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8384a9ae3baae6844ab98e4e13cec056, type: 2}
   m_RootGameObject: {fileID: 1762089974}
@@ -875,7 +938,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_SortingLayerID: 0
-  m_Sprite: {fileID: 21300000, guid: f46a7c68d97028941a5683324d9c3d70, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1a4fabd51616cda4b9fb0839d3d10d7a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!4 &1762089978
 Transform:
@@ -884,7 +947,7 @@ Transform:
   m_PrefabInternal: {fileID: 1649052110}
   m_GameObject: {fileID: 1762089974}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.3080256, y: 3.03710556, z: 0}
+  m_LocalPosition: {x: 2.3080256, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -902,6 +965,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpForce: {x: 0, y: 13}
   InitialCash: 0
+  jumpTexture: {fileID: 21300000, guid: f46a7c68d97028941a5683324d9c3d70, type: 3}
+  slideTexture: {fileID: 21300000, guid: 305a8778c78a1d74f88985667758dc7d, type: 3}
+  walk1: {fileID: 21300000, guid: 1a4fabd51616cda4b9fb0839d3d10d7a, type: 3}
+  walk2: {fileID: 21300000, guid: 3b26b55efd19cae49a2313dec9580769, type: 3}
+  walk3: {fileID: 21300000, guid: dcc0b2ce41d3cde4c9ee142c72044ec0, type: 3}
+  walk4: {fileID: 21300000, guid: e598b7bf3c6b23f4bb03022142503837, type: 3}
+  walkAnims:
+  - {fileID: 21300000, guid: 1a4fabd51616cda4b9fb0839d3d10d7a, type: 3}
+  - {fileID: 21300000, guid: 3b26b55efd19cae49a2313dec9580769, type: 3}
+  - {fileID: 21300000, guid: dcc0b2ce41d3cde4c9ee142c72044ec0, type: 3}
+  - {fileID: 21300000, guid: e598b7bf3c6b23f4bb03022142503837, type: 3}
 --- !u!1001 &1895239009
 Prefab:
   m_ObjectHideFlags: 0
@@ -997,7 +1071,7 @@ Transform:
   m_PrefabInternal: {fileID: 1041884645}
   m_GameObject: {fileID: 1961468352}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -.0140352249, z: 0}
+  m_LocalPosition: {x: .0125420094, y: -.0140352249, z: 0}
   m_LocalScale: {x: .665879965, y: .665879965, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

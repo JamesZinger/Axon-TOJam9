@@ -154,8 +154,6 @@ public class Game : MonoBehaviour
 
     void OnGameOver()
     {
-
-        Debug.Log("Game is Over");
         if (GameOver != null)
             GameOver();
     }
