@@ -311,14 +311,14 @@ public class Player : MonoBehaviour
 	}
     public void AddDiscount(GiftCard.Discount type)
     {
-        discountRemainingTime = 15;
+        discountRemainingTime = 5;
 
         this.DiscountType = type;
 	}
 
     public void AddInvincibilityTime(float time)
     {
-        invincibillityRemainingTime = 15;
+        invincibillityRemainingTime = 5;
     }
 
     public void DeductCash(float price)

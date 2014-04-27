@@ -44,7 +44,27 @@ public class Furniture : MonoBehaviour
 
 
 
-            Game.Instance.Player.DeductCash(this.price);
+            if (Game.Instance.Player.HasDiscount)
+            {
+                switch (Game.Instance.Player.DiscountType)
+                {
+                    case GiftCard.Discount.DIS_25:
+                        burst.SetUpForFurniture(new Vector2(0, 0), this.price * 0.75f, this.allanKeyValue);
+                        break;
+                    case GiftCard.Discount.DIS_50:
+                        burst.SetUpForFurniture(new Vector2(0, 0), this.price * 0.50f, this.allanKeyValue);
+                        break;
+                    case GiftCard.Discount.DIS_75: 
+                        burst.SetUpForFurniture(new Vector2(0, 0), this.price * 0.25f, this.allanKeyValue);
+                        break;
+
+                }
+                Game.Instance.Player.DeductCash(this.price);
+            }
+            else
+                Game.Instance.Player.DeductCash(this.price);
+
+
 			Game.Instance.ap.PlayClip(Audiopocalypse.Sounds.Pickup_Furniture);
             Game.Instance.Player.AllanKeys += this.allanKeyValue;
             Destroy(this.gameObject);
