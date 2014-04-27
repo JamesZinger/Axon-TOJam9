@@ -17,7 +17,7 @@ public class FurnitureManager : MonoBehaviour
 		{
 			if ( s.Contains( "Bathroom" ) ) this.Department = DepartmentType.BathRoom;
 			if ( s.Contains( "Bedroom" ) ) this.Department = DepartmentType.BedRoom;
-			if ( s.Contains( "Children" ) ) this.Department = DepartmentType.Chlidrens;
+			if ( s.Contains( "Children" ) ) this.Department = DepartmentType.Childrens;
 			if ( s.Contains( "Dining" ) ) this.Department = DepartmentType.DiningRoom;
 			if ( s.Contains( "Kitchen" ) ) this.Department = DepartmentType.Kitchen;
 			if ( s.Contains( "Living Room" ) ) this.Department = DepartmentType.LivingRoom;
@@ -53,7 +53,7 @@ public class FurnitureManager : MonoBehaviour
 
         furnitureMap.Add(DepartmentType.BathRoom, new List<TemplateFurniture>());
         furnitureMap.Add(DepartmentType.BedRoom, new List<TemplateFurniture>());
-        furnitureMap.Add(DepartmentType.Chlidrens, new List<TemplateFurniture>());
+        furnitureMap.Add(DepartmentType.Childrens, new List<TemplateFurniture>());
         furnitureMap.Add(DepartmentType.DiningRoom, new List<TemplateFurniture>());
         furnitureMap.Add(DepartmentType.Kitchen, new List<TemplateFurniture>()); 
         furnitureMap.Add(DepartmentType.LivingRoom, new List<TemplateFurniture>());

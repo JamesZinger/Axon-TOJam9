@@ -177,7 +177,10 @@ public class Game : MonoBehaviour
 
 			Sprite tex = null;
 
-			tex = Resources.Load<Sprite>("Sprites/" + s + "");
+			tex = Resources.Load<Sprite>("Sprites/BackGround/" + s + "");
+
+            Debug.Log("Sprites/BackGround/" + s + "");
+
 			departmentMap.Add(deptType, tex);
 		}
 	}

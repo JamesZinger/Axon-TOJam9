@@ -68,6 +68,8 @@ public class Player : MonoBehaviour
 	private bool isGrounded = true;
 	private bool hasDoubleJumped = false;
 	private bool isSliding = false;
+    private GiftCard.Discount discountType;
+
 	#endregion
 
 	#region Unity Events
@@ -210,25 +212,39 @@ public class Player : MonoBehaviour
 		}
 	}
 
-    public void AddDiscountTime()
+    public void AddDiscount(GiftCard.Discount type)
     {
-        discountRemainingTime += 5.0f;
+        discountRemainingTime += 10.0f;
+
+        this.discountType = type;
 	}
+
     public void AddInvincibilityTime(float time)
     {
         invincibillityRemainingTime += time;
     }
+
     public void DeductCash(float price)
     {
         
         if (hasDiscount)
         {
-            this.cash -= price * 0.5f;
+            switch (discountType)
+            {
+                case GiftCard.Discount.DIS_25: this.cash -= price * 0.75f; break;
+                case GiftCard.Discount.DIS_50: this.cash -= price * 0.5f; break;
+                case GiftCard.Discount.DIS_75: this.cash -= price * 0.25f; break;
+            }
         }
         else this.cash -= price;
 
         if (cash < 0)
             Game.Instance.OutOfCoins();
+    }
+
+    void Animate()
+    {
+
     }
 
 }
