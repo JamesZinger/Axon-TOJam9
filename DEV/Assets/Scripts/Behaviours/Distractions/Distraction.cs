@@ -12,6 +12,7 @@ public class Distraction : PickUp
 	void Start () 
     {
         base.Start();
+		pickupSound = Audiopocalypse.Sounds.Pickup_Distractor;
 	}
 	
 	void Update () 

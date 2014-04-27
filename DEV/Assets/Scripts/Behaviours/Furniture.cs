@@ -36,6 +36,7 @@ public class Furniture : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             Game.Instance.Player.DeductCash(this.price);
+			Game.Instance.ap.PlayClip(Audiopocalypse.Sounds.Pickup_Furniture);
             Destroy(this.gameObject);
         }
     }

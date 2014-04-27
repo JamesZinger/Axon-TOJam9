@@ -22,6 +22,7 @@ public class Game : MonoBehaviour
 	private float fixedTimeStep = 0.0f;
 	private FurnitureManager furnitureManager;
     public GUISkin Skin;
+	public Audiopocalypse ap;
 
     #region Events
 
@@ -162,8 +163,10 @@ public class Game : MonoBehaviour
 
     void OnGameOver()
     {
-        if (GameOver != null)
+        if (GameOver != null){
+			ap.PlayClip(Audiopocalypse.Sounds.Death);
             GameOver();
+		}
     }
 	#endregion
 
@@ -214,6 +217,7 @@ public class Game : MonoBehaviour
 			Time.timeScale = 0;
 
 		IsPaused = !IsPaused;
+		ap.PlayClip(Audiopocalypse.Sounds.Menu_Click);
 	}
 
 }
