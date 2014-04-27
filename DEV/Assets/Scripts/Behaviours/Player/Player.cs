@@ -133,7 +133,7 @@ public class Player : MonoBehaviour
         Distract();
         Meatball();
 
-        Debug.Log(meatBalledRemainingTime);
+        //.Log(meatBalledRemainingTime);
 
 		if(IsGrounded == true){
 			SetSprite(activeWalk);
@@ -203,6 +203,7 @@ public class Player : MonoBehaviour
 		if (MeatBallCount > 0)
 		{
             Meatballed = true;
+            meatBalledRemainingTime = 10;
             Debug.Log("Meatballs Activated");
 			Game.Instance.ap.PlayClip(Audiopocalypse.Sounds.Menu_Click);
 			MeatBallCount --;

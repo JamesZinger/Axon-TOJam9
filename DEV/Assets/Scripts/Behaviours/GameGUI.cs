@@ -33,6 +33,7 @@ public class GameGUI : MonoBehaviour
     private Rect boostRect;
     private Rect tipUseMB;
     Texture2D useMeatBallTipImg;
+    Texture2D meatballImg;
 
 	void Start () 
     {
@@ -47,7 +48,7 @@ public class GameGUI : MonoBehaviour
         sale75 = (Texture2D)Resources.Load("Sprites/GUI/UI/sale75", typeof(Texture2D));
         distracted = (Texture2D)Resources.Load("Sprites/GUI/UI/distracted", typeof(Texture2D));
         useMeatBallTipImg = (Texture2D)Resources.Load("Sprites/GUI/UI/useMeatballUI", typeof(Texture2D));
-
+        meatballImg = (Texture2D)Resources.Load("Sprites/GUI/UI/meatballBoost", typeof(Texture2D));
 
 
 
@@ -128,6 +129,10 @@ public class GameGUI : MonoBehaviour
         if (Game.Instance.Player.Distracted)
         {
             GUI.Label(boostRect, distracted);
+        }
+        if (Game.Instance.Player.Meatballed)
+        {
+            GUI.Label(boostRect, meatballImg);
         }
     }
 }

@@ -26,7 +26,6 @@ public class Game : MonoBehaviour
 	public GUIText list;
 
     public GameObject PointBurst;
-    public GameObject PointCash;
 
     #region Events
 
@@ -203,7 +202,6 @@ public class Game : MonoBehaviour
 		backgroundTick++;
 		if(backgroundTick >= 5)
 		{ 
-<<<<<<< HEAD
 			int loadNeeded;
 			loadNeeded = Random.Range(0,100);
 			if(loadNeeded%2 == 1){
@@ -213,11 +211,7 @@ public class Game : MonoBehaviour
 				levelsNeeded = Random.Range(0, shoppingList.Count);
 				currentDepartment = shoppingList[levelsNeeded].Department;
 			}
-				Debug.Log("Current Department: " + currentDepartment);
-=======
-			currentDepartment = (DepartmentType) Random.Range(0, System.Enum.GetNames(typeof(DepartmentType)).Length - 2);
-			//Debug.Log("Current Department: " + currentDepartment);
->>>>>>> 3be5be4159cd26ee569c939d4d791402628ead72
+		    //Debug.Log("Current Department: " + currentDepartment);
 		
 			foreach (Background BG in Background)
 				BG.UpdateBackground();

@@ -35,12 +35,14 @@ public class PointBurst : MonoBehaviour
         groupRect.Set(pos.x, pos.y, 100, 100);
         this.cost = cost;
         this.keys = keys;
+        Game.Instance.Skin.GetStyle("Cost").normal.textColor = Color.red;
     }
     public void SetUpForCash(Vector2 pos, float cost)
     {
         groupRect.Set(pos.x, pos.y, 100, 100);
         this.cost = cost;
         keys = 0;
+        Game.Instance.Skin.GetStyle("Cost").normal.textColor = Color.green;
     }
 	
 	// Update is called once per frame
@@ -52,6 +54,7 @@ public class PointBurst : MonoBehaviour
             groupRect.y += moveY * Time.fixedDeltaTime * 10;
         }
 
+        skin.GetStyle("Cost").normal.textColor = Color.green;
         if (elapsedTime >= MAX_TIME)
             Destroy(this.gameObject);
         

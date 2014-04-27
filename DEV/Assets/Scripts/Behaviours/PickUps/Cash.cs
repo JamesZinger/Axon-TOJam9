@@ -31,14 +31,23 @@ public class Cash : PickUp
 
     public override void AddPickUp()
     {
+        GameObject obj = Instantiate(Game.Instance.PointBurst, Vector3.zero, Quaternion.identity) as GameObject;
+        PointBurst burst = obj.GetComponent<PointBurst>();
+
+        
         switch (amount)
         {
             case Amount.Fifty: 
-                Game.Instance.Player.Cash += 50; 
-
+                Game.Instance.Player.Cash += 50;
+                burst.SetUpForCash(new Vector2(0, 0), 50);
                 break;
-            case Amount.One_Hundred: Game.Instance.Player.Cash += 100;          break;
-            case Amount.One_Hundred_Fifty: Game.Instance.Player.Cash += 150;    break;
+            case Amount.One_Hundred: Game.Instance.Player.Cash += 100;
+                burst.SetUpForCash(new Vector2(0, 0), 50);
+                break;
+            case Amount.One_Hundred_Fifty: 
+                Game.Instance.Player.Cash += 150;  
+                burst.SetUpForCash(new Vector2(0, 0), 50);
+                break;
         }
          
         base.AddPickUp();
