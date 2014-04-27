@@ -317,7 +317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2abba61824609a547a4a5be7dcc9504e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ScrollSpeed: {x: -5, y: 0}
+  ScrollSpeed: {x: -7, y: 0}
 --- !u!4 &514866360
 Transform:
   m_ObjectHideFlags: 0
@@ -377,7 +377,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: ddc906495ab7b464da934ee1cb65fc3c, type: 2}
       propertyPath: ScrollSpeed.x
-      value: -5
+      value: -7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ddc906495ab7b464da934ee1cb65fc3c, type: 2}
@@ -678,6 +678,14 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5000000, guid: 8384a9ae3baae6844ab98e4e13cec056, type: 2}
+      propertyPath: m_Mass
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 8384a9ae3baae6844ab98e4e13cec056, type: 2}
+      propertyPath: jumpForce.y
+      value: 13
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8384a9ae3baae6844ab98e4e13cec056, type: 2}
   m_RootGameObject: {fileID: 1762089974}
@@ -761,7 +769,7 @@ Rigidbody2D:
     type: 2}
   m_PrefabInternal: {fileID: 1649052110}
   m_GameObject: {fileID: 1762089974}
-  m_Mass: 7
+  m_Mass: 15
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 2
@@ -829,7 +837,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bb4eb043e39a3a4788c9b0b8b5e66f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: {x: 0, y: 11}
+  jumpForce: {x: 0, y: 13}
+  InitialCash: 0
 --- !u!1001 &1895239009
 Prefab:
   m_ObjectHideFlags: 0
