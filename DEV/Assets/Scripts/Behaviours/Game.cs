@@ -16,6 +16,7 @@ public class Game : MonoBehaviour
 	private DepartmentType currentDepartment = DepartmentType.NONE;
 	private Dictionary<DepartmentType, Sprite> departmentMap;
 	private List<Background> background = null;
+	private List<FurnitureManager.TemplateFurniture> shoppingList;
 	private int backgroundTick = 0;
 	private bool isPaused = false;
 	private float fixedTimeStep = 0.0f;
@@ -30,7 +31,6 @@ public class Game : MonoBehaviour
     public event GameOverHandler GameOver;
 
     #endregion
-
 
     public Vector2 ScrollSpeed;
 
@@ -91,7 +91,6 @@ public class Game : MonoBehaviour
 				GameObject go = new GameObject();
 				go.name = "GameManager";
 				instance = go.AddComponent<Game>();
-	
 			}
 
 			return instance;
@@ -118,7 +117,6 @@ public class Game : MonoBehaviour
 
 		departmentMap = new Dictionary<DepartmentType, Sprite>();
 
-
 		string[] names = System.Enum.GetNames( typeof( DepartmentType ) );
 		
 		int firstdepartment = UnityEngine.Random.Range(0, names.Length - 2);
@@ -129,7 +127,7 @@ public class Game : MonoBehaviour
 
 		MapDepartmentTextures();
 
-		fixedTimeStep = Time.fixedDeltaTime;
+		fixedTimeStep = Time.timeScale;
 	}
 
     void Start()
@@ -142,7 +140,16 @@ public class Game : MonoBehaviour
         }
 
         Controls.PauseButton += OnPause;
-
+		int DeptCount = 7;
+		shoppingList = new List<FurnitureManager.TemplateFurniture>();
+		for(int ii = 0; ii < 3; ii++){
+			int rand = Random.Range(0,DeptCount);
+			int itemCount = Game.Instance.FurnitureManager.furnitureMap[(DepartmentType)rand].Count;
+			
+			List<FurnitureManager.TemplateFurniture> RandomList = Game.Instance.FurnitureManager.furnitureMap[(DepartmentType)rand];	
+			FurnitureManager.TemplateFurniture template = RandomList[Random.Range(0, RandomList.Count - 1)];
+			shoppingList.Add(template);
+		}
     }
 
 
@@ -160,7 +167,6 @@ public class Game : MonoBehaviour
         if (GameOver != null)
             GameOver();
     }
-
 	#endregion
 
 	/// <summary>	Map department textures to a dictionary of types to textures. </summary>
@@ -204,10 +210,12 @@ public class Game : MonoBehaviour
 	void OnPause()
 	{
 		if (IsPaused)
-			Time.fixedDeltaTime = fixedTimeStep;	
+			Time.timeScale = fixedTimeStep;	
 
 		else
-			Time.fixedDeltaTime = 0;
+			Time.timeScale = 0;
+
+		IsPaused = !IsPaused;
 	}
 
 }

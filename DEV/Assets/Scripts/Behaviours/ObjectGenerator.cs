@@ -21,6 +21,7 @@ public class ObjectGenerator : MonoBehaviour {
 	public GameObject cashPrefab;
 	public GameObject giftPrefab;
 	public GameObject meatPrefab;
+	public GameObject a,b,c;
 
 	// Use this for initialization
 	void Start () {
@@ -60,13 +61,19 @@ public class ObjectGenerator : MonoBehaviour {
 			break;
 		}
 		go.transform.position = new Vector2(pos.x, yValue);
-		if(go.GetComponent<SpriteRenderer>().sprite.rect.height < 900){
-
-		}
+		
 		PolygonCollider2D bc = go.AddComponent<PolygonCollider2D>();
 		Rigidbody2D rb = go.AddComponent<Rigidbody2D>();
         rb.gravityScale = 0f;
         bc.isTrigger = true;
+	}
+	void SpawnEither(Vector2 pos, int id){
+		int spawn = Random.Range(0, 100);
+		if(spawn%2 == 0){
+			SpawnDistraction(pos, id);
+		}else{
+			SpawnPowerup(pos, id);
+		}
 	}
 	void SpawnPowerup(Vector2 pos, int id){
 		GameObject powerup;
@@ -84,13 +91,29 @@ public class ObjectGenerator : MonoBehaviour {
 			powerup.transform.position = pos;
 			break;
 		}
-
+	}
+	void SpawnDistraction(Vector2 pos, int id){
+		GameObject powerup;
+		switch(id){
+		case 1:
+			powerup = (GameObject)Instantiate(a);
+			powerup.transform.position = pos;
+			break;
+		case 2:
+			powerup = (GameObject)Instantiate(b);
+			powerup.transform.position = pos;
+			break;
+		case 3:
+			powerup = (GameObject)Instantiate(c);
+			powerup.transform.position = pos;
+			break;
+		}
 	}
 	// Update is called once per frame
 	void Update () {
 		_elapsedTime += Time.deltaTime;
 		if(_elapsedTime > 3){
-			SpawnPowerup(new Vector2(_size * _ratio * 2, 7), Random.Range(1,4));
+			SpawnEither(new Vector2(_size * _ratio * 2, 7), Random.Range(1,4));
 			CheckSpawn();
 			_elapsedTime = 0;
 		}

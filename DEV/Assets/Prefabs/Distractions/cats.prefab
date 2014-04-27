@@ -13,7 +13,7 @@ GameObject:
   - 61: {fileID: 6100000}
   - 114: {fileID: 11400000}
   m_Layer: 9
-  m_Name: MeatBall
+  m_Name: cats
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -54,7 +54,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Size: {x: 1, y: .75333333}
+  m_Size: {x: 2, y: 1.5}
   m_Center: {x: 0, y: 0}
 --- !u!114 &11400000
 MonoBehaviour:
@@ -64,7 +64,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90764b59987fec44cb2211f637a3a624, type: 3}
+  m_Script: {fileID: 11500000, guid: faab9ed056d640148a83b588107508ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!212 &21200000
@@ -88,7 +88,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_SortingLayerID: 0
-  m_Sprite: {fileID: 21300000, guid: d96f1aeef995ffb4ba6f75e31ab4ce50, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 073434d9f351fec4498c1902f0dee894, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:
