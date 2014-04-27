@@ -143,9 +143,14 @@ public class Player : MonoBehaviour
 		Vector2 box = new Vector2(sprite.sprite.rect.width / 150,sprite.sprite.rect.height / 150);
 		gameObject.GetComponent<BoxCollider2D>().size = box;
 		gameObject.GetComponent<BoxCollider2D>().center = box/2;
+
 	}
+	
 	void OnJump()
 	{
+		if (Game.Instance.IsPaused)
+			return;
+
 		if ( IsGrounded == true )
 		{
 			SetSprite(jumpTexture);		
@@ -173,6 +178,9 @@ public class Player : MonoBehaviour
 
 	void OnUseItem()
 	{
+		if ( Game.Instance.IsPaused )
+			return;
+
 		if (MeatBallCount > 0)
 		{
             Debug.Log("Meatballs Activated");
@@ -182,6 +190,9 @@ public class Player : MonoBehaviour
 
 	void OnSlide()
 	{
+		if ( Game.Instance.IsPaused )
+			return;
+
 		if(isSliding){
 		}else{
 			//Game.Instance.Player.transform.position = Game.Instance.Player.transform.position - new Vector3(0, 1.5f, 0);
@@ -191,13 +202,17 @@ public class Player : MonoBehaviour
 
 	void OnStopSlide()
 	{
+		if ( Game.Instance.IsPaused )
+			return;
+
 		//Game.Instance.Player.transform.position = Game.Instance.Player.transform.position + new Vector3(0, 1.5f, 0);
 		isSliding = false;
 	}
 
 	void OnUseShortcut()
 	{
-
+		if ( Game.Instance.IsPaused )
+			return;
 	}
 
 	#endregion
