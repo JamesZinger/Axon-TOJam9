@@ -44,27 +44,24 @@ public class Furniture : MonoBehaviour
 
             burst.SetUp(new Vector2(0, 0), this.price, this.allanKeyValue);
 
-			Game.Instance.CollectedFuriture.Add(this.templateSource);
+
 
             Game.Instance.Player.DeductCash(this.price);
-			Game.Instance.ap.PlayClip(Audiopocalypse.Sounds.Pickup_Furniture);
-            Game.Instance.Player.AllanKeys += this.allanKeyValue;
-
+<<<<<<< HEAD
+			
 			if (Game.Instance.ShoppingList.Contains(templateSource))
-			{ 
+			{
 				Game.Instance.ShoppingList.Remove(templateSource);
 				if (Game.Instance.ShoppingList.Count == 0)
 				{
-					Game.Instance.Win();
+					
 				}
 			}
 
-			if (Game.Instance.Player.Cash < 0 && Game.Instance.state == Game.Gamestate.NONE)
-			{
-				Game.Instance.Lose();
-			}
-			
-
+=======
+			Game.Instance.ap.PlayClip(Audiopocalypse.Sounds.Pickup_Furniture);
+            Game.Instance.Player.AllanKeys += this.allanKeyValue;
+>>>>>>> d59bd6859c3861e8f759fde8a00c2c3e9b2c3935
             Destroy(this.gameObject);
         }
     }

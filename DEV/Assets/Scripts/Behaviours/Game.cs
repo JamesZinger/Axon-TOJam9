@@ -10,6 +10,8 @@ using System.Linq;
 /// <remarks>	James, 2014-04-19. </remarks>
 public class Game : MonoBehaviour
 {
+	public enum Gamestate { Win, Lose, NONE };
+	public Gamestate state = Gamestate.NONE;
 
 	private GameControls controls = null;
 	private Player player = null;
@@ -22,11 +24,13 @@ public class Game : MonoBehaviour
 	private bool isPaused = false;
 	private float fixedTimeStep = 0.0f;
 
+	[HideInInspector] public List<FurnitureManager.TemplateFurniture> CollectedFuriture = new List<FurnitureManager.TemplateFurniture>();
+	public Data dataObject;
 	private FurnitureManager furnitureManager;
 
     public GUISkin Skin;
 	public Audiopocalypse ap;
-
+	
     public GameObject PointBurst;
 
     #region Events
@@ -36,7 +40,11 @@ public class Game : MonoBehaviour
 
     #endregion
 
-    public Vector2 ScrollSpeed;
+	#region Rects
+	
+	#endregion
+
+	public Vector2 ScrollSpeed;
 
 	public GameControls Controls
 	{
@@ -123,6 +131,7 @@ public class Game : MonoBehaviour
 			return;
 		}
 
+	
 		Instance = this;
 
 		departmentMap = new Dictionary<DepartmentType, Sprite>();
@@ -142,8 +151,6 @@ public class Game : MonoBehaviour
 
     void Start()
     {
-        DontDestroyOnLoad(gameObject);
-
         if (Controls == null)
         {
             Controls = gameObject.AddComponent<GameControls>();
@@ -169,15 +176,17 @@ public class Game : MonoBehaviour
 	{
 		Instance = null;
 	}
-    public void OutOfCoins()
+   
+	public void OutOfCoins()
     {
         OnGameOver();
     }
 
     void OnGameOver()
     {
+		ap.PlayClip(Audiopocalypse.Sounds.Death);
         if (GameOver != null){
-			ap.PlayClip(Audiopocalypse.Sounds.Death);
+			
             GameOver();
 		}
     }
@@ -223,6 +232,8 @@ public class Game : MonoBehaviour
 
 	void OnPause()
 	{
+		if (state != Gamestate.NONE) return;
+
 		if (IsPaused)
 			Time.timeScale = fixedTimeStep;	
 
@@ -233,14 +244,36 @@ public class Game : MonoBehaviour
 		ap.PlayClip(Audiopocalypse.Sounds.Menu_Click);
 	}
 
-	void Win()
+	public void Win()
 	{
+		Debug.Log("WIN!");
 
+		if (state != Gamestate.NONE) return;
+
+		state = Gamestate.Win;
+
+		dataObject.Allenkeys = Player.AllanKeys;
+		dataObject.RemainingMoney = Player.Cash;
+		dataObject.CollectedFurniture = CollectedFuriture;
+		dataObject.didWin = true;
+
+		Application.LoadLevel(2);
 	}
 
-	void Lose()
+	public void Lose()
 	{
+		Debug.Log("Lose :(");
 
+		if (state != Gamestate.NONE) return;
+
+		state = Gamestate.Lose;
+
+		dataObject.Allenkeys = Player.AllanKeys;
+		dataObject.RemainingMoney = Player.Cash;
+		dataObject.CollectedFurniture = CollectedFuriture;
+		dataObject.didWin = false;
+
+		Application.LoadLevel(2);
 	}
 
 }

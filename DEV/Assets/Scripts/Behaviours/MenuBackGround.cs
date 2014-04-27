@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class MenuBackGround : MonoBehaviour 
 {
-    public enum UIScreen { None, Main, PlayMode, Credits };
+    public enum UIScreen { None, Main, Instructions, PlayMode, Credits };
     public UIScreen screen;
 
 	public enum MenuButton { Play = 0, Instructions, Credits, Quit, NONE = int.MaxValue }
@@ -12,7 +12,7 @@ public class MenuBackGround : MonoBehaviour
 
     List<Sprite> imgList = new List<Sprite>();
     SpriteRenderer spRender;
-	Xbox360GamepadState controller = new Xbox360GamepadState();
+	//Xbox360GamepadState controller = new Xbox360GamepadState();
 
     #region GUI Rects
 
@@ -26,13 +26,20 @@ public class MenuBackGround : MonoBehaviour
     public Rect coworkRct;
     private Rect studentRct;
 
+	Rect backRect;
+	Rect screenRect;
+
     #endregion 
 
     void Start () 
     {
+		screenRect = new Rect( 0, 0, Screen.width, Screen.height );
+		
+
         imgList.Add((Sprite)Resources.Load("Sprites/GUI/Menu/mainMenu-home", typeof(Sprite)));
         imgList.Add((Sprite)Resources.Load("Sprites/GUI/Menu/mainMenu-playmode", typeof(Sprite)));
         imgList.Add((Sprite)Resources.Load("Sprites/GUI/Menu/mainMenu-credits", typeof(Sprite)));
+		imgList.Add((Sprite)Resources.Load("Sprites/GUI/Menu/Instructions_page", typeof(Sprite)));
 
         Debug.Log("Width: " +Screen.width + " Height: " + Screen.height);
 
@@ -46,12 +53,14 @@ public class MenuBackGround : MonoBehaviour
     void Init()
     {
         
+		backRect = new Rect(856 - 200, 642 - 80, 150, 44); 
+
         playRct = new Rect(328, 207, 200, 75);
         instRct = new Rect(213, 300, 431, 75);
         creditRct = new Rect(287, 400, 282, 75);
         quitRct = new Rect(328, 500, 203, 75);
 
-        backRct = new Rect(((Screen.width /2) - 150/2), Screen.height - 80, 150, 44);
+        backRct = new Rect((856/2 - 150/2), 642 - 80, 150, 44);
 
         coworkRct = new Rect(70, 200, 355, 175);
         studentRct = new Rect(430, 200, 355, 175);
@@ -60,13 +69,13 @@ public class MenuBackGround : MonoBehaviour
     void MainScreen()
     {
         if (screen != UIScreen.Main) return;
-		if (controller.Axies[XboxAxis.LAnalog].y == -1 && controller.prevAxies[XboxAxis.LAnalog].y == 0)
-		{ 
+		//if (controller.Axies[XboxAxis.LAnalog].y == -1 && controller.prevAxies[XboxAxis.LAnalog].y == 0)
+		//{ 
 
-			ActiveButton--;
-			if (ActiveButton == MenuButton.Quit)
-				ActiveButton = MenuButton.Play;
-		}
+		//	ActiveButton--;
+		//	if (ActiveButton == MenuButton.Quit)
+		//		ActiveButton = MenuButton.Play;
+		//}
 
         if (GUI.Button(playRct, "", skin.GetStyle("Play Button")))
         {
@@ -74,7 +83,7 @@ public class MenuBackGround : MonoBehaviour
         }
         if (GUI.Button(instRct, "", skin.GetStyle("Instruction Button")))
         {
-            //ChangeScreen(UIScreen.Credits);
+            ChangeScreen(UIScreen.Instructions);
         }
         if (GUI.Button(creditRct, "", skin.GetStyle("Credit Button")))
         {
@@ -124,9 +133,21 @@ public class MenuBackGround : MonoBehaviour
             case UIScreen.Main:       spRender.sprite = imgList[0]; break;
             case UIScreen.PlayMode:   spRender.sprite = imgList[1]; break;
             case UIScreen.Credits:    spRender.sprite = imgList[2]; break;
+			case UIScreen.Instructions: spRender.sprite = imgList[3]; break;
         }
         this.screen = screen;
     }
+
+	void Instructions()
+	{
+		if(screen != UIScreen.Instructions) return;
+
+		GUI.Box( screenRect, "", skin.GetStyle( "InstructionBackground" ) );
+		if (GUI.Button(backRect, "", skin.GetStyle("Back Button")))
+		{
+			ChangeScreen(UIScreen.Main);
+		}
+	}
 
     void OnGUI()
     {
@@ -134,5 +155,6 @@ public class MenuBackGround : MonoBehaviour
         MainScreen();
         Credits();
         PlayMode();
+		Instructions();
     }
 }
