@@ -45,12 +45,8 @@ public class Furniture : MonoBehaviour
 
 
             Game.Instance.Player.DeductCash(this.price);
-<<<<<<< HEAD
 			Game.Instance.ap.PlayClip(Audiopocalypse.Sounds.Pickup_Furniture);
-=======
             Game.Instance.Player.AllanKeys += this.allanKeyValue;
-
->>>>>>> 66000ddcd3d15db7fe6eef9c51dcda356e8638f2
             Destroy(this.gameObject);
         }
     }
