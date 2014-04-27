@@ -3,7 +3,8 @@ using System.Collections;
 
 public class Background : MonoBehaviour {
 
-	float X_MAX = 25.0f * (4.0f/3.0f);
+	//float X_MAX = 25.8f * (4.0f/3.0f);
+	const float X_MAX = 25.8f;
 	private bool isReadyToUpdate = true;
 
 	// Use this for initialization
@@ -12,6 +13,8 @@ public class Background : MonoBehaviour {
 		Game.Instance.Background.Add(this);
 
 		this.rigidbody2D.velocity = Game.Instance.ScrollSpeed;
+		SpriteRenderer renderer = gameObject.GetComponent<SpriteRenderer>();
+		renderer.sprite = Game.Instance.DeparmentMap[Game.Instance.CurrentDepartment];
 	}
 
 	// Update is called once per frame
