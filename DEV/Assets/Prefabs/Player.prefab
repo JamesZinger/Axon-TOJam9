@@ -9,9 +9,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 400000}
   - 212: {fileID: 21200000}
-  - 61: {fileID: 6100000}
   - 50: {fileID: 5000000}
   - 114: {fileID: 11400000}
+  - 61: {fileID: 6100000}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -26,8 +26,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.46844769, y: 2.342695, z: 0}
-  m_LocalScale: {x: 3.76535916, y: 3.43800688, z: 1}
+  m_LocalPosition: {x: 2, y: 2.33999991, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
 --- !u!50 &5000000
@@ -36,7 +36,7 @@ Rigidbody2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_Mass: 7
+  m_Mass: 15
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 2
@@ -54,7 +54,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Size: {x: .399999976, y: .400000006}
+  m_Size: {x: 2.66666675, y: 1.81333339}
   m_Center: {x: 0, y: 0}
 --- !u!114 &11400000
 MonoBehaviour:
@@ -67,7 +67,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bb4eb043e39a3a4788c9b0b8b5e66f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: {x: 0, y: 11}
+  jumpForce: {x: 0, y: 13}
+  InitialCash: 0
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -89,7 +90,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_SortingLayerID: 0
-  m_Sprite: {fileID: 21300000, guid: cce1020d00c1392458773e1451f70f16, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f46a7c68d97028941a5683324d9c3d70, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:

@@ -240,11 +240,6 @@ public class Player : MonoBehaviour
 
         if (cash < 0)
             Game.Instance.OutOfCoins();
-    }
-
-    void Animate()
-    {
-
-    }
+    }   
 
 }

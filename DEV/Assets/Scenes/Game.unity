@@ -719,11 +719,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400000, guid: 8384a9ae3baae6844ab98e4e13cec056, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 1.94197655
+      value: 2.3080256
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 8384a9ae3baae6844ab98e4e13cec056, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 2.34161305
+      value: 3.03710556
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 8384a9ae3baae6844ab98e4e13cec056, type: 2}
       propertyPath: m_LocalPosition.z
@@ -815,9 +815,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 1762089978}
   - 212: {fileID: 1762089977}
-  - 61: {fileID: 1762089976}
   - 50: {fileID: 1762089975}
   - 114: {fileID: 1762089979}
+  - 61: {fileID: 1762089976}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -832,7 +832,7 @@ Rigidbody2D:
     type: 2}
   m_PrefabInternal: {fileID: 1649052110}
   m_GameObject: {fileID: 1762089974}
-  m_Mass: 7
+  m_Mass: 15
   m_LinearDrag: 0
   m_AngularDrag: 0
   m_GravityScale: 2
@@ -851,7 +851,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Size: {x: .399999976, y: .400000006}
+  m_Size: {x: 2.66666675, y: 1.81333339}
   m_Center: {x: 0, y: 0}
 --- !u!212 &1762089977
 SpriteRenderer:
@@ -875,7 +875,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_SortingLayerID: 0
-  m_Sprite: {fileID: 21300000, guid: cce1020d00c1392458773e1451f70f16, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f46a7c68d97028941a5683324d9c3d70, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!4 &1762089978
 Transform:
@@ -884,8 +884,8 @@ Transform:
   m_PrefabInternal: {fileID: 1649052110}
   m_GameObject: {fileID: 1762089974}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.94197655, y: 2.34161305, z: 0}
-  m_LocalScale: {x: 3.76535916, y: 3.43800688, z: 1}
+  m_LocalPosition: {x: 2.3080256, y: 3.03710556, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
 --- !u!114 &1762089979
@@ -900,7 +900,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bb4eb043e39a3a4788c9b0b8b5e66f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: {x: 0, y: 11}
+  jumpForce: {x: 0, y: 13}
   InitialCash: 0
 --- !u!1001 &1895239009
 Prefab:
