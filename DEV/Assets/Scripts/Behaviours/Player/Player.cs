@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
 
 	public Vector2 jumpForce;
+    public float InitialCash;
 
     public bool Invincible
     {
@@ -88,6 +89,7 @@ public class Player : MonoBehaviour
 		rayFilter = 1 << layerMask;
 
 		meatBallCount = 0;
+        cash = InitialCash;
 	}
 
 	void Start()
@@ -218,11 +220,15 @@ public class Player : MonoBehaviour
     }
     public void DeductCash(float price)
     {
+        
         if (hasDiscount)
         {
             this.cash -= price * 0.5f;
         }
         else this.cash -= price;
+
+        if (cash < 0)
+            Game.Instance.OutOfCoins();
     }
 
 }

@@ -800,6 +800,10 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 8384a9ae3baae6844ab98e4e13cec056, type: 2}
+      propertyPath: InitialCash
+      value: 500
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8384a9ae3baae6844ab98e4e13cec056, type: 2}
   m_RootGameObject: {fileID: 1762089974}
@@ -952,6 +956,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpForce: {x: 0, y: 11}
+  InitialCash: 500
 --- !u!1001 &1869668561
 Prefab:
   m_ObjectHideFlags: 0
