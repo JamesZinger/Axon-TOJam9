@@ -24,6 +24,8 @@ public class Game : MonoBehaviour
     public GUISkin Skin;
 	public Audiopocalypse ap;
 
+    public GameObject PointBurst;
+
     #region Events
 
     public delegate void GameOverHandler();

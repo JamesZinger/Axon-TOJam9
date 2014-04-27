@@ -11,6 +11,14 @@ public class Player : MonoBehaviour
 	Sprite activeWalk;
 	public Sprite[] walkAnims;
 
+    private int allanKeys;
+
+    public int AllanKeys
+    {
+        get { return allanKeys; }
+        set { allanKeys = value; }
+    }
+
     public bool Invincible
     {
         get { return invincible; }
