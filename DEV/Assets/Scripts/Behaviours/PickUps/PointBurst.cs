@@ -7,7 +7,6 @@ public class PointBurst : MonoBehaviour
     private Rect groupRect;
     private Rect costRect;
 
-    Texture2D img;
     GUISkin skin;
     float cost;
     GUIStyle style;
@@ -23,7 +22,6 @@ public class PointBurst : MonoBehaviour
     {
         style = Game.Instance.Skin.GetStyle("Cost");
         skin = Game.Instance.Skin;
-        img = (Texture2D)Resources.Load("Sprites/GUI/UI/allanKeyNotification", typeof(Texture2D));
         imgRect = new Rect(0,0, 100, 50);
         groupRect = new Rect(200, 100, 100, 100);
         costRect = new Rect(0, 50, 100, 50);
@@ -50,6 +48,9 @@ public class PointBurst : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
     {
+		if ( Game.Instance.IsPaused )
+			return;
+
         if (elapsedTime < (MAX_TIME + 1))
         {
             elapsedTime += Time.fixedDeltaTime; 
@@ -63,13 +64,12 @@ public class PointBurst : MonoBehaviour
 
     void OnGUI()
     {
-        GUI.skin = skin;
         GUI.matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, new Vector3(1.0f * Screen.width / 856, 1.0f * Screen.height / 642, 1.0f));
 
         GUI.BeginGroup(groupRect);
         {
             if (keys > 0) GUI.Box(imgRect, "+" + keys, skin.GetStyle("Allen Key"));
-            GUI.Label(costRect, "$" + cost, style);
+            GUI.Label(costRect, "$" + cost.ToString("0.00"), style);
         }
         GUI.EndGroup();
     }

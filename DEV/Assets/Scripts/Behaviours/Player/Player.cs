@@ -5,13 +5,13 @@ using System.Collections.Generic;
 public class Player : MonoBehaviour 
 {
 
+	private enum PlayerState { Walking = 0, Jumping, Sliding }
+	private PlayerState state;
+
+
 	public Vector2 jumpForce;
     public float InitialCash;
-	public Sprite jumpTexture, slideTexture;
-	Sprite activeWalk;
-	public Sprite[] walkAnims;
-    public bool Meatballed;
-
+	public bool Meatballed;
     private int allanKeys;
 
     public int AllanKeys
@@ -36,12 +36,6 @@ public class Player : MonoBehaviour
 		private set { hasDoubleJumped = value; }
 	}
 
-	public bool IsGrounded
-	{
-		get { return isGrounded; }
-		private set { isGrounded = value; }
-	}
-
 	public float Cash
 	{
 		get { return cash; }
@@ -64,6 +58,7 @@ public class Player : MonoBehaviour
         get { return discountType; }
         set { discountType = value; }
     }
+
 	#region Events
 
 	public delegate void JumpHandeler();
@@ -74,18 +69,20 @@ public class Player : MonoBehaviour
 	#region Fields
 
     private bool distracted;
+	private bool isGrounded;
     private float invincibillityRemainingTime;
 	private int meatBallCount;
 	private float cash;
     public bool HasDiscount;
     private float discountRemainingTime;
-	private SpriteRenderer sprite;
+	private SpriteRenderer spriteRenderer;
 	private int rayFilter;
-	private bool isGrounded = true;
 	private bool hasDoubleJumped = false;
-	private bool isSliding = false;
-    private GiftCard.Discount discountType;
+	private GiftCard.Discount discountType;
     private float meatBalledRemainingTime;
+	private Dictionary<PlayerState, PolygonCollider2D> colliderMap;
+	private Dictionary<PlayerState, List<Sprite>> animationMap;
+	private int walkAnimCounter;
 
 	#endregion
 
@@ -94,10 +91,33 @@ public class Player : MonoBehaviour
 	void Awake () 
     {	
 		Game.Instance.Player = this;
-		sprite = gameObject.GetComponent<SpriteRenderer>();
+		spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
 		
+		PolygonCollider2D[] Colliders = gameObject.GetComponents<PolygonCollider2D>();
 
-		if (sprite == null || sprite.sprite == null)
+		animationMap = new Dictionary<PlayerState, List<Sprite>>();
+		colliderMap  = new Dictionary<PlayerState, PolygonCollider2D>();
+		
+		colliderMap.Add( PlayerState.Walking, Colliders[ 0 ] );
+		colliderMap.Add( PlayerState.Jumping, Colliders[ 1 ] );
+		colliderMap.Add( PlayerState.Sliding, Colliders[ 2 ] );
+
+		animationMap.Add( PlayerState.Walking, new List<Sprite>() );
+		animationMap.Add( PlayerState.Jumping, new List<Sprite>() );
+		animationMap.Add( PlayerState.Sliding, new List<Sprite>() );
+
+		animationMap[ PlayerState.Walking ].Add( Resources.Load<Sprite>( "Sprites/Player/walking_animation_01" ) );
+		animationMap[ PlayerState.Walking ].Add( Resources.Load<Sprite>( "Sprites/Player/walking_animation_02" ) );
+		animationMap[ PlayerState.Walking ].Add( Resources.Load<Sprite>( "Sprites/Player/walking_animation_03" ) );
+		animationMap[ PlayerState.Walking ].Add( Resources.Load<Sprite>( "Sprites/Player/walking_animation_04" ) );
+
+		animationMap[ PlayerState.Jumping ].Add( Resources.Load<Sprite>( "Sprites/Player/jumping" ) );
+
+		animationMap[ PlayerState.Sliding ].Add( Resources.Load<Sprite>( "Sprites/Player/sliding" ) );
+
+		walkAnimCounter = 0;
+
+		if (spriteRenderer == null || spriteRenderer.sprite == null)
 		{ 
 			Debug.LogError("Player sprite renderer variable is null");
 			return;
@@ -109,6 +129,8 @@ public class Player : MonoBehaviour
 
 		meatBallCount = 0;
         cash = InitialCash;
+
+		state = PlayerState.Walking;
 	}
 
 	void Start()
@@ -117,36 +139,20 @@ public class Player : MonoBehaviour
 		
 		controls.JumpButton			+= OnJump;
 		controls.UseItemButton		+= OnUseItem;
-		controls.SlideButton		+= OnSlide;
+		controls.SlideButton		+= OnSlideButton;
 		controls.StopSlideButton	+= OnStopSlide;
 		controls.UseShortcutButton	+= OnUseShortcut;
 
-		//walkAnims = new Sprite[4];
-		activeWalk = walkAnims[0];
-		StartCoroutine(walk());
+		ChangeState( PlayerState.Walking );
 	}
 
-	void Update () 
-    {
+	void Update()
+	{
 
-        Discount();
-        Distract();
-        Meatball();
+		Discount();
+		Distract();
+		Meatball();
 
-        //.Log(meatBalledRemainingTime);
-
-		if(IsGrounded == true){
-			SetSprite(activeWalk);
-			Vector2 box = new Vector2(sprite.sprite.rect.width / 150,sprite.sprite.rect.height / 150);
-			gameObject.GetComponent<BoxCollider2D>().size = box;
-			gameObject.GetComponent<BoxCollider2D>().center = box/2;
-		}
-		if(isSliding){
-			SetSprite(slideTexture);
-			Vector2 box = new Vector2(sprite.sprite.rect.width / 150,sprite.sprite.rect.height / 150);
-			gameObject.GetComponent<BoxCollider2D>().size = box;
-			gameObject.GetComponent<BoxCollider2D>().center = box/2;
-		}
 	}
     
     void OnGUI()
@@ -157,42 +163,43 @@ public class Player : MonoBehaviour
 	#endregion
 
 	#region Event Handelers
-	void SetSprite(Sprite sp){
-		sprite.sprite = sp;
-		Vector2 box = new Vector2(sprite.sprite.rect.width / 150,sprite.sprite.rect.height / 150);
-		gameObject.GetComponent<BoxCollider2D>().size = box;
-		gameObject.GetComponent<BoxCollider2D>().center = box/2;
-
-	}
 	
 	void OnJump()
 	{
 		if (Game.Instance.IsPaused)
 			return;
 
-		if ( IsGrounded == true )
+		//if ( state == PlayerState.Sliding && isGrounded == false && HasDoubleJumped == false)
+		//{
+		//	HasDoubleJumped = true;
+		//	gameObject.rigidbody2D.velocity = jumpForce;
+		//	Game.Instance.ap.PlayClip( Audiopocalypse.Sounds.Jump );
+		//}
+
+		if ( state == PlayerState.Walking )
 		{
-			SetSprite(jumpTexture);		
-			Vector2 box = new Vector2(sprite.sprite.rect.width / 150,sprite.sprite.rect.height / 150);
-			gameObject.GetComponent<BoxCollider2D>().size = box;
-			gameObject.GetComponent<BoxCollider2D>().center = box/2;
-			IsGrounded = false;
-			HasDoubleJumped = false;
+			
+			if (state != PlayerState.Sliding)
+				ChangeState( PlayerState.Jumping );
 
 			gameObject.rigidbody2D.velocity = jumpForce;
 
+			isGrounded = false;
+
+			Game.Instance.ap.PlayClip( Audiopocalypse.Sounds.Jump );
 			if ( Jump != null )
 				Jump();
-
-			StartCoroutine( CheckIfGrounded() );
+	
 		}
 
-		else if ( HasDoubleJumped == false )
+		else if ( state == PlayerState.Jumping && HasDoubleJumped == false )
 		{
 			HasDoubleJumped = true;
 			gameObject.rigidbody2D.velocity = jumpForce;
+
+			Game.Instance.ap.PlayClip( Audiopocalypse.Sounds.Jump );
 		}
-		Game.Instance.ap.PlayClip(Audiopocalypse.Sounds.Jump);
+		
 	}
 
 	void OnUseItem()
@@ -210,16 +217,15 @@ public class Player : MonoBehaviour
 		}
 	}
 
-	void OnSlide()
+	void OnSlideButton()
 	{
 		if ( Game.Instance.IsPaused )
 			return;
 
-		if(isSliding){
-		}else{
-			Game.Instance.ap.PlayClip(Audiopocalypse.Sounds.Slide);
-			isSliding = true;
-		}
+		if ( state == PlayerState.Sliding ) return;
+
+		Game.Instance.ap.PlayClip(Audiopocalypse.Sounds.Slide);
+		ChangeState( PlayerState.Sliding );
 	}
 
 	void OnStopSlide()
@@ -227,7 +233,13 @@ public class Player : MonoBehaviour
 		if ( Game.Instance.IsPaused )
 			return;
 
-		isSliding = false;
+		if ( state != PlayerState.Sliding )
+			return;
+
+		if ( !isGrounded )
+			ChangeState( PlayerState.Jumping ); 
+		else
+			ChangeState( PlayerState.Walking );
 	}
 
 	void OnUseShortcut()
@@ -273,43 +285,29 @@ public class Player : MonoBehaviour
         invincibillityRemainingTime -= Time.fixedDeltaTime;
         //Debug.Log("Dis time: "+ invincibillityRemainingTime);
     }
-
-	IEnumerator CheckIfGrounded()
+	
+	IEnumerator WalkingAnimation()
 	{
-		yield return new WaitForSeconds(0.1f);
-		while ( true )
+		while(true)
 		{
-			Vector2 origin = new Vector2( transform.position.x, transform.position.y );
-
-			RaycastHit2D hit;
-			hit = Physics2D.Raycast( origin, Vector2.up * -1, 1000, rayFilter );
-
-			if ( hit )
+			if ( state == PlayerState.Walking )
 			{
-				Vector2 hitVector = hit.point - origin;
-				//Half height
-				if ( hitVector.magnitude <= 1.0f )
-				{
-					SetSprite(activeWalk);
-					Vector2 box = new Vector2(sprite.sprite.rect.width / 150,sprite.sprite.rect.height / 150);
-					gameObject.GetComponent<BoxCollider2D>().size = box;
-					IsGrounded = true;
-					HasDoubleJumped = false;
-					break;
-				}
+				walkAnimCounter++;
+				if ( walkAnimCounter >= 4 )
+					walkAnimCounter = 0;
+
+				spriteRenderer.sprite = animationMap[ PlayerState.Walking ][ walkAnimCounter ];
 			}
-			yield return new WaitForEndOfFrame();
+			else
+			{
+				break;
+			}
+
+			yield return new WaitForSeconds( 0.10f );
 		}
 	}
-	IEnumerator walk(){
-		int count = 0;
-		while(true){
-			count++;
-			activeWalk = walkAnims[count%4];
-			yield return new WaitForSeconds(0.10f);
-		}
-	}
-    public void AddDiscount(GiftCard.Discount type)
+  
+	public void AddDiscount(GiftCard.Discount type)
     {
         discountRemainingTime = 5;
 
@@ -337,6 +335,54 @@ public class Player : MonoBehaviour
 
         if (cash < 0)
             Game.Instance.OutOfCoins();
-    }   
+    }
+
+	private void ChangeState( PlayerState newState )
+	{
+		if ( newState == PlayerState.Walking )
+		{
+			colliderMap[ state ].enabled = false;
+			colliderMap[ PlayerState.Walking ].enabled = true;
+		}
+
+		else if ( newState == PlayerState.Jumping )
+		{
+			StopCoroutine( "WalkingAnimation" );
+			spriteRenderer.sprite = animationMap[ PlayerState.Jumping ][ 0 ];
+			colliderMap[ state ].enabled = false;
+			colliderMap[ PlayerState.Jumping ].enabled = true;
+		}
+
+		else if ( newState == PlayerState.Sliding )
+		{
+			StopCoroutine( "WalkingAnimation" );
+			spriteRenderer.sprite = animationMap[ PlayerState.Sliding ][ 0 ];
+			colliderMap[ state ].enabled = false;
+			colliderMap[ PlayerState.Sliding ].enabled = true;
+		}
+
+		state = newState;
+
+		if ( state == PlayerState.Walking )
+			StartCoroutine( "WalkingAnimation" );
+	}
+
+	void OnCollisionEnter2D(Collision2D collision)
+	{
+		if ( collision.gameObject.layer == LayerMask.NameToLayer( "Ground" ) )
+		{
+			//Debug.Log( rigidbody2D.velocity );
+			if ( rigidbody2D.velocity.y <= 0f )
+			{
+				if ( state == PlayerState.Jumping )
+					ChangeState( PlayerState.Walking );
+
+//				if ( state == PlayerState.Sliding && isGrounded == false )
+
+				HasDoubleJumped = false;
+				isGrounded = true;
+			}
+		}
+	}
 
 }

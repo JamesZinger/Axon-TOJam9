@@ -39,16 +39,16 @@ public class GameGUI : MonoBehaviour
     {
         skin = Game.Instance.Skin;
 
-        allenKeyImg = (Texture2D)Resources.Load("Sprites/GUI/UI/allanKeyUI", typeof(Texture2D));
-        emptyMeatBallImg = (Texture2D)Resources.Load("Sprites/GUI/UI/fullMeatballUI", typeof(Texture2D));
-        fullMeatBallImg = (Texture2D)Resources.Load("Sprites/GUI/UI/emptyMeatballUI", typeof(Texture2D));
+        allenKeyImg 	  = (Texture2D)Resources.Load("Sprites/GUI/UI/allanKeyUI"	  , typeof(Texture2D));
+        emptyMeatBallImg  = (Texture2D)Resources.Load("Sprites/GUI/UI/fullMeatballUI" , typeof(Texture2D));
+        fullMeatBallImg   = (Texture2D)Resources.Load("Sprites/GUI/UI/emptyMeatballUI", typeof(Texture2D));
 
-        sale25 = (Texture2D)Resources.Load("Sprites/GUI/UI/sale25", typeof(Texture2D));
-        sale50 = (Texture2D)Resources.Load("Sprites/GUI/UI/sale50", typeof(Texture2D));
-        sale75 = (Texture2D)Resources.Load("Sprites/GUI/UI/sale75", typeof(Texture2D));
-        distracted = (Texture2D)Resources.Load("Sprites/GUI/UI/distracted", typeof(Texture2D));
-        useMeatBallTipImg = (Texture2D)Resources.Load("Sprites/GUI/UI/useMeatballUI", typeof(Texture2D));
-        meatballImg = (Texture2D)Resources.Load("Sprites/GUI/UI/meatballBoost", typeof(Texture2D));
+        sale25 			  = (Texture2D)Resources.Load("Sprites/GUI/UI/sale25"		  , typeof(Texture2D));
+        sale50 			  = (Texture2D)Resources.Load("Sprites/GUI/UI/sale50"		  , typeof(Texture2D));
+        sale75 			  = (Texture2D)Resources.Load("Sprites/GUI/UI/sale75"		  , typeof(Texture2D));
+        distracted 		  = (Texture2D)Resources.Load("Sprites/GUI/UI/distracted"	  , typeof(Texture2D));
+        useMeatBallTipImg = (Texture2D)Resources.Load("Sprites/GUI/UI/useMeatballUI"  , typeof(Texture2D));
+        meatballImg 	  = (Texture2D)Resources.Load("Sprites/GUI/UI/meatballBoost"  , typeof(Texture2D));
 
 
 
@@ -96,7 +96,7 @@ public class GameGUI : MonoBehaviour
         }
         GUI.EndGroup();
 
-        GUI.Label(cashRect, "$" + Game.Instance.Player.Cash);
+        GUI.Label(cashRect, "$" + Game.Instance.Player.Cash.ToString("0.00"));
         GUI.DrawTexture(tipUseMB, useMeatBallTipImg);
 
         GUI.BeginGroup(meatGroupRct);

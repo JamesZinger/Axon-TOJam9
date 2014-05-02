@@ -24,18 +24,16 @@ namespace Xbox
 		NONE = Byte.MaxValue
 	};
 
-	public enum Trigger : byte
-	{
-		Right = 0,
-		Left,
-		NONE = Byte.MaxValue
-	}
-
 	public enum Axis : byte
 	{
-		DPad = 0,
-		LAnalog,
-		RAnalog,
+		DPadX = 0,
+		DPadY,
+		LAnalogX,
+		LAnalogY,
+		RAnalogX,
+		RAnalogY,
+		TriggerR,
+		TriggerL,
 		NONE = Byte.MaxValue
 	}
 }
@@ -78,7 +76,7 @@ public class Xbox360GamepadState
 
 	#region Control axis/button values
 
-	public Dictionary<Xbox.Axis, Vector2> Axes
+	public Dictionary<Xbox.Axis, float> Axes
 	{
 		get { return axes; }
 		private set { axes = value; }
@@ -90,60 +88,42 @@ public class Xbox360GamepadState
 		private set { buttons = value; }
 	}
 
-	public Dictionary<Xbox.Trigger, float> Triggers
-	{
-		get { return triggers; }
-		private set { triggers = value; }
-	}
-
-	public Dictionary<Xbox.Axis, Vector2> PrevAxes
+	private Dictionary<Xbox.Axis, float> PrevAxes
 	{
 		get { return prevAxes; }
-		private set { prevAxes = value; }
+		set { prevAxes = value; }
 	}
 
-	public Dictionary<Xbox.Button, bool> PrevButtons
+	private Dictionary<Xbox.Button, bool> PrevButtons
 	{
 		get { return prevButtons; }
-		private set { prevButtons = value; }
+		set { prevButtons = value; }
 	}
 
-	public Dictionary<Xbox.Trigger, float> PrevTrggers
-	{
-		get { return prevTriggers; }
-		private set { prevTriggers = value; }
-	}
-
-	public float[] DebugAxes
-	{
-		get { return debugAxes; }
-		private set { debugAxes = value; }
-	}
-
-	private Dictionary<Xbox.Axis, Vector2>	axes;
+	private Dictionary<Xbox.Axis, float>	axes;
 	private Dictionary<Xbox.Button, bool>	buttons;
-	private Dictionary<Xbox.Trigger, float> triggers;
-	private Dictionary<Xbox.Axis, Vector2>	prevAxes;
+	private Dictionary<Xbox.Axis, float>	prevAxes;
 	private Dictionary<Xbox.Button, bool>	prevButtons;
-	private Dictionary<Xbox.Trigger, float> prevTriggers;
-	private float[]							debugAxes;
-	
+
 	#endregion
 
 	#region Constructor
 
 	public Xbox360GamepadState()
 	{
-		Axes			= new Dictionary<Xbox.Axis,		Vector2>	();
-		PrevAxes		= new Dictionary<Xbox.Axis,		Vector2>	();
+		Axes			= new Dictionary<Xbox.Axis,		float>		();
+		PrevAxes		= new Dictionary<Xbox.Axis,		float>		();
 		Buttons			= new Dictionary<Xbox.Button,	bool>		();
 		PrevButtons		= new Dictionary<Xbox.Button,	bool>		();
-		Triggers		= new Dictionary<Xbox.Trigger,	float>		();
-		PrevTrggers		= new Dictionary<Xbox.Trigger,	float>		();
 
-		Axes.Add( Xbox.Axis.DPad,		Vector2.zero );		PrevAxes.Add( Xbox.Axis.DPad,		Vector2.zero );
-		Axes.Add( Xbox.Axis.LAnalog,	Vector2.zero );		PrevAxes.Add( Xbox.Axis.LAnalog,	Vector2.zero );
-		Axes.Add( Xbox.Axis.RAnalog,	Vector2.zero );		PrevAxes.Add( Xbox.Axis.RAnalog,	Vector2.zero );
+		Axes.Add( Xbox.Axis.DPadX,		0f );				PrevAxes.Add( Xbox.Axis.DPadX,		0f );
+		Axes.Add( Xbox.Axis.DPadY,		0f );				PrevAxes.Add( Xbox.Axis.DPadY,		0f );
+		Axes.Add( Xbox.Axis.LAnalogX,	0f );				PrevAxes.Add( Xbox.Axis.LAnalogX,	0f );
+		Axes.Add( Xbox.Axis.LAnalogY,	0f );				PrevAxes.Add( Xbox.Axis.LAnalogY,	0f );
+		Axes.Add( Xbox.Axis.RAnalogX,	0f );				PrevAxes.Add( Xbox.Axis.RAnalogX,	0f );
+		Axes.Add( Xbox.Axis.RAnalogY,	0f );				PrevAxes.Add( Xbox.Axis.RAnalogY,	0f );
+		Axes.Add( Xbox.Axis.TriggerL,	0f );				PrevAxes.Add( Xbox.Axis.TriggerL,	0f );
+		Axes.Add( Xbox.Axis.TriggerR,	0f );				PrevAxes.Add( Xbox.Axis.TriggerR,	0f );
 		
 		Buttons.Add( Xbox.Button.A,				false );	PrevButtons.Add( Xbox.Button.A,				false );
 		Buttons.Add( Xbox.Button.B,				false );	PrevButtons.Add( Xbox.Button.B,				false );
@@ -156,14 +136,11 @@ public class Xbox360GamepadState
 		Buttons.Add( Xbox.Button.X,				false );	PrevButtons.Add( Xbox.Button.X,				false );
 		Buttons.Add( Xbox.Button.Y,				false );	PrevButtons.Add( Xbox.Button.Y,				false );
 
-		Triggers.Add( Xbox.Trigger.Left,			0f );	PrevTrggers.Add( Xbox.Trigger.Left,				0f );
-		Triggers.Add( Xbox.Trigger.Right,			0f );	PrevTrggers.Add( Xbox.Trigger.Right,			0f );
+	}
 
-		DebugAxes = new float[ 10 ];
-		for ( int i = 0; i < 10; i++ )
-		{
-			DebugAxes[ i ] = 0f;
-		}
+	static Xbox360GamepadState()
+	{
+		Instance = null;
 	}
 
 	#endregion
@@ -177,11 +154,6 @@ public class Xbox360GamepadState
 			PrevAxes[ key ] = Axes[ key ];
 		}
 
-		foreach ( Xbox.Trigger key in Triggers.Keys )
-		{
-			PrevTrggers[ key ] = Triggers[ key ];
-		}
-
 		foreach ( Xbox.Button key in Buttons.Keys )
 		{
 			PrevButtons[ key ] = Buttons[ key ];
@@ -190,12 +162,15 @@ public class Xbox360GamepadState
 
 		
 		// Read in the control axes
-		Axes[ Xbox.Axis.DPad ]    = new Vector2( Input.GetAxis( MAP_DPAD_X )   , Input.GetAxis( MAP_DPAD_Y ) );
-		Axes[ Xbox.Axis.LAnalog ] = new Vector2( Input.GetAxis( MAP_LANALOG_X ), Input.GetAxis( MAP_LANALOG_Y ) );
-		Axes[ Xbox.Axis.RAnalog ] = new Vector2( Input.GetAxis( MAP_RANALOG_X ), Input.GetAxis( MAP_RANALOG_Y ) );
+		Axes[ Xbox.Axis.DPadX ]    		  = Input.GetAxis( MAP_DPAD_X );
+		Axes[ Xbox.Axis.DPadY ]    		  = Input.GetAxis( MAP_DPAD_Y );
+		Axes[ Xbox.Axis.LAnalogX ] 		  = Input.GetAxis( MAP_LANALOG_X );
+		Axes[ Xbox.Axis.LAnalogY ] 		  = Input.GetAxis( MAP_LANALOG_Y );
+		Axes[ Xbox.Axis.RAnalogX ] 		  = Input.GetAxis( MAP_RANALOG_X );
+		Axes[ Xbox.Axis.RAnalogY ] 		  = Input.GetAxis( MAP_RANALOG_Y );
+		Axes[ Xbox.Axis.TriggerL ] 		  = Input.GetAxis( MAP_TRIGGER_L );
+		Axes[ Xbox.Axis.TriggerR ] 		  = Input.GetAxis( MAP_TRIGGER_R );
 
-		Triggers[ Xbox.Trigger.Right ]	= Input.GetAxis( MAP_TRIGGER_R );
-		Triggers[ Xbox.Trigger.Left ]	= Input.GetAxis( MAP_TRIGGER_L );
 
 		// Read in each of the buttons
 		Buttons[ Xbox.Button.A ]          = Input.GetButton( MAP_A );
@@ -209,18 +184,13 @@ public class Xbox360GamepadState
 		Buttons[ Xbox.Button.LBumper ]    = Input.GetButton( MAP_LBUMPER );
 		Buttons[ Xbox.Button.RBumper ]    = Input.GetButton( MAP_RBUMPER );
 
-		for ( int i = 0; i < DebugAxes.Length; i++ )
-		{
-			DebugAxes[ i ] = Input.GetAxis( "Axis_" + ( i + 1 ) );
-		}
-
 	}
 
 	#endregion
 
 	#region ButtonDown / ButtonUp
 
-	public bool GetButtonDown( Xbox.Button b )
+	public bool IsButtonDown( Xbox.Button b )
 	{
 		if ( Buttons[ b ] == true && prevButtons[ b ] == false )
 		{
@@ -230,7 +200,7 @@ public class Xbox360GamepadState
 		return false;
 	}
 
-	public bool GetButtonUp( Xbox.Button b )
+	public bool IsButtonUp( Xbox.Button b )
 	{
 		if ( Buttons[ b ] == false && prevButtons[ b ] == true )
 		{
@@ -239,6 +209,56 @@ public class Xbox360GamepadState
 
 		return false;
 	}
+
+	#endregion
+
+	#region Axis Threshold Functions
+
+	/// <summary>	Check if an axis is past a threshold and was not the check before. </summary>
+	/// <remarks>	James, 2014-05-02. </remarks>
+	/// <param name="Axis">		 	The axis to check. </param>
+	/// <param name="Threshold">	The threashold between 0 and 1. </param>
+	/// <returns>
+	/// 	true if the axis is past the threshold and previously was not, otherwise false.
+	/// </returns>
+	public bool AxisJustPastThreshold( Xbox.Axis Axis, float Threshold )
+	{
+		float threshold = Mathf.Clamp( Threshold, -1f, 1f );
+
+		if ( threshold > 0 )
+		{
+			if ( Axes[ Axis ] >= threshold && PrevAxes[ Axis ] < threshold )
+				return true;
+		}
+		else
+		{
+			if ( Axes[ Axis ] < threshold && PrevAxes[ Axis ] > threshold )
+				return true;
+		}
+		
+		return false;
+	}
+
+	#endregion
+
+	#region Singleton Stuff
+
+	private static Xbox360GamepadState instance;
+
+	public static Xbox360GamepadState Instance
+	{
+		get
+		{
+			if ( instance == null )
+			{
+				instance = new Xbox360GamepadState();
+			}
+
+			return instance;
+		}
+		private set { instance = value; }
+	}
+
 
 	#endregion
 

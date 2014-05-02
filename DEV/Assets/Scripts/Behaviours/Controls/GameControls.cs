@@ -36,6 +36,8 @@ public class GameControls : MonoBehaviour
 
 	#endregion
 
+	Xbox360GamepadState controller = Xbox360GamepadState.Instance;
+
 	void Awake()
 	{
 		Game.Instance.Controls = this;
@@ -99,8 +101,8 @@ public class GameControls : MonoBehaviour
 		if ( Input.GetKeyDown( KeyCode.UpArrow ) )
 			return true;
 
-	//	if (controller.GetButtonDown(XboxButton.A) == true)
-	//		return true;
+		if ( controller.IsButtonDown(Xbox.Button.A) == true)
+			return true;
 
 		return false;
 	}
@@ -113,8 +115,8 @@ public class GameControls : MonoBehaviour
 		if ( Input.GetKeyDown( KeyCode.DownArrow ) )
 			return true;
 
-	//	if ( controller.GetButtonDown( XboxButton.B ) )
-	//		return true;
+		if ( controller.IsButtonDown( Xbox.Button.B ) )
+			return true;
 
 		return false;
 	}
@@ -127,8 +129,8 @@ public class GameControls : MonoBehaviour
 		if ( Input.GetKeyUp( KeyCode.DownArrow ) )
 			return true;
 
-	//	if ( controller.GetButtonUp( XboxButton.B ) )
-	//		return true;
+		if ( controller.IsButtonUp( Xbox.Button.B ) )
+			return true;
 
 		return false;
 	}
@@ -138,8 +140,8 @@ public class GameControls : MonoBehaviour
 		if ( Input.GetKeyDown( KeyCode.P ) )
 			return true;
 
-	//	if (controller.GetButtonDown(XboxButton.Start))
-	//		return true;
+		if ( controller.IsButtonDown( Xbox.Button.Start ) )
+			return true;
 
 		return false;
 	}
@@ -185,8 +187,8 @@ public class GameControls : MonoBehaviour
 		if ( Input.GetKeyDown( KeyCode.LeftControl ) )
 			return true;
 
-	//	if (controller.GetButtonDown(XboxButton.X))
-	//		return true;
+		if ( controller.IsButtonDown(Xbox.Button.X))
+			return true;
 
 		return false;
 	}
@@ -196,8 +198,8 @@ public class GameControls : MonoBehaviour
 		if ( Input.GetKeyDown( KeyCode.Q ) )
 			return true;
 
-	//	if (controller.GetButtonDown(XboxButton.Start))
-	//		return true;
+		if ( controller.IsButtonDown(Xbox.Button.Start))
+			return true;
 
 		return false;
 	}

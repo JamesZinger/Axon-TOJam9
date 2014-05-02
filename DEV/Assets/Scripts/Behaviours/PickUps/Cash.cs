@@ -42,11 +42,11 @@ public class Cash : PickUp
                 burst.SetUpForCash(new Vector2(0, 0), 50);
                 break;
             case Amount.One_Hundred: Game.Instance.Player.Cash += 100;
-                burst.SetUpForCash(new Vector2(0, 0), 50);
+                burst.SetUpForCash(new Vector2(0, 0), 100);
                 break;
             case Amount.One_Hundred_Fifty: 
                 Game.Instance.Player.Cash += 150;  
-                burst.SetUpForCash(new Vector2(0, 0), 50);
+                burst.SetUpForCash(new Vector2(0, 0), 150);
                 break;
         }
          

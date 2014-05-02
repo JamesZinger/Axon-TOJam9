@@ -27,6 +27,17 @@ public class GameOver : MonoBehaviour
 		}
 	}
 
+	void Update()
+	{
+		Xbox360GamepadState.Instance.UpdateState();
+
+		if ( Xbox360GamepadState.Instance.IsButtonDown( Xbox.Button.B ) )
+		{
+			Destroy( dataobject.gameObject );
+			Application.LoadLevel( 0 );
+		}
+	}
+
 	void OnGUI()
 	{
 		if (dataobject.didWin)

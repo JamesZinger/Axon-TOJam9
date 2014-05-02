@@ -4,28 +4,31 @@ using System.Collections.Generic;
 
 public class MainMenu : MonoBehaviour 
 {
-   public enum MenuButton : byte { Play = 0, Instructions, Credits, Quit, NONE = System.Byte.MaxValue };
-
+	
 	public GUISkin skin;
 
-	private UIScreen screen;
-	private MenuButton ActiveButton;
+	private ScreenState currentScreen;
 
-	private Dictionary<MenuButton, Sprite> unselectedButtonMap;
-	private Dictionary<MenuButton, Sprite> selectedButtonMap;
-	private Dictionary<UIScreen, Sprite> screenMap;
-    private SpriteRenderer spRender;
-	private Xbox360GamepadState controller = new Xbox360GamepadState();
+	public enum MenuState : byte { Main = 0, PlayMode, Instructions, Credits, NONE = System.Byte.MaxValue }
+
+	private Dictionary<MenuState, ScreenState>	screenMap;
+    private SpriteRenderer						spRender;
+	private Xbox360GamepadState					controller;
 
 	#region Screen States
 
-	private class ScreenState 
+	/// <summary>	An abstract screen state for the main menu. </summary>
+	/// <remarks>	James, 2014-05-02. </remarks>
+	private abstract class ScreenState
 	{
-		// Member variables
-		private Sprite background;
-		private readonly Xbox360GamepadState controller;
-		private readonly GUISkin skin;
 
+		#region Member Variables and Properties
+
+		// Member variables
+		private				Sprite background;
+		private readonly	GUISkin skin;
+		private	readonly	SpriteRenderer backgroundRenderer;
+		private readonly	MainMenu mainMenu;
 
 		//Properties
 		public Sprite Background
@@ -39,257 +42,391 @@ public class MainMenu : MonoBehaviour
 			get { return skin; }
 		}
 
-		protected Xbox360GamepadState Controller
+		protected SpriteRenderer BackgroundRenderer
 		{
-			get	{ return controller; }
+			get { return backgroundRenderer; }
 		}
 
+		protected MainMenu MainMenu
+		{
+			get { return mainMenu; }
+		}
+
+		#endregion
 
 		// Constructor
-		public ScreenState( Xbox360GamepadState controller, GUISkin skin)
+		public ScreenState( GUISkin Skin, SpriteRenderer BackgroundRenderer, MainMenu MainMenu)
 		{
-			Background = null;
-			this.controller = controller;
-			this.skin = skin;
+			this.background 			= null;
+			this.skin 					= Skin;
+			this.backgroundRenderer 	= BackgroundRenderer;
+			this.mainMenu 				= MainMenu;
 		}
 
-
-		public virtual void HandleControls()
-		{
-			Controller.UpdateState();
-		}
+		// Member Functions
+		public abstract void HandleControls();
 		
 		public abstract void DrawGUI();
+
+		public virtual void CleanUp() { }
 	};
-	
+
 	private class MenuScreen : ScreenState
 	{
-		Rect playRct;
+		private enum MenuButton : byte { Play = 0, Instructions, Credits, Quit, NONE = System.Byte.MaxValue };
+		
+		private MenuButton						activeButton;
+		private Dictionary<MenuButton, string>	styleMap;
+		private Rect							playRct;
+		private Rect							instRct;
+		private Rect							creditRct;
+		private Rect							quitRct;
+		
+		private Dictionary<MenuButton, Texture2D>	unselectedButtonMap;
+		private Dictionary<MenuButton, Texture2D>	selectedButtonMap;
 
-
-		public MenuScreen( Xbox360GamepadState controller, GUISkin skin )
-			: base( controller, skin )
+		public MenuScreen( GUISkin Skin, SpriteRenderer BackgroundRenderer, MainMenu MainMenu )
+			: base( Skin, BackgroundRenderer, MainMenu )
 		{
-			Background = Resources.Load<Sprite>( "Sprites/GUI/Menu/mainMenu-home");
+			Background 			= Resources.Load<Sprite>( "Sprites/GUI/Menu/mainMenu-home");
+
+			unselectedButtonMap = new Dictionary<MenuButton, Texture2D>();
+			selectedButtonMap 	= new Dictionary<MenuButton, Texture2D>();
+			styleMap			= new Dictionary<MenuButton, string>();
+
+			unselectedButtonMap.Add( MenuButton.Play		, Resources.Load<Texture2D>( "Sprites/GUI/Menu/playUnselected" ) );
+			unselectedButtonMap.Add( MenuButton.Instructions, Resources.Load<Texture2D>( "Sprites/GUI/Menu/instructionsUnselected" ) );
+			unselectedButtonMap.Add( MenuButton.Credits		, Resources.Load<Texture2D>( "Sprites/GUI/Menu/creditsUnselected" ) );
+			unselectedButtonMap.Add( MenuButton.Quit		, Resources.Load<Texture2D>( "Sprites/GUI/Menu/quitUnselected" ) );
+
+			selectedButtonMap  .Add( MenuButton.Play		, Resources.Load<Texture2D>( "Sprites/GUI/Menu/playSelected" ) );
+			selectedButtonMap  .Add( MenuButton.Instructions, Resources.Load<Texture2D>( "Sprites/GUI/Menu/instructionsSelected" ) );
+			selectedButtonMap  .Add( MenuButton.Credits		, Resources.Load<Texture2D>( "Sprites/GUI/Menu/creditsSelected" ) );
+			selectedButtonMap  .Add( MenuButton.Quit		, Resources.Load<Texture2D>( "Sprites/GUI/Menu/quitSelected" ) );
+
+			playRct   = new Rect( 328, 207, 200, 75 );
+			instRct   = new Rect( 213, 300, 431, 75 );
+			creditRct = new Rect( 287, 400, 282, 75 );
+			quitRct   = new Rect( 328, 500, 203, 75 );
+
+			activeButton = MenuButton.Play;
+
+			styleMap.Add( MenuButton.Play		 , "Play Button" );
+			styleMap.Add( MenuButton.Instructions, "Instruction Button" );
+			styleMap.Add( MenuButton.Credits	 , "Credit Button" );
+			styleMap.Add( MenuButton.Quit		 , "Quit Button" );
+
+			Skin.GetStyle( styleMap[ activeButton ] ).normal.background = selectedButtonMap[ activeButton ];
 		}
 
 		public override void DrawGUI()
 		{
-			if ( GUI.Button( playRct, "", Skin.GetStyle( "Play Button" ) ) )
-			{
-				ChangeScreen( UIScreen.PlayMode );
+			if ( GUI.Button( playRct  , "", Skin.GetStyle( styleMap[ MenuButton.Play		] ) ) ) { MainMenu.ChangeScreen( MenuState.PlayMode ); 	   }
+			if ( GUI.Button( instRct  , "", Skin.GetStyle( styleMap[ MenuButton.Instructions] ) ) ) { MainMenu.ChangeScreen( MenuState.Instructions ); }
+			if ( GUI.Button( creditRct, "", Skin.GetStyle( styleMap[ MenuButton.Credits 	] ) ) )	{ MainMenu.ChangeScreen( MenuState.Credits ); 	   }
+			if ( GUI.Button( quitRct  , "", Skin.GetStyle( styleMap[ MenuButton.Quit 		] ) ) ) 
+			{ 
+#if UNITY_EDITOR
+						UnityEditor.EditorApplication.isPlaying = false;
+#elif UNITY_WEBPLAYER
+						//Application.OpenURL("");
+						Application.Quit();
+#else
+						Application.Quit();
+#endif			
+			
 			}
-			if ( GUI.Button( instRct, "", Skin.GetStyle( "Instruction Button" ) ) )
+		}
+
+		public override void HandleControls()
+		{
+			if ( Xbox360GamepadState.Instance.AxisJustPastThreshold( Xbox.Axis.LAnalogY, -0.8f ) )
 			{
-				ChangeScreen( UIScreen.Instructions );
+				if ( activeButton == MenuButton.Quit )
+				{
+					SwtichActiveButton( MenuButton.Play );
+				}
+				else
+				{
+					SwtichActiveButton( activeButton + 1 );
+				}
+				
 			}
-			if ( GUI.Button( creditRct, "", Skin.GetStyle( "Credit Button" ) ) )
+
+			else if ( Xbox360GamepadState.Instance.AxisJustPastThreshold( Xbox.Axis.LAnalogY, 0.8f ) )
 			{
-				ChangeScreen( UIScreen.Credits );
+				if ( activeButton == MenuButton.Play )
+				{
+					SwtichActiveButton( MenuButton.Quit );
+				}
+				else
+				{
+					SwtichActiveButton( activeButton - 1 );
+				}
+
 			}
-			if ( GUI.Button( quitRct, "", Skin.GetStyle( "Quit Button" ) ) )
+
+			if ( Xbox360GamepadState.Instance.IsButtonDown( Xbox.Button.A ) )
 			{
-				Application.Quit();
+				switch ( activeButton )
+				{
+					case MenuButton.Play:			MainMenu.ChangeScreen( MenuState.PlayMode ); 		break;
+					case MenuButton.Instructions:	MainMenu.ChangeScreen( MenuState.Instructions ); 	break;
+					case MenuButton.Credits:		MainMenu.ChangeScreen( MenuState.Credits ); 		break;
+					case MenuButton.Quit:
+#if UNITY_EDITOR
+						UnityEditor.EditorApplication.isPlaying = false;
+#elif UNITY_WEBPLAYER
+						//Application.OpenURL("");
+						Application.Quit();
+#else
+						Application.Quit();
+#endif			
+						break;
+				}
 			}
+		}
+
+		private void SwtichActiveButton( MenuButton b )
+		{
+			Skin.GetStyle( styleMap[ activeButton ] ).normal.background = unselectedButtonMap[ activeButton ];
+			activeButton = b;
+			Skin.GetStyle( styleMap[ activeButton ] ).normal.background = selectedButtonMap[ activeButton ];
+		}
+
+		public override void CleanUp()
+		{
+			Skin.GetStyle( styleMap[ activeButton ] ).normal.background = unselectedButtonMap[ activeButton ];
 		}
 	};
 
 	private class InstructionScreen : ScreenState
 	{
+		private Rect instructionBackRect;
 
+		public InstructionScreen( GUISkin Skin, SpriteRenderer BackgroundRenderer, MainMenu MainMenu )
+			: base( Skin, BackgroundRenderer, MainMenu )
+		{
+			Background = Resources.Load<Sprite>( "Sprites/GUI/Menu/Instructions_page" );
+
+			instructionBackRect = new Rect	 ( 656, 562, 150, 44 );
+		}
+
+		public override void DrawGUI()
+		{
+			if ( GUI.Button( instructionBackRect, "", Skin.GetStyle( "Back Button" ) ) )
+			{
+				MainMenu.ChangeScreen( MenuState.Main );
+			}
+		}
+
+		public override void HandleControls()
+		{
+			if ( Xbox360GamepadState.Instance.IsButtonDown( Xbox.Button.B ) )
+			{
+				MainMenu.ChangeScreen( MenuState.Main );
+			}
+		}
 	};
 
 	private class PlayModeScreen : ScreenState
 	{
 
+		private enum Option : byte { Coworker = 0, Student, NONE = byte.MaxValue }
+
+		private Option	currentSelection;
+		private Rect	backRct;
+		private Rect	coworkRct;
+		private Rect	studentRct;
+
+		private Dictionary<Option, string> styleMap;
+		private Dictionary<Option, Texture2D> unselectedOptions;
+		private Dictionary<Option, Texture2D> selectedOptions;
+
+		public PlayModeScreen( GUISkin Skin, SpriteRenderer BackgroundRenderer, MainMenu MainMenu )
+			: base( Skin, BackgroundRenderer, MainMenu )
+		{
+			Background = Resources.Load<Sprite>( "Sprites/GUI/Menu/mainMenu-playmode" );
+
+			backRct    = new Rect( 353, 562, 150, 44 );
+			coworkRct  = new Rect(  70, 200, 355, 175 );
+			studentRct = new Rect( 430, 200, 355, 175 );
+
+			styleMap 		  = new Dictionary<Option, string>	 ();
+			unselectedOptions = new Dictionary<Option, Texture2D>();
+			selectedOptions   = new Dictionary<Option, Texture2D>();
+
+			styleMap.Add( Option.Coworker, "Coworker Opt" );
+			styleMap.Add( Option.Student , "Student Opt"  );
+
+			unselectedOptions.Add( Option.Coworker, Resources.Load<Texture2D>( "Sprites/GUI/Menu/coworkerUnselected" ) );
+			unselectedOptions.Add( Option.Student , Resources.Load<Texture2D>( "Sprites/GUI/Menu/studentUnselected"  ) );
+
+			selectedOptions.Add( Option.Coworker, Resources.Load<Texture2D>( "Sprites/GUI/Menu/coworkerSelected" ) );
+			selectedOptions.Add( Option.Student	, Resources.Load<Texture2D>( "Sprites/GUI/Menu/studentSelected"   ) );
+
+			currentSelection = Option.Coworker;
+			Skin.GetStyle( styleMap[ currentSelection ] ).normal.background = selectedOptions[ currentSelection ];
+		}
+
+		public override void DrawGUI()
+		{
+			if ( GUI.Button( backRct, "", Skin.GetStyle( "Back Button" ) ) )
+				MainMenu.ChangeScreen( MenuState.Main );
+
+			if ( GUI.Button( coworkRct, "", Skin.GetStyle( "Coworker Opt" ) ) )
+			{
+				Application.LoadLevel( 1 );
+			}
+			if ( GUI.Button( studentRct, "", Skin.GetStyle( "Student Opt" ) ) )
+			{
+				Application.LoadLevel( 1 );
+			}
+		}
+
+		public override void HandleControls()
+		{
+			// Down
+			if ( Xbox360GamepadState.Instance.AxisJustPastThreshold( Xbox.Axis.LAnalogY, -0.8f ) )
+			{
+
+			}
+			// Up
+			else if ( Xbox360GamepadState.Instance.AxisJustPastThreshold( Xbox.Axis.LAnalogY, 0.8f ) )
+			{
+
+			}
+			// Right
+			else if ( Xbox360GamepadState.Instance.AxisJustPastThreshold( Xbox.Axis.LAnalogX, 0.8f ) )
+			{
+				if ( currentSelection == Option.Coworker )
+				{
+					ChangeSelection( Option.Student );
+				}
+
+			}
+			// Left
+			else if ( Xbox360GamepadState.Instance.AxisJustPastThreshold( Xbox.Axis.LAnalogX, -0.8f ) )
+			{
+				if ( currentSelection == Option.Student )
+				{
+					ChangeSelection( Option.Coworker );
+				}
+			}
+
+			if ( Xbox360GamepadState.Instance.IsButtonDown( Xbox.Button.A ) )
+			{
+				switch ( currentSelection )
+				{
+					case Option.Coworker: Application.LoadLevel( 1 ); break;
+					case Option.Student:  Application.LoadLevel( 1 ); break;
+				}
+			}
+
+			if ( Xbox360GamepadState.Instance.IsButtonDown( Xbox.Button.B ) )
+			{
+				MainMenu.ChangeScreen( MenuState.Main );
+			}
+		}
+
+		private void ChangeSelection( Option o )
+		{
+			Skin.GetStyle( styleMap[ currentSelection ] ).normal.background = unselectedOptions[ currentSelection ];
+			currentSelection = o;
+			Skin.GetStyle( styleMap[ currentSelection ] ).normal.background = selectedOptions[ currentSelection ];
+		}
+
+		public override void CleanUp()
+		{
+			Skin.GetStyle( styleMap[ currentSelection ] ).normal.background = unselectedOptions[ currentSelection ];
+		}
 	};
 
 	private class CreditScreen : ScreenState
 	{
+		private Rect backRct;
 
-	}
-	#endregion
-
-	#region GUI Rects
-
-	private Rect playRct;
-    private Rect instRct;
-    private Rect creditRct;
-	private Rect quitRct;
-    private Rect backRct;
-    private Rect coworkRct;
-    private Rect studentRct;
-	private Rect instructionBackRect;
-	private Rect screenRect;
-
-    #endregion 
-
-
-	#region Initialization
-
-	void Start() 
-    {
-		unselectedButtonMap = new Dictionary<MenuButton, Sprite>();
-		selectedButtonMap 	= new Dictionary<MenuButton, Sprite>();
-
-		screenMap		   .Add( UIScreen.PlayMode		, Resources.Load<Sprite>( "Sprites/GUI/Menu/mainMenu-playmode" ) );
-		screenMap		   .Add( UIScreen.Credits		, Resources.Load<Sprite>( "Sprites/GUI/Menu/mainMenu-credits" ) );
-		screenMap		   .Add( UIScreen.Instructions	, Resources.Load<Sprite>( "Sprites/GUI/Menu/Instructions_page" ) );
-
-		unselectedButtonMap.Add( MenuButton.Play		, Resources.Load<Sprite>( "Sprites/GUI/Menu/playUnselected" ) );
-		unselectedButtonMap.Add( MenuButton.Instructions, Resources.Load<Sprite>( "Sprites/GUI/Menu/instructionsUnselected" ) );
-		unselectedButtonMap.Add( MenuButton.Credits		, Resources.Load<Sprite>( "Sprites/GUI/Menu/creditsUnselected" ) );
-		unselectedButtonMap.Add( MenuButton.Quit		, Resources.Load<Sprite>( "Sprites/GUI/Menu/quitUnselected" ) );
-
-		selectedButtonMap  .Add( MenuButton.Play		, Resources.Load<Sprite>( "Sprites/GUI/Menu/playSelected" ) );
-		selectedButtonMap  .Add( MenuButton.Instructions, Resources.Load<Sprite>( "Sprites/GUI/Menu/instructionsSelected" ) );
-		selectedButtonMap  .Add( MenuButton.Credits		, Resources.Load<Sprite>( "Sprites/GUI/Menu/creditsSelected" ) );
-		selectedButtonMap  .Add( MenuButton.Quit		, Resources.Load<Sprite>( "Sprites/GUI/Menu/quitSelected" ) );
-
-		spRender = this.gameObject.GetComponent<SpriteRenderer>();
-		screen = UIScreen.Main;
-		ActiveButton = MenuButton.Play;
-
-        ChangeScreen(screen);
-        SetupRects();
-	}
-
-    private void SetupRects()
-	{
-		screenRect = new Rect(  0 ,  0 , 856, 642 );
-		instructionBackRect = new Rect	 ( 656, 562, 150, 44 );
-
-		playRct = new Rect	 ( 328, 207, 200, 75 );
-		instRct = new Rect	 ( 213, 300, 431, 75 );
-		creditRct = new Rect ( 287, 400, 282, 75 );
-		quitRct = new Rect	 ( 328, 500, 203, 75 );
-
-		backRct = new Rect	 ( 353, 562, 150, 44 );
-
-		coworkRct = new Rect ( 70 , 200, 355, 175 );
-		studentRct = new Rect( 430, 200, 355, 175 );
-	}
-
-	#endregion
-
-
-	#region Screen Functions
-
-	void MainScreen()
-    {
-        if (screen != UIScreen.Main) return;
-		//if (controller.Axies[XboxAxis.LAnalog].y == -1 && controller.prevAxies[XboxAxis.LAnalog].y == 0)
-		//{ 
-
-		//	ActiveButton--;
-		//	if (ActiveButton == MenuButton.Quit)
-		//		ActiveButton = MenuButton.Play;
-		//}
-
-        
-    }
-
-	void MainScreenControls()
-	{
-		if ( screen != UIScreen.Main ) return;
-
-		if (controller.Axes[Xbox.Axis.LAnalog].y == -1 && controller.PrevAxes[Xbox.Axis.LAnalog].y == 0)
-		{ 
-
-			ActiveButton--;
-			if (ActiveButton == MenuButton.Quit)
-				ActiveButton = MenuButton.Play;
-		}
-	}
-
-    void Credits()
-    {
-        if (screen != UIScreen.Credits) return;
-
-        if (GUI.Button(backRct, "", skin.GetStyle("Back Button")))
-        {
-            ChangeScreen(UIScreen.Main);
-        }
-
-    }
-
-    void PlayMode()
-    {
-        if (screen != UIScreen.PlayMode) return; 
-
-        if (GUI.Button(backRct, "", skin.GetStyle("Back Button")))
-            ChangeScreen(UIScreen.Main);
-
-        if (GUI.Button(coworkRct, "", skin.GetStyle("Coworker Opt")))
-        {
-            Application.LoadLevel(1);
-        }
-		if ( GUI.Button( studentRct, "", skin.GetStyle( "Student Opt" ) ) )
+		public CreditScreen( GUISkin Skin, SpriteRenderer BackgroundRenderer, MainMenu MainMenu )
+			: base( Skin, BackgroundRenderer, MainMenu )
 		{
-			Application.LoadLevel( 1 );
+			Background = Resources.Load<Sprite>( "Sprites/GUI/Menu/mainMenu-credits" );
+
+			backRct = new Rect( 353, 562, 150, 44 );
 		}
 
-    }
-
-	void Instructions()
-	{
-		if ( screen != UIScreen.Instructions ) return;
-
-		GUI.Box( screenRect, "", skin.GetStyle( "InstructionBackground" ) );
-		if ( GUI.Button( instructionBackRect, "", skin.GetStyle( "Back Button" ) ) )
+		public override void DrawGUI()
 		{
-			ChangeScreen( UIScreen.Main );
+			if ( GUI.Button( backRct, "", Skin.GetStyle( "Back Button" ) ) )
+			{
+				MainMenu.ChangeScreen( MenuState.Main );
+			}
+		}
+
+		public override void HandleControls()
+		{
+			if ( Xbox360GamepadState.Instance.IsButtonDown( Xbox.Button.B ) )
+			{
+				MainMenu.ChangeScreen( MenuState.Main );
+			}
 		}
 	}
 
 	#endregion
 
+	#region Unity Events
 
-	#region Unity Events (Start() is in Initalization)
+	void Start()
+	{
+		spRender = gameObject.GetComponent<SpriteRenderer>();
+		screenMap = new Dictionary<MenuState, ScreenState>();
+
+		screenMap.Add( MenuState.Main		 , new MenuScreen( skin, spRender, this ) );
+		screenMap.Add( MenuState.PlayMode	 , new PlayModeScreen( skin, spRender, this ) );
+		screenMap.Add( MenuState.Credits	 , new CreditScreen( skin, spRender, this ) );
+		screenMap.Add( MenuState.Instructions, new InstructionScreen( skin, spRender, this ) );
+
+		currentScreen = screenMap[ MenuState.Main ];
+
+		spRender.sprite = currentScreen.Background;
+	}
 
 	void OnGUI()
     {
         GUI.matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, new Vector3(1.0f * Screen.width / 856, 1.0f * Screen.height / 642, 1.0f));
-        MainScreen();
-        Credits();
-        PlayMode();
-		Instructions();
+
+		currentScreen.DrawGUI();
     }
 
 	void Update()
 	{
-		controller.UpdateState();
+		Xbox360GamepadState.Instance.UpdateState();
+		currentScreen.HandleControls();
+	}
 
-		switch ( screen )
+	void OnDestroy()
+	{
+		foreach ( MenuState state in screenMap.Keys )
 		{
-			case UIScreen.Main:
-				MainScreenControls();
-				break;
+			screenMap[ state ].CleanUp();
 		}
 	}
 
 	#endregion
 
-
 	#region Private Member Methods
-	
-	void ChangeScreen( UIScreen screen )
+
+	/// <summary>	Change screen. </summary>
+	/// <remarks>	James, 2014-05-02. </remarks>
+	/// <exception cref="NotSupportedException">	Thrown when the state of the menu is set to NONE. </exception>
+	/// <param name="state">	The state of the menu to be changed to. </param>
+	public void ChangeScreen( MenuState state )
 	{
-		if ( screen == UIScreen.NONE )
-			spRender.sprite = screenMap[ screen ];
-		this.screen = screen;
+		if ( state == MenuState.NONE )
+			throw new System.NotSupportedException( "The state of the menu cannot be NONE" );
+
+		currentScreen = screenMap[ state ];
+		spRender.sprite = currentScreen.Background;
 	}
-
-	#region Changing Active Buttons
-
-	void MainChangeActiveButton( MenuButton newButton )
-	{
-		if ( screen != UIScreen.Main ) return;
-
-		
-	}
-
-	#endregion
 
 	#endregion
 }

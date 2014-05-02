@@ -66,23 +66,33 @@ public class Furniture : MonoBehaviour
                         break;
 
                 }
-                Game.Instance.Player.DeductCash(this.price);
+                
             }
-            else
-                Game.Instance.Player.DeductCash(this.price);
+            
+
+            Game.Instance.Player.DeductCash(this.price);
 
 
 			Game.Instance.ap.PlayClip(Audiopocalypse.Sounds.Pickup_Furniture);
             Game.Instance.Player.AllanKeys += this.allanKeyValue;
 
-			if (Game.Instance.ShoppingList.Contains(templateSource))
-			{ 
-				Game.Instance.ShoppingList.Remove(templateSource);
-				if (Game.Instance.ShoppingList.Count == 0)
+			Debug.Log( "Furniture Source: " + templateSource.Name );
+
+			foreach ( FurnitureManager.TemplateFurniture template in Game.Instance.ShoppingList )
+			{
+				Debug.Log( "Templates: " + template.Name );
+				if ( templateSource.Name == template.Name )
 				{
-					Game.Instance.Win();
+					Debug.Log( "Found Something" );
+					Game.Instance.ShoppingList.Remove( template );
+					if ( Game.Instance.ShoppingList.Count == 0 )
+					{
+						Game.Instance.Win();
+					}
+					break;
 				}
 			}
+
 
 			if (Game.Instance.Player.Cash < 0 && Game.Instance.state == Game.Gamestate.NONE)
 			{

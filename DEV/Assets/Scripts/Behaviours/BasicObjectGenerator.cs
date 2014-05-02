@@ -31,17 +31,17 @@ public class BasicObjectGenerator : MonoBehaviour
 	void DrawDebugRect(Rect r)
 	{
 		Vector3 TopLeft, TopRight, BottomLeft, BottomRight;
-		TopLeft = new Vector3(r.xMin, r.yMax);
-		TopRight = new Vector3(r.xMax, r.yMax);
-		BottomLeft = new Vector3(r.xMin, r.yMin);
+		TopLeft 	= new Vector3(r.xMin, r.yMax);
+		TopRight 	= new Vector3(r.xMax, r.yMax);
+		BottomLeft 	= new Vector3(r.xMin, r.yMin);
 		BottomRight = new Vector3(r.xMax, r.yMin);
 
-		Debug.DrawLine(TopLeft, TopRight, Color.green, 10000, false);
-		Debug.DrawLine(TopLeft, BottomLeft, Color.green, 10000, false);
-		Debug.DrawLine(TopLeft, BottomRight, Color.white, 10000, false);
-		Debug.DrawLine(BottomRight, TopRight, Color.green, 10000, false);
-		Debug.DrawLine(BottomRight, BottomLeft, Color.green, 10000, false);
-		Debug.DrawLine(BottomLeft, TopRight, Color.white, 10000, false);
+		Debug.DrawLine(TopLeft	  , TopRight   , Color.green, 10000, false);
+		Debug.DrawLine(TopLeft	  , BottomLeft , Color.green, 10000, false);
+		Debug.DrawLine(TopLeft	  , BottomRight, Color.white, 10000, false);
+		Debug.DrawLine(BottomRight, TopRight   , Color.green, 10000, false);
+		Debug.DrawLine(BottomRight, BottomLeft , Color.green, 10000, false);
+		Debug.DrawLine(BottomLeft , TopRight   , Color.white, 10000, false);
 	}
 
 	IEnumerator SpawnCycle()

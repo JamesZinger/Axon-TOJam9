@@ -173,7 +173,6 @@ public class Game : MonoBehaviour
 		originalShoppingList = shoppingList;
     }
 
-
 	void OnDestory()
 	{
 		Instance = null;
@@ -192,6 +191,11 @@ public class Game : MonoBehaviour
             GameOver();
 		}
     }
+
+	void Update()
+	{
+		Xbox360GamepadState.Instance.UpdateState();
+	}
 	#endregion
 
 	/// <summary>	Map department textures to a dictionary of types to textures. </summary>
