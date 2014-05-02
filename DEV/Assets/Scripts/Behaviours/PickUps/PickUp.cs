@@ -8,7 +8,7 @@ public class PickUp : MonoBehaviour
 
     private PickUpType pickUp;
 
-	protected void Start () 
+	protected virtual void Start () 
     {
         this.rigidbody2D.velocity = Game.Instance.ScrollSpeed;
 	}

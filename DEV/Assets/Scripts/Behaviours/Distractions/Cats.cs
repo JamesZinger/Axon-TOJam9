@@ -5,7 +5,7 @@ public class Cats : PickUp
 {
     const int TIME_ADDED = 15;
 
-    void Start()
+    protected override void Start()
     {
         base.Start();
     }

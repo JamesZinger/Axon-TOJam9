@@ -6,7 +6,7 @@ public class GiftCard : PickUp
     public enum Discount { None, DIS_25, DIS_50, DIS_75 }
     public Discount discount;
 
-    void Start()
+    protected override void Start()
     {
         base.Start();
         this.Pickup = PickUpType.GiftCard;

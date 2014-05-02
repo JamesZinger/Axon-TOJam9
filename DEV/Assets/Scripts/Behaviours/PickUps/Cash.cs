@@ -12,7 +12,7 @@ public class Cash : PickUp
     public enum Amount { None, Fifty, One_Hundred, One_Hundred_Fifty}
     public Amount amount;
 
-	void Start () 
+	protected override void Start() 
     {
         base.Start();
         this.Pickup = PickUpType.Cash;

@@ -9,7 +9,7 @@ public class Distraction : PickUp
     //public enum Type { None, Cat, GoatOnPole, IkeaMoneky }
     //public Type type;
 
-	void Start () 
+	protected override void Start () 
     {
         base.Start();
 		pickupSound = Audiopocalypse.Sounds.Pickup_Distractor;

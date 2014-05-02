@@ -4,7 +4,7 @@ using System.Collections;
 public class MeatBall : PickUp
 {
 
-	void Start () 
+	protected override void Start() 
     {
         base.Start();
         this.Pickup = PickUpType.MeatBalls;

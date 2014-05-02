@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
+
 public class BasicObjectGenerator : MonoBehaviour 
 {
 
@@ -62,7 +63,6 @@ public class BasicObjectGenerator : MonoBehaviour
 			f.price = template.Price;
 			f.department = template.Department;
 			f.desc = template.Description;
-			f.name = template.Name;
 			go.name = template.Name;
             go.gameObject.layer = 10;
             

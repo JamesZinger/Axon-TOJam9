@@ -5,7 +5,7 @@ public class GoatOnAPole : PickUp
 {
     const int TIME_ADDED = 20;
 
-    void Start()
+    protected override void Start()
     {
         base.Start();
     }

@@ -8,7 +8,6 @@ public class PointBurst : MonoBehaviour
     private Rect costRect;
 
     Texture2D img;
-    string text = "";
     GUISkin skin;
     float cost;
     GUIStyle style;

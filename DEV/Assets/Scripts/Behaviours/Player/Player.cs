@@ -284,7 +284,7 @@ public class Player : MonoBehaviour
 			RaycastHit2D hit;
 			hit = Physics2D.Raycast( origin, Vector2.up * -1, 1000, rayFilter );
 
-			if ( hit != null )
+			if ( hit )
 			{
 				Vector2 hitVector = hit.point - origin;
 				//Half height

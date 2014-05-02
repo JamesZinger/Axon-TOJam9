@@ -5,7 +5,7 @@ public class IkeaMonkey : PickUp
 {
     const int TIME_ADDED = 10;
 
-	void Start () 
+	protected override void Start () 
     {
         base.Start();
 	}

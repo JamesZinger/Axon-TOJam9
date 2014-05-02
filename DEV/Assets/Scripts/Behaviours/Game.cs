@@ -162,7 +162,7 @@ public class Game : MonoBehaviour
 		shoppingList = new List<FurnitureManager.TemplateFurniture>();
 		for(int ii = 0; ii < 3; ii++){
 			int rand = Random.Range(0,DeptCount);
-			int itemCount = Game.Instance.FurnitureManager.furnitureMap[(DepartmentType)rand].Count;
+			//int itemCount = Game.Instance.FurnitureManager.furnitureMap[(DepartmentType)rand].Count;
 			
 			List<FurnitureManager.TemplateFurniture> RandomList = Game.Instance.FurnitureManager.furnitureMap[(DepartmentType)rand];	
 			FurnitureManager.TemplateFurniture template = RandomList[Random.Range(0, RandomList.Count - 1)];

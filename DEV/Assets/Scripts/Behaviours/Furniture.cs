@@ -5,7 +5,6 @@ public class Furniture : MonoBehaviour
 {
 	public int allanKeyValue = 0;
 	public float price = 0;
-	public string name = "";
 	public DepartmentType department = DepartmentType.NONE;
 	public string desc;
 	public SpriteRenderer SpriteRenderer;
