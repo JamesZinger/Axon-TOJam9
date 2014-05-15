@@ -9,8 +9,11 @@ public class Cash : PickUp
 
     SpriteRenderer sprite;
 
-    public enum Amount { None, Fifty, One_Hundred, One_Hundred_Fifty}
+    public enum Amount { None, Fifty = 50, One_Hundred = 100, One_Hundred_Fifty = 150}
     public Amount amount;
+
+	public delegate void CoinCollectedHandeler( Cash c );
+	public event CoinCollectedHandeler CoinCollected;
 
 	protected override void Start() 
     {
@@ -27,29 +30,14 @@ public class Cash : PickUp
             case 1: amount = Amount.One_Hundred; sprite.sprite = s2; break;
             case 2: amount = Amount.One_Hundred_Fifty; sprite.sprite = s3; break;
         }
+		CoinCollected += Game.Instance.Player.OnMoneyCollected;
+		CoinCollected += Game.Instance.OnMoneyCollected;
 	}
 
     public override void AddPickUp()
     {
-        GameObject obj = Instantiate(Game.Instance.PointBurst, Vector3.zero, Quaternion.identity) as GameObject;
-        PointBurst burst = obj.GetComponent<PointBurst>();
-
-        
-        switch (amount)
-        {
-            case Amount.Fifty: 
-                Game.Instance.Player.Cash += 50;
-                burst.SetUpForCash(new Vector2(0, 0), 50);
-                break;
-            case Amount.One_Hundred: Game.Instance.Player.Cash += 100;
-                burst.SetUpForCash(new Vector2(0, 0), 100);
-                break;
-            case Amount.One_Hundred_Fifty: 
-                Game.Instance.Player.Cash += 150;  
-                burst.SetUpForCash(new Vector2(0, 0), 150);
-                break;
-        }
-         
+		CoinCollected(this);
+                        
         base.AddPickUp();
     }
 }

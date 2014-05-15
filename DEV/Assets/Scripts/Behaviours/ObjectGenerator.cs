@@ -41,28 +41,24 @@ public class ObjectGenerator : MonoBehaviour
 		Furniture f = go.AddComponent<Furniture>();
 		SpriteRenderer rend = go.AddComponent<SpriteRenderer>();
 
-		List<FurnitureManager.TemplateFurniture> RandomList = Game.Instance.FurnitureManager.furnitureMap[ Game.Instance.CurrentDepartment ];
+		List<FurnitureTemplate> RandomList = Game.Instance.FurnitureManager.furnitureMap[ Game.Instance.CurrentDepartment ];
 
-		FurnitureManager.TemplateFurniture template = RandomList[ Random.Range( 0, RandomList.Count - 1 ) ];
+		FurnitureTemplate template = RandomList[ Random.Range( 0, RandomList.Count - 1 ) ];
 		rend.sprite = template.Sprite;
-		f.allanKeyValue = template.AllanKeys;
-		f.price = template.Price;
-		f.department = template.Department;
-		f.desc = template.Description;
-		f.templateSource = template;
+		f.Template = template;
 		go.name = template.Name;
 		go.layer = LayerMask.NameToLayer( "Furniture" );
 		float yValue = 0;
 		//int powerUpLevel;
 		switch ( template.Zone )
 		{
-			case Furniture.Zone.High:
+			case Furniture.SpawnZone.High:
 				yValue = topValue;
 				break;
-			case Furniture.Zone.Medium:
+			case Furniture.SpawnZone.Medium:
 				yValue = middleValue;
 				break;
-			case Furniture.Zone.Low:
+			case Furniture.SpawnZone.Low:
 				yValue = groundLevel;
 				break;
 		}

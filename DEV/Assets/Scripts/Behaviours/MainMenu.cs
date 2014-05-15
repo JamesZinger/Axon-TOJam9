@@ -34,7 +34,7 @@ public class MainMenu : MonoBehaviour
 		public Sprite Background
 		{
 			get { return background; }
-			set { background = value; }
+			protected set { background = value; }
 		}
 
 		public GUISkin Skin
@@ -127,7 +127,7 @@ public class MainMenu : MonoBehaviour
 			if ( GUI.Button( quitRct  , "", Skin.GetStyle( styleMap[ MenuButton.Quit 		] ) ) ) 
 			{ 
 #if UNITY_EDITOR
-						UnityEditor.EditorApplication.isPlaying = false;
+				UnityEditor.EditorApplication.isPlaying = false;
 #elif UNITY_WEBPLAYER
 						//Application.OpenURL("");
 						Application.Quit();
@@ -144,11 +144,11 @@ public class MainMenu : MonoBehaviour
 			{
 				if ( activeButton == MenuButton.Quit )
 				{
-					SwtichActiveButton( MenuButton.Play );
+					SwitchActiveButton( MenuButton.Play );
 				}
 				else
 				{
-					SwtichActiveButton( activeButton + 1 );
+					SwitchActiveButton( activeButton + 1 );
 				}
 				
 			}
@@ -157,11 +157,11 @@ public class MainMenu : MonoBehaviour
 			{
 				if ( activeButton == MenuButton.Play )
 				{
-					SwtichActiveButton( MenuButton.Quit );
+					SwitchActiveButton( MenuButton.Quit );
 				}
 				else
 				{
-					SwtichActiveButton( activeButton - 1 );
+					SwitchActiveButton( activeButton - 1 );
 				}
 
 			}
@@ -187,7 +187,7 @@ public class MainMenu : MonoBehaviour
 			}
 		}
 
-		private void SwtichActiveButton( MenuButton b )
+		private void SwitchActiveButton( MenuButton b )
 		{
 			Skin.GetStyle( styleMap[ activeButton ] ).normal.background = unselectedButtonMap[ activeButton ];
 			activeButton = b;
@@ -413,7 +413,7 @@ public class MainMenu : MonoBehaviour
 
 	#endregion
 
-	#region Private Member Methods
+	#region Member Methods
 
 	/// <summary>	Change screen. </summary>
 	/// <remarks>	James, 2014-05-02. </remarks>

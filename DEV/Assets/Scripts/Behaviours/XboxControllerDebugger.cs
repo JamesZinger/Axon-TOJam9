@@ -14,6 +14,8 @@ public class XboxControllerDebugger : MonoBehaviour
 		{
 			Debug.Log( "Joystick: " + joystick );
 		}
+
+		state = Xbox360GamepadState.Instance;
 	}
 
 	// Update is called once per frame

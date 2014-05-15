@@ -25,26 +25,27 @@ public class GameControls : MonoBehaviour
 	public delegate void	UseShortcutHandeler();
 	public event			UseShortcutHandeler UseShortcutButton;
 
-	public delegate void	MenuUpHandeler();
-	public event			MenuUpHandeler MenuUpButton;
-
-	public delegate void	MenuDownHandeler();
-	public event			MenuDownHandeler MenuDownButton;
-
-	public delegate void	MenuConfirmHandeler();
-	public event			MenuConfirmHandeler MenuConfirmButton;
-
 	#endregion
 
 	Xbox360GamepadState controller = Xbox360GamepadState.Instance;
 
+	private bool isLoaded;
+
 	void Awake()
 	{
 		Game.Instance.Controls = this;
+		isLoaded = false;
+
 	}
 
 	void Update()
 	{
+		if ( !isLoaded )
+		{
+			isLoaded = true;
+			return;
+		}
+
 		if ( CheckJumpControls() )
 		{ 
 			if ( JumpButton != null )
@@ -62,18 +63,6 @@ public class GameControls : MonoBehaviour
 		if ( CheckPauseControls() )
 			if ( PauseButton != null )
 				PauseButton();
-
-		if ( CheckMenuUpControls() )
-			if ( MenuUpButton != null )
-				MenuUpButton();
-
-		if ( CheckMenuDownControls() )
-			if ( MenuDownButton != null )
-				MenuDownButton();
-
-		if ( CheckMenuConfirmControls() )
-			if ( MenuConfirmButton != null )
-				MenuConfirmButton();
 
 		if ( CheckUseItemControls() )
 			if ( UseItemButton != null )

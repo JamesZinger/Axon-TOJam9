@@ -57,8 +57,11 @@ public class PointBurst : MonoBehaviour
             groupRect.y += moveY * Time.fixedDeltaTime * 10;
         }
 
-        if (elapsedTime >= MAX_TIME)
-            Destroy(this.gameObject);
+		if ( elapsedTime >= MAX_TIME )
+		{
+			Game.Instance.PointBursts.Dequeue();
+			Destroy( this.gameObject );
+		}
         
 	}
 

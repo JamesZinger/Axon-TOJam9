@@ -10,25 +10,25 @@ public class Player : MonoBehaviour
 
 
 	public Vector2 jumpForce;
-    public float InitialCash;
+	public float InitialCash;
 	public bool Meatballed;
-    private int allanKeys;
+	private int allanKeys;
 
-    public int AllanKeys
-    {
-        get { return allanKeys; }
-        set { allanKeys = value; }
-    }
+	public int AllanKeys
+	{
+		get { return allanKeys; }
+		set { allanKeys = value; }
+	}
 
-    public bool Distracted
-    {
-        get { return distracted; }
-        set 
-        { 
-            distracted = value;
-            invincibillityRemainingTime += 10.0f;
-        }
-    }
+	public bool Distracted
+	{
+		get { return distracted; }
+		set 
+		{ 
+			distracted = value;
+			invincibillityRemainingTime += 10.0f;
+		}
+	}
 
 	public bool HasDoubleJumped
 	{
@@ -53,11 +53,11 @@ public class Player : MonoBehaviour
 		get { return meatBallCount; }
 		set { meatBallCount = value; }
 	}
-    public GiftCard.Discount DiscountType
-    {
-        get { return discountType; }
-        set { discountType = value; }
-    }
+	public GiftCard.Discount DiscountType
+	{
+		get { return discountType; }
+		set { discountType = value; }
+	}
 
 	#region Events
 
@@ -68,18 +68,18 @@ public class Player : MonoBehaviour
 
 	#region Fields
 
-    private bool distracted;
+	private bool distracted;
 	private bool isGrounded;
-    private float invincibillityRemainingTime;
+	private float invincibillityRemainingTime;
 	private int meatBallCount;
 	private float cash;
-    public bool HasDiscount;
-    private float discountRemainingTime;
+	public bool HasDiscount;
+	private float discountRemainingTime;
 	private SpriteRenderer spriteRenderer;
-	private int rayFilter;
+	//private int rayFilter;
 	private bool hasDoubleJumped = false;
 	private GiftCard.Discount discountType;
-    private float meatBalledRemainingTime;
+	private float meatBalledRemainingTime;
 	private Dictionary<PlayerState, PolygonCollider2D> colliderMap;
 	private Dictionary<PlayerState, List<Sprite>> animationMap;
 	private int walkAnimCounter;
@@ -89,7 +89,7 @@ public class Player : MonoBehaviour
 	#region Unity Events
 
 	void Awake () 
-    {	
+	{	
 		Game.Instance.Player = this;
 		spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
 		
@@ -123,12 +123,12 @@ public class Player : MonoBehaviour
 			return;
 		}
 
-		int layerMask = LayerMask.NameToLayer("Ground");
+		//int layerMask = LayerMask.NameToLayer("Ground");
 
-		rayFilter = 1 << layerMask;
+		//rayFilter = 1 << layerMask;
 
 		meatBallCount = 0;
-        cash = InitialCash;
+		cash = InitialCash;
 
 		state = PlayerState.Walking;
 	}
@@ -154,11 +154,11 @@ public class Player : MonoBehaviour
 		Meatball();
 
 	}
-    
-    void OnGUI()
-    {
-        GUI.Label(new Rect(0, 0, 300, 50), "Cash: $" + this.cash + " MeatBalls: " + MeatBallCount + " Discount Time: " + discountRemainingTime + "Has Discount: " + HasDiscount + " Inv: " + distracted);
-    }
+	
+	void OnGUI()
+	{
+		GUI.Label(new Rect(0, 0, 300, 50), "Cash: $" + this.cash + " MeatBalls: " + MeatBallCount + " Discount Time: " + discountRemainingTime + "Has Discount: " + HasDiscount + " Inv: " + distracted);
+	}
 
 	#endregion
 
@@ -209,9 +209,9 @@ public class Player : MonoBehaviour
 
 		if (MeatBallCount > 0)
 		{
-            Meatballed = true;
-            meatBalledRemainingTime = 10;
-            Debug.Log("Meatballs Activated");
+			Meatballed = true;
+			meatBalledRemainingTime = 10;
+			Debug.Log("Meatballs Activated");
 			Game.Instance.ap.PlayClip(Audiopocalypse.Sounds.Menu_Click);
 			MeatBallCount --;
 		}
@@ -248,43 +248,54 @@ public class Player : MonoBehaviour
 			return;
 	}
 
+	public void OnFurnitureCollected( FurnitureTemplate Template )
+	{
+		DeductCash( Template.Price );
+		AllanKeys += Template.AllanKeys;
+	}
+
+	public void OnMoneyCollected( Cash c )
+	{
+		Cash += (int)c.amount;
+	}
+
 	#endregion
 
-    void Meatball()
-    {
-        if (!Meatballed) return;
+	void Meatball()
+	{
+		if (!Meatballed) return;
 
-        HasDiscount = false; discountRemainingTime = 0.0f;
-        distracted = false; invincibillityRemainingTime = 0.0f;
+		HasDiscount = false; discountRemainingTime = 0.0f;
+		distracted = false; invincibillityRemainingTime = 0.0f;
 
-        if (meatBalledRemainingTime <= 0.0f) { Meatballed = false; return; }
+		if (meatBalledRemainingTime <= 0.0f) { Meatballed = false; return; }
 
-        meatBalledRemainingTime -= Time.fixedDeltaTime;
-    }
+		meatBalledRemainingTime -= Time.fixedDeltaTime;
+	}
 
 	void Discount()
-    {
-        if (discountRemainingTime <= 0.0f) { HasDiscount = false; return; } 
+	{
+		if (discountRemainingTime <= 0.0f) { HasDiscount = false; return; } 
 
-        HasDiscount = true;
-        Distracted = false; invincibillityRemainingTime = 0;
-        Meatballed = false; meatBalledRemainingTime = 0.0f;
+		HasDiscount = true;
+		Distracted = false; invincibillityRemainingTime = 0;
+		Meatballed = false; meatBalledRemainingTime = 0.0f;
 
-        discountRemainingTime -= Time.fixedDeltaTime;
-    }
+		discountRemainingTime -= Time.fixedDeltaTime;
+	}
 
-    void Distract()
-    {
-        if (!distracted) return;
+	void Distract()
+	{
+		if (!distracted) return;
 
-        HasDiscount = false; discountRemainingTime = 0;
-        Meatballed = false; meatBalledRemainingTime = 0.0f;
+		HasDiscount = false; discountRemainingTime = 0;
+		Meatballed = false; meatBalledRemainingTime = 0.0f;
 
-        if (invincibillityRemainingTime <= 0.0f) { distracted = false; return; }
+		if (invincibillityRemainingTime <= 0.0f) { distracted = false; return; }
 
-        invincibillityRemainingTime -= Time.fixedDeltaTime;
-        //Debug.Log("Dis time: "+ invincibillityRemainingTime);
-    }
+		invincibillityRemainingTime -= Time.fixedDeltaTime;
+		//Debug.Log("Dis time: "+ invincibillityRemainingTime);
+	}
 	
 	IEnumerator WalkingAnimation()
 	{
@@ -308,34 +319,34 @@ public class Player : MonoBehaviour
 	}
   
 	public void AddDiscount(GiftCard.Discount type)
-    {
-        discountRemainingTime = 5;
+	{
+		discountRemainingTime = 5;
 
-        this.DiscountType = type;
+		this.DiscountType = type;
 	}
 
-    public void AddInvincibilityTime(float time)
-    {
-        invincibillityRemainingTime = 5;
-    }
+	public void AddInvincibilityTime(float time)
+	{
+		invincibillityRemainingTime = 5;
+	}
 
-    public void DeductCash(float price)
-    {
-        
-        if (HasDiscount)
-        {
-            switch (DiscountType)
-            {
-                case GiftCard.Discount.DIS_25: this.cash -= price * 0.75f; break;
-                case GiftCard.Discount.DIS_50: this.cash -= price * 0.5f; break;
-                case GiftCard.Discount.DIS_75: this.cash -= price * 0.25f; break;
-            }
-        }
-        else this.cash -= price;
+	public void DeductCash(float price)
+	{
+		
+		if (HasDiscount)
+		{
+			switch (DiscountType)
+			{
+				case GiftCard.Discount.DIS_25: this.cash -= price * 0.75f; break;
+				case GiftCard.Discount.DIS_50: this.cash -= price * 0.5f; break;
+				case GiftCard.Discount.DIS_75: this.cash -= price * 0.25f; break;
+			}
+		}
+		else this.cash -= price;
 
-        if (cash < 0)
-            Game.Instance.OutOfCoins();
-    }
+		if (cash < 0)
+			Game.Instance.OutOfCoins();
+	}
 
 	private void ChangeState( PlayerState newState )
 	{

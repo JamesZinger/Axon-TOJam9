@@ -8,7 +8,7 @@ public class BasicObjectGenerator : MonoBehaviour
 
 	public float SpawnsInterval = 10.0f;
 
-	private Rect ScreenRect;
+	//private Rect ScreenRect;
 	private Rect PlayableRect;
 	private float SpawnYDiff;
 
@@ -16,7 +16,7 @@ public class BasicObjectGenerator : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		ScreenRect = new Rect(0, 0, 10.0f * (4f/3f), 10);
+		//ScreenRect = new Rect(0, 0, 10.0f * (4f/3f), 10);
 		PlayableRect = new Rect(0, (4f/3f),10.0f * (4f/3f),7.5f );
 		SpawnYDiff = PlayableRect.height / 8;
 		DrawDebugRect(PlayableRect);
@@ -52,17 +52,13 @@ public class BasicObjectGenerator : MonoBehaviour
 			Vector2 pos = new Vector2( PlayableRect.xMax, PlayableRect.yMin + SpawnYDiff * Random.Range( 1, 8 ) );
 			GameObject go = new GameObject();
 			go.transform.position = pos;
-			Furniture f = go.AddComponent<Furniture>();
+			go.AddComponent<Furniture>();
 			SpriteRenderer rend = go.AddComponent<SpriteRenderer>();
 			
-			List<FurnitureManager.TemplateFurniture> RandomList = Game.Instance.FurnitureManager.furnitureMap[Game.Instance.CurrentDepartment];
+			List<FurnitureTemplate> RandomList = Game.Instance.FurnitureManager.furnitureMap[Game.Instance.CurrentDepartment];
 
-			FurnitureManager.TemplateFurniture template = RandomList[Random.Range(0, RandomList.Count - 1)];
+			FurnitureTemplate template = RandomList[Random.Range(0, RandomList.Count - 1)];
 			rend.sprite = template.Sprite;
-			f.allanKeyValue = template.AllanKeys;
-			f.price = template.Price;
-			f.department = template.Department;
-			f.desc = template.Description;
 			go.name = template.Name;
             go.gameObject.layer = 10;
             
